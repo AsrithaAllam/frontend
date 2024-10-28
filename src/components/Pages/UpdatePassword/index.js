@@ -14,8 +14,10 @@ import LOCAL_KEYS, {
 } from "../../../helpers/Localstorage";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ModalComponent from "../../Modal";
 
-function UpdatePassword() {
+
+function UpdatePassword(  ) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
@@ -65,7 +67,6 @@ function UpdatePassword() {
   return (
     <div className="flex items-center justify-center h-screen">
       <ToastContainer />
-
       <Formik
         initialValues={{
           newPassword: "",
@@ -84,7 +85,6 @@ function UpdatePassword() {
       >
         {({ errors, touched ,resetForm }) => (
         <Form className="bg-slate-50 p-6 rounded-lg shadow-none w-96 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          {/* <Form className="bg-slate-50 p-6 rounded-lg shadow-none w-96 "> */}
             <h1 className="text-2xl text-gray-800 font-semibold mb-6 flex items-center justify-center">
               Update Password
             </h1>

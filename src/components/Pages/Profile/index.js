@@ -123,13 +123,13 @@ const EmployeeProfile = () => {
                         >
                             Edit Profile
                         </button><br/><br/>
-
+{/* 
                         <button
                             onClick={() => navigate("/updatePassword")}
                             className="bg-gray-500 text-white py-2 px-4 rounded-lg"
                         >
                             Update Password
-                        </button>
+                        </button> */}
                     </div>
                 )}
             </div>

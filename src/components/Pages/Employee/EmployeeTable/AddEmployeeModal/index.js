@@ -4,13 +4,13 @@ import * as Yup from "yup";
 import { validationSchema } from "../../../../Helpers";
 import Modal from "react-modal";
 import { FaPlus } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa"; // Import the close icon
+import { FaTimes } from "react-icons/fa"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalComponent from "../../../../Modal";
 
 const reportsToOptions = ["John Doe", "Jane Smith", "Michael Johnson"];
 const countryOptions = [
-  "United States",
+  "United States", 
   "Canada",
   "United Kingdom",
   "Australia",

@@ -66,3 +66,26 @@ export const validationSchema = Yup.object({
   zip: Yup.string().required("Required"),
   reportsTo: Yup.string().required("Required"),
 });
+
+export const projectValidationSchema = Yup.object({
+  userId: Yup.number().required("User ID is required"),
+  username: Yup.string().required("Username is required"),
+  projectName: Yup.string().required("Project Name is required"),
+  client: Yup.string().required("Client is required"),
+  startDate: Yup.date().required("Start Date is required"),
+  endDate: Yup.date()
+    .required("End Date is required")
+    .min(Yup.ref("startDate"), "End date cannot be before start date"),
+  budget: Yup.number().required("Budget is required"),
+  netPay: Yup.number().required("Net Pay is required"),
+});
+ 
+export const clientValidationSchema = Yup.object({
+  clientName: Yup.string().required('Client Name is required'),
+  address: Yup.string().required('Address is required'),
+  addressLine2: Yup.string(),
+  city: Yup.string().required('City is required'),
+  state: Yup.string().required('State is required'),
+  country: Yup.string().required('Country is required'),
+  zip: Yup.string().required('ZIP is required'),
+});
