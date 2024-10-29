@@ -219,7 +219,7 @@ const AddClient = () => {
       <CustomDataTable
         columns={columns}
         data={formData}
-        onDelete={handleDelete} // Pass the delete handler to the DataTable
+        onDelete={handleDelete} 
       />
     </div>
   );

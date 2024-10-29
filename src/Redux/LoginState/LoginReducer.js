@@ -36,7 +36,7 @@ export const LoginReducer = (state, action) => {
     return { ...state, loginError: action.data, isLoading: false };
   }
 
-  return state;
+  return state; 
 };
 
 export function defaultResetPasswordState() {

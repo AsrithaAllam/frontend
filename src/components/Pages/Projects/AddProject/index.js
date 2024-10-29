@@ -6,54 +6,64 @@ import Hoc from "../../../HOC";
 import { FaEdit } from "react-icons/fa";
 import ModalComponent from "../../../Modal";
 import { projectValidationSchema } from "../../../Helpers";
+import CustomDataTable from "../../../CustomDataTable";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const clients = ["Client A", "Client B", "Client C", "Client D"];
+const columns = [
+  { name: 'User Id', selector: row => row.userId, sortable: true },
+  { name: 'User Name', selector: row => row.username, sortable: true },
+  { name: 'Project', selector: row => row.projectName, sortable: true },
+  { name: 'Client', selector: row => row.client, sortable: true },
+  { name: 'Start Date', selector: row => row.startDate, sortable: true },
+  { name: 'End Date', selector: row => row.endDate, sortable: true },
+];
 
 const AddProject = () => {
-  
   const [formData, setFormData] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
 
-  const handleClose =()=>{
-    setModalOpen(false)
-  }
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("projects"));
-    if (storedData) {
-      setFormData(storedData);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (formData.length > 0) {
-      localStorage.setItem("projects", JSON.stringify(formData));
-    }
-  }, [formData]);
-
-  const handleSubmit = (values, { resetForm }) => {
-    if (isEditing !== null) {
-      const updatedData = formData.map((data, index) =>
-        index === isEditing ? values : data
-      );
-      setFormData(updatedData);
-      setIsEditing(null); // Reset editing state
-    } else {
-      setFormData([...formData, values]);
-    }
+  const handleClose = () => {
     setModalOpen(false);
-    resetForm();
+    setEditIndex(null); // reset edit mode on modal close
   };
 
-  const handleEdit = (index) => {
-    setIsEditing(index);
-    setModalOpen(true);
+  const handleSubmit = (values, { resetForm }) => {
+    if (editIndex !== null) {
+      // Update existing entry
+      const updatedData = formData.map((item, index) =>
+        index === editIndex ? values : item
+      );
+      setFormData(updatedData);
+      setEditIndex(null); // Reset edit mode
+    } else {
+      // Add new entry
+      setFormData([...formData, values]);
+    }
+    resetForm();
+    setModalOpen(false);
+    console.log("Form values:", values);
   };
 
   const handleDelete = (index) => {
     const updatedData = formData.filter((_, i) => i !== index);
     setFormData(updatedData);
   };
+
+  const handleEdit = (index) => {
+    setEditIndex(index);
+    setModalOpen(true);
+  };
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("projects"));
+    if (storedData) setFormData(storedData);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("projects", JSON.stringify(formData));
+  }, [formData]);
 
   return (
     <div className="h-[92vh] mx-auto p-10">
@@ -63,29 +73,26 @@ const AddProject = () => {
       >
         Add Project
       </button>
-      <ModalComponent show={isModalOpen} onClose={handleClose} title={"Add Project"} >
-            <Formik
-              initialValues={{
-                userId: isEditing !== null ? formData[isEditing].userId : "",
-                username:
-                  isEditing !== null ? formData[isEditing].username : "",
-                projectName:
-                  isEditing !== null ? formData[isEditing].projectName : "",
-                client: isEditing !== null ? formData[isEditing].client : "",
-                startDate:
-                  isEditing !== null ? formData[isEditing].startDate : "",
-                endDate: isEditing !== null ? formData[isEditing].endDate : "",
-                budget: isEditing !== null ? formData[isEditing].budget : "",
-                netPay: isEditing !== null ? formData[isEditing].netPay : "",
-              }}
-              projectValidationSchema={projectValidationSchema}
-              onSubmit={(values) => {
-                handleSubmit(values);
-                // onAddProject(values);
-              }}
-              
-            >
-              {({ resetForm }) => (
+      <ModalComponent
+        show={isModalOpen}
+        onClose={handleClose}
+        title={editIndex !== null ? "Update Project" : "Add Project"}
+      >
+        <Formik
+          initialValues={{
+            userId: editIndex !== null ? formData[editIndex].userId : "",
+            username: editIndex !== null ? formData[editIndex].username : "",
+            projectName: editIndex !== null ? formData[editIndex].projectName : "",
+            client: editIndex !== null ? formData[editIndex].client : "",
+            startDate: editIndex !== null ? formData[editIndex].startDate : "",
+            endDate: editIndex !== null ? formData[editIndex].endDate : "",
+            budget: editIndex !== null ? formData[editIndex].budget : "",
+            netPay: editIndex !== null ? formData[editIndex].netPay : "",
+          }}
+          validationSchema={projectValidationSchema}
+          onSubmit={handleSubmit}
+        >
+           {({ resetForm }) => (
                 <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="mb-4">
@@ -255,59 +262,33 @@ const AddProject = () => {
                       type="submit"
                       className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
                     >
-                      {isEditing !== null ? "Update Project" : "Add Project"}
+                      {editIndex !== null ? "Update Project" : "Add Project"}
                     </button>
                   </div>
                 </Form>
               )}
-            </Formik>
-        </ModalComponent>
-
-      {formData.length > 0 && (
-          <table className="min-w-full text-center border mt-10">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">User ID</th>
-                <th className="border px-4 py-2">Username</th>
-                <th className="border px-4 py-2">Project Name</th>
-                <th className="border px-4 py-2">Client</th>
-                <th className="border px-4 py-2">Start Date</th>
-                <th className="border px-4 py-2">End Date</th>
-                <th className="border px-4 py-2">Budget</th>
-                <th className="border px-4 py-2">Net Pay</th>
-                <th className="border px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {formData.map((data, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">{data.userId}</td>
-                  <td className="border px-4 py-2">{data.username}</td>
-                  <td className="border px-4 py-2">{data.projectName}</td>
-                  <td className="border px-4 py-2">{data.client}</td>
-                  <td className="border px-4 py-2">{data.startDate}</td>
-                  <td className="border px-4 py-2">{data.endDate}</td>
-                  <td className="border px-4 py-2">{data.budget}</td>
-                  <td className="border px-4 py-2">{data.netPay}</td>
-                  <td className="border px-4 py-2 flex space-x-2">
-                    <button
-                      onClick={() => handleEdit(index)}
-                      className="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600 flex items-center"
-                    >
-                      <FaEdit size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(index)}
-                      className="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 flex items-center"
-                    >
-                      <AiFillDelete size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-      )}
+        </Formik>
+      </ModalComponent>
+      
+      <CustomDataTable
+        columns={[
+          ...columns,
+          {
+            name: 'Actions',
+            cell: (row, index) => (
+              <div className="flex space-x-2">
+                <button onClick={() => handleEdit(index)} className="text-blue-500 hover:text-blue-700">
+                  <MdEdit size={24} />
+                </button>
+                <button onClick={() => handleDelete(index)} className="text-red-500 hover:text-red-700">
+                  <MdDelete size={24} />
+                </button>
+              </div>
+            ),
+          },
+        ]}
+        data={formData}
+      />
     </div>
   );
 };

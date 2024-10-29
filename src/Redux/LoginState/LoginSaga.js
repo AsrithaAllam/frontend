@@ -16,7 +16,7 @@ export function* forgotPasswordRequest(payload) {
     yield put (responseForgotPassword(response))
   }catch(error){
     yield put(errorForgotPassword(error));
-  }
+  } 
 } 
 export function * resetPasswordRequest (payload){
 try{

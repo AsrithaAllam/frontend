@@ -10,8 +10,6 @@ export const GOOGLE_NETWORK_PING_URL =
 
   export const BASE_URL =`http://45.79.150.139:8081/unitrack/api/`;
   
-  export const employeesUrl =`http://localhost:5000/employees`
-  
 export const AuthenticateUrl = `http://45.79.150.139:8081/unitrack/api/auth/authenticate`
 
 export class ApiUrl {
@@ -26,5 +24,8 @@ export class ApiUrl {
     }
     static resetPasswordRequest = (token) =>{
       return BASE_URL +`auth/reset?token=${token}`;
+    }
+    static userRequest = () =>{
+      return BASE_URL +"user";
     }
 }

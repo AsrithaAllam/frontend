@@ -60,7 +60,7 @@ export const responseForgotPassword = (res) => ({
   type: LOGIN_ACTION.RESPONSE_FORGOT_PASSWORD,
   data: res
 });
-
+ 
 export const errorForgotPassword = (err) => ({
   type: LOGIN_ACTION.ERROR_FORGOT_PASSWORD,
   data: err
