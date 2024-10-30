@@ -8,7 +8,7 @@ import CustomDataTable from "../../../CustomDataTable";
 import { useDispatch ,useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {setResetStateUser,requestUserAction} from "../../../Redux/UserState/UserActionCreator";
+import {setResetStateUser,requestUserAction} from "../../../../Redux/UserState/UserActionCreator";
 
 const columns = [
     {
