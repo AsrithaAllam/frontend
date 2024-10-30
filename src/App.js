@@ -14,7 +14,7 @@ import ForgotPassword from "./components/Pages/ForgotPassword";
 import Reset from "./components/Pages/ResetPassword";
 import UpdatePassword from "./components/Pages/UpdatePassword";
 import EmployeeTable from "./components/Pages/Employee/EmployeeTable";
-import AddEmployee from "./components/Pages/Employee/AddEmployee";
+
 
 const App = () => {
   return (
@@ -22,7 +22,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<ProtectedRoute />}>
             <Route exact path="/" element={<Dashboard />} />
-            {/* <Route exact path="/manageemployee" element={<EmployeeTable />} /> */}
+            <Route exact path="/manageemployee" element={<EmployeeTable />} />
             <Route exact path="/addproject" element={<AddProject />} />
             <Route path="/profile" element={<EmployeeProfile />} />
             <Route exact path="/timesheet" element={<TimeSheet />} />
@@ -30,7 +30,7 @@ const App = () => {
             <Route exact path="/addemployeestatus" element={<EmployeeStatus />} />
             <Route exact path="/updatePassword" element={<UpdatePassword/>}/>
             <Route exact path ="/addclient" element={<AddClient />}/>
-            <Route exact path ="/manageemployee" element={<AddEmployee />}/>
+            {/* <Route exact path ="/manageemployee" element={<AddEmployee />}/> */}
           </Route>
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<Login />} />

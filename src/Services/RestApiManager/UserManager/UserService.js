@@ -24,4 +24,19 @@ export default class UserService {
         });
     });
   }
+  usersListRequest = () => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getAllUsers(),
+          this.request.usersListRequest( REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 }

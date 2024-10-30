@@ -28,4 +28,7 @@ export class ApiUrl {
     static userRequest = () =>{
       return BASE_URL +"user";
     }
+    static getAllUsers =() =>{
+      return BASE_URL +"user/all"
+    }
 }

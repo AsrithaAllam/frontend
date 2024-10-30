@@ -16,7 +16,7 @@ const countryOptions = [
   "Australia",
 ];
 
-const AddEmployeeModal = ({ onClose, onAddEmployee, show }) => {
+const AddEmployeeModal = ({ onClose,  show }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(true);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +78,7 @@ const AddEmployeeModal = ({ onClose, onAddEmployee, show }) => {
             validationSchema={validationSchema}
             onSubmit={(values) => {
               handleAddSubmit(values);
-              onAddEmployee(values);
+              // onAddEmployee(values);
             }}
           >
             {({ errors, touched }) => (

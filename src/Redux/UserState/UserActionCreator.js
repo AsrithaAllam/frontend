@@ -2,7 +2,12 @@ export const USER_ACTION = {
     RESET_USER_STATE: 'RESET_USER_STATE',
     REQUEST: 'USER_REQUEST',
     ERROR: 'USER_ERROR',
-    RESPONSE: 'USER_RESPONSE'
+    RESPONSE: 'USER_RESPONSE',
+
+    RESET_USERS_LIST_STATE: 'RESET_USERS_LIST_STATE',
+    REQUEST_USERS_LIST:"REQUEST_USERS_LIST",
+    RESPONSE_USERS_LIST:"RESPONSE_USERS_LIST",
+    ERROR_USERS_LIST:"ERROR_USERS_LIST"
   };
 
   export const setResetStateUser = () => ({
@@ -21,6 +26,25 @@ export const USER_ACTION = {
   
   export const errorUserAction = (err) => ({
     type: USER_ACTION.ERROR,
+    data: err
+  });
+
+  export const setResetStateUsersList = () => ({
+    type: USER_ACTION.RESET_USERS_LIST_STATE,
+    data: undefined
+  });
+  
+  export const requestUsersListAction = (params) =>({
+    type:USER_ACTION.REQUEST_USERS_LIST,
+    data: params
+  })
+  export const responseUsersListAction = (res) => ({
+    type: USER_ACTION.RESPONSE_USERS_LIST,
+    data: res
+  });
+  
+  export const errorUsersListAction = (err) => ({
+    type: USER_ACTION.ERROR_USERS_LIST,
     data: err
   });
   

@@ -35,3 +35,34 @@ export function defaultUserState() {
   
     return state; 
   };
+
+  export function defaultUsersListState() {
+    return {
+      usersLoading: false,
+      usersResponse: null,
+      usersError: null,
+    };
+  }
+
+  export const UsersListReducer = (state, action) => {
+    if (
+      !state ||
+      action.type === UserActionCreator.USER_ACTION.RESET_USERS_LIST_STATE
+    ) {
+      return { ...state, ...defaultUsersListState() };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.REQUEST_USERS_LIST) {
+      return { ...state, usersLoading: true };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.RESPONSE_USERS_LIST) {
+      return { ...state, usersResponse: action.data, usersLoading: false };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.ERROR_USERS_LIST) {
+      return { ...state, usersError: action.data, usersLoading: false };
+    }
+  
+    return state; 
+  };
