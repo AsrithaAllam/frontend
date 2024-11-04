@@ -77,8 +77,14 @@ const handleClick =()=>{
 }
   useEffect(() => {
     dispatch(requestUsersListAction());
-  }, []);
+  }, [dispatch]);
 
+  const handleAddEmployee = (newEmployee) => {
+    dispatch(requestUserAction(newEmployee)); 
+    console.log("values dispatched",newEmployee);
+    toast.success("Employee added successfully!"); 
+    setModalOpen(false); 
+  }
 
   return (
     <div className="p-4">
@@ -97,9 +103,12 @@ const handleClick =()=>{
         data={usersListState.usersResponse || []}
         // onDelete={handleDelete}
       />{" "}
-      <AddEmployeeModal  show={modalOpen}  onClose={()=>setModalOpen(false)} />
+      <AddEmployeeModal  show={modalOpen}  onClose={()=>setModalOpen(false)} onAddEmployee={handleAddEmployee} />
     </div>
   );
 };
 
 export default Hoc(EmployeeTable);
+
+
+

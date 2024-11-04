@@ -18,3 +18,7 @@ const CustomDataTable = ({ columns, data }) => {
 };
 
 export default CustomDataTable;
+
+
+
+

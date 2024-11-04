@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from 'react-redux';
 import { validationSchema } from "../../../../Helpers";
 import Modal from "react-modal";
 import { FaPlus } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalComponent from "../../../../Modal";
+import {requestUserAction,requestUsersListAction} from "../../../../../Redux/UserState/UserActionCreator"
 
 const reportsToOptions = ["John Doe", "Jane Smith", "Michael Johnson"];
 const countryOptions = [
@@ -16,10 +18,11 @@ const countryOptions = [
   "Australia",
 ];
 
-const AddEmployeeModal = ({ onClose,  show }) => {
+const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(true);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
   const handleAdd = () => {
     setSelectedEmployee(null);
     setIsAddModalOpen(true);
@@ -32,6 +35,9 @@ const AddEmployeeModal = ({ onClose,  show }) => {
 
   const handleAddSubmit = (values) => {
     console.log("Form Submitted:", values);
+    dispatch(requestUserAction(values));
+    dispatch(requestUsersListAction());
+    // onAddEmployee(values);
     handleCloseModals();
     setTimeout(() => {
       setIsSubmitting(false);
@@ -77,8 +83,9 @@ const AddEmployeeModal = ({ onClose,  show }) => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
+              console.log("form submitted" , values);
               handleAddSubmit(values);
-              // onAddEmployee(values);
+              onAddEmployee(values);
             }}
           >
             {({ errors, touched }) => (
@@ -194,7 +201,7 @@ const AddEmployeeModal = ({ onClose,  show }) => {
                   <div>
                     <label className=" text-gray-700 text-sm">End Date</label>
                     <Field
-                      id="joinDate"
+                      id="endDate"
                       name="endDate"
                       type="date"
                       className="w-full border border-gray-300 p-1 rounded"
