@@ -39,4 +39,20 @@ export default class UserService {
         });
     });
   }
+
+  userByIdRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getUserById(payload),
+          this.request.userByIdRequest(REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 }

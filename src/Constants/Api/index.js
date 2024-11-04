@@ -11,7 +11,6 @@ export const GOOGLE_NETWORK_PING_URL =
   export const BASE_URL =`http://45.79.150.139:8081/unitrack/api/`;
   
 export const AuthenticateUrl = `http://45.79.150.139:8081/unitrack/api/auth/authenticate`
-
 export class ApiUrl {
     static loginRequest = () => {
       return BASE_URL + "auth/authenticate";
@@ -30,5 +29,8 @@ export class ApiUrl {
     }
     static getAllUsers =() =>{
       return BASE_URL +"user/all"
+    }
+    static getUserById =(id)=>{
+      return BASE_URL +`user/${id}`
     }
 }

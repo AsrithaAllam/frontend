@@ -110,3 +110,23 @@ export const employeeValidationSchema=Yup.object({
   country: Yup.string().required('Country is required'),
   zip: Yup.string().required('Zip required'),
 });
+
+export const editvalidationSchema = Yup.object({
+  userName: Yup.string().required("Required"),
+  password: Yup.string().required("Required"),
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  gender: Yup.string().required("Required"),
+  joinDate: Yup.date().required("Required"),
+  endDate: Yup.date(),
+  accountType: Yup.string().required("Required"),
+  status: Yup.string().required("Required"),
+  phone: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  address: Yup.string().required("Required"),
+  city: Yup.string().required("Required"),
+  state: Yup.string().required("Required"),
+  country: Yup.string().required("Required"),
+  zip: Yup.string().required("Required"),
+  reportsTo: Yup.string().required("Required"),
+});

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import  { ForgotPasswordReducer, LoginReducer, ResetPasswordReducer, UpdatePasswordReducer } from "../LoginState/LoginReducer";
-import { UserReducer, UsersListReducer } from "../UserState/UserReducer";
+import { UserByIdReducer, UserReducer, UsersListReducer } from "../UserState/UserReducer";
 
 const rootReducer = combineReducers({
     LoginReducer,
@@ -9,6 +9,7 @@ const rootReducer = combineReducers({
     UpdatePasswordReducer,
     UserReducer,
     UsersListReducer,
+    UserByIdReducer,
 });
 const rootR = (state, action) => rootReducer(state, action);
 export default rootR;

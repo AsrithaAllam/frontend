@@ -35,7 +35,7 @@ function UpdatePassword(  ) {
   const resetPassword = (values) => {
     dispatch(requestUpdatePassword({ values: values, id: userDetails.id }));
     console.log(values);
-    // toast.success("Password has been updated successfully");
+    toast.success("Password has been updated successfully");
     setIsSubmitted(true);
   };
 
@@ -65,7 +65,7 @@ function UpdatePassword(  ) {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-[92vh]">
       <ToastContainer />
       <Formik
         initialValues={{
@@ -84,19 +84,19 @@ function UpdatePassword(  ) {
         }}
       >
         {({ errors, touched ,resetForm }) => (
-        <Form className="bg-slate-50 p-6 rounded-lg shadow-none w-96 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h1 className="text-2xl text-gray-800 font-semibold mb-6 flex items-center justify-center">
+        <Form className="bg-white p-8 rounded-lg shadow-none w-96 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h1 className="text-xl text-gray-800 font-semibold mb-6 text-center">
               Update Password
             </h1>
 
             <div className="mb-4 relative">
-              <label className="block text-black-700 mb-2 text-sm">
+              <label className="text-black-700 mb-2 text-lg">
                 Old Password
               </label>
               <Field
                 name="oldPassword"
                 type={passwordVisible ? "text" : "password"}
-                className="w-full p-0.5 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400 "
+                className="w-full p-1 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400 "
               />
               {passwordVisible ? (
                 <FaEye
@@ -116,13 +116,13 @@ function UpdatePassword(  ) {
 
             {/* New Password Field */}
             <div className="mb-4 relative">
-              <label className="block text-black-700 mb-2 text-sm">
+              <label className="text-black-700 mb-2 text-lg">
                 New Password
               </label>
               <Field
                 name="newPassword"
                 type={isPasswordVisible ? "text" : "password"}
-                className="w-full p-0.5 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400"
+                className="w-full p-1 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400"
               />
               {isPasswordVisible ? (
                 <FaEye
@@ -142,13 +142,13 @@ function UpdatePassword(  ) {
 
             {/* Confirm Password Field */}
             <div className="mb-4 relative">
-              <label className="block text-black-700 text-sm mb-2">
+              <label className="text-black-700 mb-2 text-lg">
                 Confirm Password
               </label>
               <Field
                 name="confirmPassword"
                 type={isConfirmPasswordVisible ? "text" : "password"}
-                className="w-full p-0.5 border mb-6 rounded text-sm focus:outline-none hover:ring-2 hover:ring-blue-400"
+                className="w-full p-1 border mb-6 rounded text-sm focus:outline-none hover:ring-2 hover:ring-blue-400"
               />
               {isConfirmPasswordVisible ? (
                 <FaEye
@@ -175,6 +175,7 @@ function UpdatePassword(  ) {
           </Form>
         )}
       </Formik>
+      
     </div>
   );
 }

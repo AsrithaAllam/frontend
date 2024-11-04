@@ -18,11 +18,13 @@ const countryOptions = [
   "Australia",
 ];
 
-const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
+const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(true);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+
+  
   const handleAdd = () => {
     setSelectedEmployee(null);
     setIsAddModalOpen(true);
@@ -59,32 +61,12 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
 
   return (
     <div className="h-[92vh] mx-auto p-4">
-    <ModalComponent show={show} onClose={onClose} title={"Add Employee"} >
+    <ModalComponent show={show} onClose={onClose} title={title} >
              <Formik
-            initialValues={{
-              userName: "",
-              password: "",
-              firstName: "",
-              lastName: "",
-              gender: "",
-              joinDate: "",
-              endDate: "",
-              accountType: "",
-              status: "",
-              phone: "",
-              email: "",
-              address: "",
-              addressLine2: "",
-              city: "",
-              state: "",
-              country: "",
-              zip: "",
-              reportsTo: "",
-            }}
-            validationSchema={validationSchema}
+            initialValues={initialValues}
+            // validationSchema={validationSchema}
             onSubmit={(values) => {
-              console.log("form submitted" , values);
-              handleAddSubmit(values);
+              // handleAddSubmit(values);
               onAddEmployee(values);
             }}
           >
@@ -125,7 +107,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                   <label className=" text-gray-700 text-sm">First Name</label>
                   <Field
                     id="firstName"
-                    name="firstName"
+                    name="fname"
                     className="w-full border border-gray-300 p-1 rounded"
                     placeholder="First Name"
                   />
@@ -140,7 +122,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                   <label className=" text-gray-700 text-sm">Last Name</label>
                   <Field
                     id="lastName"
-                    name="lastName"
+                    name="lname"
                     className="w-full border border-gray-300 p-1 rounded"
                     placeholder="Last Name"
                   />
@@ -161,7 +143,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                       <Field
                         type="radio"
                         name="gender"
-                        value="Male"
+                        value="M"
                         id="gender-male"
                       />
                       <span className="ml-2 text-sm">Male</span>
@@ -170,7 +152,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                       <Field
                         type="radio"
                         name="gender"
-                        value="Female"
+                        value="F"
                         id="gender-female"
                       />
                       <span className="ml-2 text-sm">Female</span>
@@ -216,18 +198,18 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                     </label>
                     <div className="flex items-center ">
                       <label className="mr-4">
-                        <Field type="radio" name="accountType" value="User" />
+                        <Field type="radio" name="acctType" value="User" />
                         <span className="ml-2 text-sm">User</span>
                       </label>
                       <label className="mr-4">
-                        <Field type="radio" name="accountType" value="Admin" />
+                        <Field type="radio" name="acctType" value="Admin" />
                         <span className="ml-2 text-sm">Admin</span>
                       </label>
                       <label>
                         <Field
                           type="radio"
-                          name="accountType"
-                          value="Employee Admin"
+                          name="acctType"
+                          value="EMPADMIN"
                         />
                         <span className="ml-2">Employee Admin</span>
                       </label>
@@ -243,11 +225,11 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                     <label className=" text-gray-700 text-sm">Status</label>
                     <div className="flex items-center ">
                       <label className="mr-4">
-                        <Field type="radio" name="status" value="Active" />
+                        <Field type="radio" name="stsCd" value="A" />
                         <span className="ml-2 text-sm">Active</span>
                       </label>
                       <label>
-                        <Field type="radio" name="status" value="Inactive" />
+                        <Field type="radio" name="stsCd" value="N" />
                         <span className="ml-2 text-sm">Deactive</span>
                       </label>
                     </div>
@@ -291,7 +273,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                     <label className=" text-gray-700 text-sm">Address</label>
                     <Field
                       id="address"
-                      name="address"
+                      name="addressline1"
                       className="w-full border border-gray-300 p-1 rounded"
                       placeholder="Address"
                     />
@@ -308,7 +290,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                     </label>
                     <Field
                       id="addressLine2"
-                      name="addressLine2"
+                      name="addressline2"
                       className="w-full border border-gray-300 p-1 rounded"
                       placeholder="Address Line 2"
                     />
@@ -378,7 +360,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                   </div>
                 </div>
 
-                <div className="md:col-span-2">
+                {/* <div className="md:col-span-2">
                   <label className=" text-gray-700 text-sm">Reports To</label>
                   <Field
                     as="select"
@@ -398,7 +380,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee }) => {
                       {errors.reportsTo}
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 <div className="col-span-2 flex justify-end">
                   <button
