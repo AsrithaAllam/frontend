@@ -126,10 +126,11 @@ const EmployeeTable = () => {
   }, []);
 
   const handleAddEmployee = (newEmployee) => {
-    dispatch(requestUserAction(newEmployee));
-    // console.log("values dispatched",newEmployee);
-    // toast.success("Employee added successfully!");
-    // setModalOpen({title:"", isOpen:false});
+    if(modalOpen.title === "Add Employee"){
+      dispatch(requestUserAction(newEmployee));
+    }else{
+      // dispatch edit action
+    }
   };
 
   return (

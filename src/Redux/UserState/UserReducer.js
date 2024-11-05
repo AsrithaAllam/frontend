@@ -98,3 +98,33 @@ export function defaultUserState() {
     return state; 
   };
 
+  export function defaultEditUser() {
+    return {
+      Loading: false,
+      Response: null,
+      Error: null,
+    };
+  }
+
+  export const EditUserReducer = (state, action) => {
+    if (
+      !state ||
+      action.type === UserActionCreator.USER_ACTION.RESET_EDIT_USER_STATE
+    ) {
+      return { ...state, ...defaultEditUser() };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.REQUEST_EDIT_USER) {
+      return { ...state, Loading: true };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.RESPONSE_EDIT_USER) {
+      return { ...state, Response: action.data, Loading: false };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.ERROR_EDIT_USER) {
+      return { ...state, Error: action.data, Loading: false };
+    }
+
+    return state; 
+  };

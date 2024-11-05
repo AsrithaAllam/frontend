@@ -48,24 +48,30 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
     }, 1000);
   };
 
-  useEffect(() => {
-    if (isAddModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isAddModalOpen]);
+  // useEffect(() => {
+  //   if (isAddModalOpen) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //   }
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, [isAddModalOpen]);
 
   return (
-    <div className="h-[92vh] mx-auto p-4">
     <ModalComponent show={show} onClose={onClose} title={title} >
              <Formik
             initialValues={initialValues}
             // validationSchema={validationSchema}
             onSubmit={(values) => {
+              const changedKeys = Object.keys(values).filter(key=>values[key] != initialValues[key])
+              
+              const changedValues ={}
+              changedKeys.forEach(key=>{
+                changedValues[key] =values[key]
+            })
+            console.log(changedValues, "vlp")
               // handleAddSubmit(values);
               onAddEmployee(values);
             }}
@@ -110,6 +116,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                     name="fname"
                     className="w-full border border-gray-300 p-1 rounded"
                     placeholder="First Name"
+                    disabled={title === "Edit Employee"}
                   />
                   {errors.firstName && touched.firstName && (
                     <div className="text-red-500 text-sm">
@@ -407,7 +414,6 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
             )}
           </Formik>
     </ModalComponent>
-    </div>
   );
 };
 

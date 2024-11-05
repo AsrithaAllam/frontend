@@ -30,4 +30,14 @@ export default class UserRequestBody {
     return request;
   }
 
+  editUserRequest (method,obj) {
+    const header = new RequestHeader();
+    const request = new RequestBody(
+      method,
+      header.applicationJson(parseLocalStorageJSON(LOCAL_KEYS.ACCESS_TOKEN)),
+      obj
+    );
+    return request;
+  }
+
 }
