@@ -8,43 +8,61 @@ import ModalComponent from "../../../Modal";
 import { projectValidationSchema } from "../../../Helpers";
 import CustomDataTable from "../../../CustomDataTable";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import {setResetStateProjectsList,requestProjectAction, requestProjectsListAction,setResetStateProject} from "../../../../Redux/ProjectState/ProjectActionCreator";
 
 const clients = ["Client A", "Client B", "Client C", "Client D"];
 const columns = [
   { name: 'User Id', selector: row => row.userId, sortable: true },
-  { name: 'User Name', selector: row => row.username, sortable: true },
+  // { name: 'User Name', selector: row => row.username, sortable: true },
   { name: 'Project', selector: row => row.projectName, sortable: true },
-  { name: 'Client', selector: row => row.client, sortable: true },
+  // { name: 'Client', selector: row => row.client, sortable: true },
   { name: 'Start Date', selector: row => row.startDate, sortable: true },
   { name: 'End Date', selector: row => row.endDate, sortable: true },
+  {name: 'Budget', selector: row => row.budget , sortable: true},
+  {name: 'Netpay', selector: row => row.netPay , sortable: true}
 ];
 
 const AddProject = () => {
   const [formData, setFormData] = useState([]);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+  const dispatch=useDispatch();
+  const projectListState  =  useSelector((state) => state.ProjectsListReducer);
+  const addProjectReducer = useSelector((state) => state.ProjectReducer)
+
+
+  const handleSubmit = (values, { resetForm }) => {
+    setFormData([...formData, values]);
+    dispatch(requestProjectAction(values));
+    dispatch(requestProjectsListAction());
+    resetForm();
+    setIsModalOpen(false);
+    console.log("Form values:", values);
+  };
 
   const handleClose = () => {
-    setModalOpen(false);
+    setIsModalOpen(false);
     setEditIndex(null); // reset edit mode on modal close
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-    if (editIndex !== null) {
-      // Update existing entry
-      const updatedData = formData.map((item, index) =>
-        index === editIndex ? values : item
-      );
-      setFormData(updatedData);
-      setEditIndex(null); // Reset edit mode
-    } else {
-      // Add new entry
-      setFormData([...formData, values]);
-    }
-    resetForm();
-    setModalOpen(false);
-    console.log("Form values:", values);
-  };
+  // const handleSubmit = (values, { resetForm }) => {
+  //   if (editIndex !== null) {
+  //     // Update existing entry
+  //     const updatedData = formData.map((item, index) =>
+  //       index === editIndex ? values : item
+  //     );
+  //     setFormData(updatedData);
+  //     setEditIndex(null); // Reset edit mode
+  //   } else {
+  //     // Add new entry
+  //     setFormData([...formData, values]);
+  //   }
+  //   resetForm();
+  //   setModalOpen(false);
+  //   console.log("Form values:", values);
+  // };
+
 
   const handleDelete = (index) => {
     const updatedData = formData.filter((_, i) => i !== index);
@@ -53,22 +71,30 @@ const AddProject = () => {
 
   const handleEdit = (index) => {
     setEditIndex(index);
-    setModalOpen(true);
+    setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("projects"));
-    if (storedData) setFormData(storedData);
-  }, []);
+  useEffect(()=>{
+  dispatch(setResetStateProjectsList());
+  dispatch(requestProjectsListAction());
+  dispatch(setResetStateProject());
 
-  useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(formData));
-  }, [formData]);
+  },[]
+  )
+
+  // useEffect(() => {
+  //   const storedData = JSON.parse(localStorage.getItem("projects"));
+  //   if (storedData) setFormData(storedData);
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("projects", JSON.stringify(formData));
+  // }, [formData]);
 
   return (
     <div className="h-[92vh] mx-auto p-10">
       <button
-        onClick={() => setModalOpen(true)}
+        onClick={() => setIsModalOpen(true)}
         className="absolute top-20 right-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mb-5"
       >
         Add Project
@@ -287,7 +313,8 @@ const AddProject = () => {
             ),
           },
         ]}
-        data={formData}
+        // data={formData}
+        data={projectListState?.projectsResponse || []}
       />
     </div>
   );

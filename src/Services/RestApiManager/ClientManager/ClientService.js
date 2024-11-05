@@ -13,7 +13,7 @@ export default class ClientService {
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
-          ApiUrl.clientRequest(),
+          ApiUrl.addClient(),
           this.request.clientRequest(payload, REQUEST_METHOD.POST)
         )
         .then((response) => {

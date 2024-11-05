@@ -82,7 +82,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                   <label className=" text-gray-700 text-sm">User Name</label>
                   <Field
                     id="userName"
-                    name="userName"
+                    name="userName" 
                     className="w-full border border-gray-300 p-1 rounded "
                     placeholder="User Name"
                   />

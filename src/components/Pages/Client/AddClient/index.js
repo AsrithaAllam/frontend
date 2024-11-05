@@ -7,7 +7,7 @@ import { clientValidationSchema } from "../../../Helpers";
 import CustomDataTable from "../../../CustomDataTable";
 
 import { useDispatch, useSelector } from "react-redux";
-import { requestClientAction,requestClientsListAction } from "../../../../Redux/ClientState/ClientActionCreator";
+import {setResetStateClientsList, requestClientAction,requestClientsListAction,setResetStateClient } from "../../../../Redux/ClientState/ClientActionCreator";
 
 const columns = [
   {
@@ -17,39 +17,42 @@ const columns = [
   },
   {
     name: 'Address',
-    selector: row => row.address,
+    selector: row =>`${row.address}, ${row.city}, ${row.state},${row.country}`,
     sortable: true,
   },
-  {
-    name: 'City',
-    selector: row => row.city,
-    sortable: true,
-  },
-  {
-    name: 'State',
-    selector: row => row.state,
-    sortable: true,
-  },
-  {
-    name: 'Country',
-    selector: row => row.country,
-    sortable: true,
-  },
-  {
-    name: 'ZIP',
-    selector: row => row.zip,
-    sortable: true,
-  },
+  // {
+  //   name: 'City',
+  //   selector: row => row.city,
+  //   sortable: true,
+  // },
+  // {
+  //   name: 'State',
+  //   selector: row => row.state,
+  //   sortable: true,
+  // },
+  // {
+  //   name: 'Country',
+  //   selector: row => row.country,
+  //   sortable: true,
+  // },
+  // {
+  //   name: 'ZIP',
+  //   selector: row => row.zip,
+  //   sortable: true,
+  // },
 ];
 
 const AddClient = () => {
   const [formData, setFormData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
-  
+  const clientsListState = useSelector((state) => state.ClientsListReducer);
+  const addClientReducer = useSelector((state) => state.ClientReducer);
 
   const handleSubmit = (values, { resetForm }) => {
     setFormData([...formData, values]);
+    dispatch(requestClientAction(values));
+    dispatch(requestClientsListAction());
     resetForm();
     setIsModalOpen(false);
     console.log("Form values:", values);
@@ -63,17 +66,22 @@ const AddClient = () => {
   const handleClose = () => {
     setIsModalOpen(false);
   };
-
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("clients"));
-    if (storedData) {
-      setFormData(storedData);
-    }
+    dispatch(setResetStateClientsList());
+    dispatch(requestClientsListAction());
+    dispatch(setResetStateClient());
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("clients", JSON.stringify(formData));
-  }, [formData]);
+  // useEffect(() => {
+  //   const storedData = JSON.parse(localStorage.getItem("clients"));
+  //   if (storedData) {
+  //     setFormData(storedData);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("clients", JSON.stringify(formData));
+  // }, [formData]);
 
   
   return (
@@ -224,7 +232,8 @@ const AddClient = () => {
 
       <CustomDataTable
         columns={columns}
-        data={formData}
+        // data={formData}
+        data={clientsListState?.clientsResponse || []}
         onDelete={handleDelete} 
       />
     </div>
