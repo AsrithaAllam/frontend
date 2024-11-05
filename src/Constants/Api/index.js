@@ -33,4 +33,17 @@ export class ApiUrl {
     static getUserById =(id)=>{
       return BASE_URL +`user/${id}`
     }
-}
+    static clientRequest = () =>{
+      return BASE_URL +"adminrest/saveclient";
+    }
+    static clientsListRequest =() =>{
+      return BASE_URL +"adminrest/allclients"
+    }
+    static projectRequest = () =>{
+      return BASE_URL +"adminrest/project";
+    }
+    static projectsListRequest = () =>{
+      return BASE_URL +"adminrest/allproject";
+    }
+
+  }

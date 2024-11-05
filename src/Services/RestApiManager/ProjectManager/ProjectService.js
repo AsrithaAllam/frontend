@@ -24,4 +24,20 @@ export default class ProjectService {
         });
     });
   }
+
+  projectsListRequest = () => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.projectsListRequest(),
+          this.request.projectsListRequest( REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 }

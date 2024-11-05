@@ -6,6 +6,9 @@ import ModalComponent from "../../../Modal";
 import { clientValidationSchema } from "../../../Helpers";
 import CustomDataTable from "../../../CustomDataTable";
 
+import { useDispatch, useSelector } from "react-redux";
+import { requestClientAction,requestClientsListAction } from "../../../../Redux/ClientState/ClientActionCreator";
+
 const columns = [
   {
     name: 'Client Name',
@@ -42,6 +45,8 @@ const columns = [
 const AddClient = () => {
   const [formData, setFormData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  
 
   const handleSubmit = (values, { resetForm }) => {
     setFormData([...formData, values]);
@@ -70,6 +75,7 @@ const AddClient = () => {
     localStorage.setItem("clients", JSON.stringify(formData));
   }, [formData]);
 
+  
   return (
     <div className="h-[92vh] mx-auto p-10">
       <button

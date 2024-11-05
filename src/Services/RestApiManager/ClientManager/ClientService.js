@@ -24,4 +24,20 @@ export default class ClientService {
         });
     });
   }
+
+  clientsListRequest = () => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getAllClients(),
+          this.request.clientsListRequest( REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 }
