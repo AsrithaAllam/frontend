@@ -32,7 +32,7 @@ function LoginForm() {
       <ToastContainer />
       <Formik
         initialValues={{
-          username: "",
+          userName: "",
           password: "",
         }}
         // validationSchema={SignupSchema}
@@ -50,11 +50,11 @@ function LoginForm() {
                 Username
               </label>
               <Field
-                name="username"
+                name="userName"
                 className="w-full px-2 py-1 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400"
               />
-              {errors.username && touched.username ? (
-                <p className="text-red-400">{errors.username}</p>
+              {errors.userName && touched.userName ? (
+                <p className="text-red-400">{errors.userName}</p>
               ) : null}
             </div>
             <div className="mb-6 relative">

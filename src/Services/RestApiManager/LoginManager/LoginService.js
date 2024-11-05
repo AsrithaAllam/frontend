@@ -43,11 +43,12 @@ export default class LoginService {
   };
 
   resetPasswordRequest = (payload) => {
+    console.log(payload,"reset")
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
           ApiUrl.resetPasswordRequest(payload.token),
-          this.request.resetPasswordRequest(REQUEST_METHOD.POST)
+          this.request.resetPasswordRequest(REQUEST_METHOD.POST,{newPassword: payload.newPassword, confirmPassword:payload.confirmPassword})
         )
         .then((response) => {
           resolve(response);

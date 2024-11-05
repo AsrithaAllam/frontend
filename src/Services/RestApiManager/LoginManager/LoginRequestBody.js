@@ -21,11 +21,13 @@ export default class LoginRequestBody {
     );
     return request;
   }
-  resetPasswordRequest (method){
+  resetPasswordRequest (method,obj){
+    console.log(obj, "ob")
     const header = new RequestHeader();
     const request = new RequestBody(
       method,
-      header.applicationJsonWithoutToken()
+      header.applicationJsonWithoutToken(),
+      obj
     )
     return request;
   }

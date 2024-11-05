@@ -20,7 +20,7 @@ function ResetForm() {
   const { token } = useParams();
 
   const resetPassword = (values) => {
-    dispatch(requestResetPassword({ token, newPassword:values.newPassword}));
+    dispatch(requestResetPassword({ token, newPassword:values.newPassword,confirmPassword:values.confirmPassword}));
     console.log(values);
     setIsSubmitted(true);
   };

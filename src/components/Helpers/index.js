@@ -11,7 +11,7 @@ export const getValuesFromLocalstorage = (storageKey) => {
 };
 
 export const SignupSchema = Yup.object().shape({
-  username: Yup.string().required("Username is Required"),
+  userName: Yup.string().required("Username is Required"),
   password: Yup.string("Enter your password")
     .min(8, "Password should be 8 characters length")
     .required("Password is Required"),
