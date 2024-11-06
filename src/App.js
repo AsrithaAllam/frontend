@@ -1,19 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import EmployeeStatus from "./components/Pages/EmployeeStatus";
+import EmployeeStatus from "./Pages/EmployeeStatus";
 import ProtectedRoute from "./components/Navigation/ProtectedRoute";
 import PublicRoute from "./components/Navigation/PublicRoute";
-import Dashboard from "./components/Pages/Dashboard";
-import EmployeeProfile from "./components/Pages/Profile"
-import AddProject from "./components/Pages/Projects/AddProject";
-import AddClient from "./components/Pages/Client/AddClient"
-import Documents from "./components/Pages/Employee/Documents";
-import TimeSheet from "./components/Pages/Employee/TimeSheet";
-import Login from "./components/Pages/Login";
-import ForgotPassword from "./components/Pages/ForgotPassword";
-import Reset from "./components/Pages/ResetPassword";
-import UpdatePassword from "./components/Pages/UpdatePassword";
-import EmployeeTable from "./components/Pages/Employee/EmployeeTable";
+import Dashboard from "./Pages/Dashboard";
+import EmployeeProfile from "./Pages/Profile"
+import AddProject from "./Pages/Projects/AddProject";
+import AddClient from "./Pages/Client/AddClient"
+import Documents from "./Pages/Employee/Documents";
+import TimeSheet from "./Pages/Employee/TimeSheet";
+import Login from "./Pages/Login";
+import ForgotPassword from "./Pages/ForgotPassword";
+import Reset from "./Pages/ResetPassword";
+import UpdatePassword from "./Pages/UpdatePassword";
+import EmployeeTable from "./Pages/Employee/EmployeeTable";
 
 
 const App = () => {

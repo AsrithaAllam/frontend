@@ -88,7 +88,7 @@ export function defaultUserState() {
     }
   
     if (action.type === UserActionCreator.USER_ACTION.RESPONSE_USER_BY_ID) {
-      return { ...state, byIdResponse: {...action.data, joindate: action.data.joindate.split('T')[0]}, byIdLoading: false };
+      return { ...state, byIdResponse: {...action.data, joinDate: action.data.joinDate.split('T')[0], endDate: action.data.endDate.split('T')[0] }, byIdLoading: false };
     }
   
     if (action.type === UserActionCreator.USER_ACTION.ERROR_USER_BY_ID) {
