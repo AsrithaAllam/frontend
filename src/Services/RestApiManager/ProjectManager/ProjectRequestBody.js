@@ -23,6 +23,14 @@ export default class ProjectRequestBody {
     );
     return request;
   }
+  editProjectRequest (method) {
+    const header = new RequestHeader();
+    const request = new RequestBody(
+      method,
+      header.applicationJson(parseLocalStorageJSON(LOCAL_KEYS.ACCESS_TOKEN))
+    );
+    return request;
+  }
 
 
 }

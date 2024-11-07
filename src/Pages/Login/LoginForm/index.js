@@ -4,11 +4,12 @@ import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { requestLoginAction } from "../../../Redux/LoginState/LoginActionCreator";
+import { requestLoginAction, setResetStateLogin } from "../../../Redux/LoginState/LoginActionCreator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignupSchema } from "../../../components/Helpers";
 import { useSelector } from "react-redux";
+
 
 function LoginForm() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,8 +23,9 @@ function LoginForm() {
 
   useEffect(()=>{
     if(LoginReducerState.loginResponse && !LoginReducerState.isLoading){
+      toast.success("Login successful");
       navigate("/", { replace: true });
-
+      dispatch(setResetStateLogin());
     }
   },[LoginReducerState])
 

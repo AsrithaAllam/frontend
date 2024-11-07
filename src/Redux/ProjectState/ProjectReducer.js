@@ -67,3 +67,37 @@ export function defaultProjectState() {
   
     return state; 
   };
+
+  export function defaultEditProjectState() {
+    return {
+      Loading: false,
+      Response: null,
+      Error: null,
+    };
+
+  }
+   export const EditProjectReducer = (state, action) => {
+    if (
+      !state ||
+      action.type === ProjectActionCreator.PROJECT_ACTION.RESET_EDIT_PROJECT
+    ) {
+      return { ...state, ...defaultEditProjectState() };
+    }
+  
+    if (action.type === ProjectActionCreator.PROJECT_ACTION.REQUEST_EDIT_PROJECT) {
+      return { ...state, Loading: true };
+    }
+  
+    if (action.type === ProjectActionCreator.PROJECT_ACTION.RESPONSE_EDIT_PROJECT) {
+      return { ...state, Response: action.data,Loading: false };
+    }
+  
+    if (action.type === ProjectActionCreator.PROJECT_ACTION.ERROR_EDIT_PROJECT) {
+      return { ...state, Error: action.data, Loading: false };
+    }
+  
+    return state; 
+  };
+  
+
+

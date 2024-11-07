@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import ProjectService from "../../Services/RestApiManager/ProjectManager/ProjectService";
-import { responseProjectAction, errorProjectAction, PROJECT_ACTION,responseProjectsListAction,errorProjectsListAction} from "./ProjectActionCreator"
+import { responseProjectAction, errorProjectAction, PROJECT_ACTION,responseProjectsListAction,errorProjectsListAction, responseEditProject, errorEditProject} from "./ProjectActionCreator"
 
 export function* projectRequest(action) {
     try {
@@ -20,8 +20,18 @@ export function* projectRequest(action) {
       yield put(errorProjectsListAction(error));
     }
   }
+  export function * editProjectRequest (action){
+    try{
+      const response = yield call (ProjectService.shared.editProjectRequest,action.data);
+      yield put(responseEditProject(response));
+    }
+    catch (error) {
+      yield put(errorEditProject(error));
+    }
+  }
 
   export function* projectWatcherSaga() {
     yield takeLatest(PROJECT_ACTION.REQUEST, projectRequest);
     yield takeLatest(PROJECT_ACTION.REQUEST_PROJECTS_LIST, projectsListRequest)
+    yield takeLatest(PROJECT_ACTION.REQUEST_EDIT_PROJECT,editProjectRequest)
   }

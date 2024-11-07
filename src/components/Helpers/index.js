@@ -59,13 +59,13 @@ export const validationSchema = Yup.object({
   stsCd: Yup.string().required("Required"),
   phone: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
-  address: Yup.string().required("Required"),
+  // address: Yup.string().required("Required"),
   city: Yup.string().required("Required"),
   addressLine1:Yup.string().required("Required"),
   state: Yup.string().required("Required"),
   country: Yup.string().required("Required"),
   zip: Yup.string().required("Required"),
-  reportsTo: Yup.string().required("Required"),
+  // reportsTo: Yup.string().required("Required"),
 });
 
 export const projectValidationSchema = Yup.object({

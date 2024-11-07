@@ -28,9 +28,9 @@ const Login = () => {
         setToLocalStorage(LOCAL_KEYS.ACCESS_TOKEN, loginResponse.access_token);
         setToLocalStorage(LOCAL_KEYS.REFRESH_TOKEN, loginResponse.refresh_token);
         setToLocalStorage(LOCAL_KEYS.USER_DETAILS, loginResponse.userDetails);
-        toast.success("Login successful");
-        dispatch(setResetStateLogin());
-        navigate("/"); 
+       
+        // dispatch(setResetStateLogin());
+        // navigate("/"); 
       } else {
         
         toast.error("Invalid credentials");

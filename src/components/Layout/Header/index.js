@@ -18,7 +18,8 @@ function Header() {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear();
-        navigate('/login'); 
+        window.location.reload();
+        // navigate('/login'); 
       }
     });
   };
