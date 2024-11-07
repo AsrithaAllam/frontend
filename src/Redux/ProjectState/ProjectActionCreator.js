@@ -8,6 +8,11 @@ export const PROJECT_ACTION = {
     REQUEST_PROJECTS_LIST:"REQUEST_PROJECTS_LIST",
     RESPONSE_PROJECTS_LIST:"RESPONSE_PROJECTS_LIST",
     ERROR_PROJECTS_LIST:"ERROR_PROJECTS_LIST",
+
+    RESET_EDIT_PROJECT:"RESET_EDIT_PROJECT",
+    REQUEST_EDIT_PROJECT:"REQEST_EDIT_PROJECT",
+    RESPONSE_EDIT_PROJECT:"RESPONSE_EDIT_PROJECT",
+    ERROR_EDIT_PROJECT:"RESET_EDIT_PROJECT",
   };
 
   export const setResetStateProject = () => ({
@@ -46,6 +51,25 @@ export const PROJECT_ACTION = {
   
   export const errorProjectsListAction = (err) => ({
     type: PROJECT_ACTION.ERROR_PROJECTS_LIST,
+    data: err
+  });
+
+  export const setResetEditProject = () => ({
+    type: PROJECT_ACTION.RESET_EDIT_PROJECT,
+    data: undefined
+  });
+  
+  export const requestEditProject = (params) =>({
+    type:PROJECT_ACTION.REQUEST_EDIT_PROJECT,
+    data: params
+  })
+  export const responseEditProject = (res) => ({
+    type: PROJECT_ACTION.RESPONSE_EDIT_PROJECT,
+    data: res
+  });
+  
+  export const errorEditProject = (err) => ({
+    type: PROJECT_ACTION.ERROR_EDIT_PROJECT,
     data: err
   });
 

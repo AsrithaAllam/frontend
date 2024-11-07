@@ -40,4 +40,19 @@ export default class ProjectService {
         });
     });
   }
+  editProjectRequest = () => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.editProject(),
+          this.request.editProjectRequest( REQUEST_METHOD.PUT)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 }

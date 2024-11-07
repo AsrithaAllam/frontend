@@ -31,9 +31,29 @@ const AddProject = () => {
     {name: 'Netpay', selector: row => row.netPay , sortable: true},
     // { name: 'User Id', selector: row => row.userId, sortable: true },
     // { name: 'Client', selector: row => row.clientID, sortable: true },
-   
+      {
+        name: 'Actions',
+        cell: (row) => (
+          <div className="flex space-x-2">
+            <button onClick={() => handleEdit(row.id)} className="text-blue-500 hover:text-blue-700">
+              <MdEdit size={24} />
+            </button>
+            <button onClick={() => handleDelete(row.id)} className="text-red-500 hover:text-red-700">
+              <MdDelete size={24} />
+            </button>
+          </div>
+        ),
+      },
   ];
-
+const initialValues ={
+  userId: "",
+  projectName: "",
+  clientId: "",
+  startDate:  "",
+  endDate:  "",
+  budget:"",
+  netPay:  "",
+}
 
   const handleSubmit = (values, { resetForm }) => {
     setFormData([...formData, values]);
@@ -56,7 +76,7 @@ const AddProject = () => {
 
   const handleEdit = (index) => {
     setEditIndex(index);
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
   };
 
   useEffect(()=>{
@@ -83,16 +103,7 @@ const AddProject = () => {
         title={editIndex !== null ? "Update Project" : "Add Project"}
       >
         <Formik
-          initialValues={{
-            userId: editIndex !== null ? formData[editIndex].userId : "",
-            // username: editIndex !== null ? formData[editIndex].username : "",
-            projectName: editIndex !== null ? formData[editIndex].projectName : "",
-            clientId: editIndex !== null ? formData[editIndex].clientId : "",
-            startDate: editIndex !== null ? formData[editIndex].startDate : "",
-            endDate: editIndex !== null ? formData[editIndex].endDate : "",
-            budget: editIndex !== null ? formData[editIndex].budget : "",
-            netPay: editIndex !== null ? formData[editIndex].netPay : "",
-          }}
+          initialValues={initialValues}
           validationSchema={projectValidationSchema}
           onSubmit={handleSubmit}
         >
@@ -117,26 +128,6 @@ const AddProject = () => {
                         className="text-red-500"
                       />
                     </div>
-
-                    {/* <div className="mb-4">
-                      <label
-                        htmlFor="username"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        Username
-                      </label>
-                      <Field
-                        type="text"
-                        name="username"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="username"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div> */}
-
                     <div className="mb-4">
                       <label
                         htmlFor="projectName"
@@ -155,34 +146,6 @@ const AddProject = () => {
                         className="text-red-500"
                       />
                     </div>
-
-                  
-                    {/* <div className="mb-4">
-                      <label
-                        htmlFor="clientId"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        ClientId
-                      </label>
-                      <Field
-                        as="select"
-                        name="clientId"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      >
-                        <option value="">Select a Client</option>
-                        {clients.map((client, index) => (
-                          <option key={index} value={client}>
-                            {client}
-                          </option>
-                        ))}
-                      </Field>
-                      <ErrorMessage
-                        name="clientId"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div> */}
-
                     <div className="mb-4">
                       <label
                         htmlFor="clientId"
@@ -301,22 +264,7 @@ const AddProject = () => {
       </ModalComponent>
       
       <CustomDataTable
-        columns={[
-          ...columns,
-          {
-            name: 'Actions',
-            cell: (row, index) => (
-              <div className="flex space-x-2">
-                <button onClick={() => handleEdit(index)} className="text-blue-500 hover:text-blue-700">
-                  <MdEdit size={24} />
-                </button>
-                <button onClick={() => handleDelete(index)} className="text-red-500 hover:text-red-700">
-                  <MdDelete size={24} />
-                </button>
-              </div>
-            ),
-          },
-        ]}
+        columns={columns}
         // data={formData}
         data={projectListState?.projectsResponse || []}
       />
