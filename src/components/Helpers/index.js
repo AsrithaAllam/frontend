@@ -71,7 +71,7 @@ export const projectValidationSchema = Yup.object({
   userId: Yup.number().required("User ID is required"),
   username: Yup.string().required("Username is required"),
   projectName: Yup.string().required("Project Name is required"),
-  client: Yup.string().required("Client is required"),
+  clientId: Yup.string().required("Client is required"),
   startDate: Yup.date().required("Start Date is required"),
   endDate: Yup.date()
     .required("End Date is required")
@@ -81,8 +81,8 @@ export const projectValidationSchema = Yup.object({
 });
  
 export const clientValidationSchema = Yup.object({
-  clientName: Yup.string().required('Client Name is required'),
-  address: Yup.string().required('Address is required'),
+  name: Yup.string().required('Client Name is required'),
+  addressLine1: Yup.string().required('Address is required'),
   addressLine2: Yup.string(),
   city: Yup.string().required('City is required'),
   state: Yup.string().required('State is required'),
