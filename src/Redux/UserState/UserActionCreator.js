@@ -83,7 +83,7 @@ export const USER_ACTION = {
     data: undefined
   });
   
-  export const requestEDITuser = (params) =>({
+  export const requestEdituser = (params) =>({
     type:USER_ACTION.REQUEST_EDIT_USER,
     data: params
   })

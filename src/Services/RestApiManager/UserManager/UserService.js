@@ -55,12 +55,12 @@ export default class UserService {
         });
     });
   }
-  editUserRequest =(payload) =>{
-    
+
+  editUserRequest =(payload) =>{  
     return new Promise ((resolve,reject)=>{
       WebService.clientShared
       .callServiceApi(
-        ApiUrl.editUser(),
+        ApiUrl.editUser(payload.id),
         this.request.editUserRequest(REQUEST_METHOD.PUT,payload)
       )
       .then((response)=>{

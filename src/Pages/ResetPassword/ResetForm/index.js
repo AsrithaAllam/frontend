@@ -24,7 +24,7 @@ function ResetForm() {
     console.log(values);
     setIsSubmitted(true);
   };
-  useEffect(() => {
+  useEffect(() => { 
     if (
       ResetPasswordReducer.resetResponse &&
       !ResetPasswordReducer.resetLoading
@@ -52,7 +52,7 @@ function ResetForm() {
             newPassword: "",
             confirmPassword: "",
           }}
-          validationSchema={ResetPasswordSchema}
+          // validationSchema={ResetPasswordSchema}
           onSubmit={(values) => {
             if (values.newPassword === values.confirmPassword) {
               resetPassword(values);

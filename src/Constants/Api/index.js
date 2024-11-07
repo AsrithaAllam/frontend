@@ -33,6 +33,9 @@ export class ApiUrl {
     static getUserById =(id)=>{
       return BASE_URL +`user/${id}`
     }
+    static editUser =(id) =>{
+      return BASE_URL +`user/update/${id}`
+    }
     static addClient = () =>{
       return BASE_URL +"adminrest/saveclient";
     }

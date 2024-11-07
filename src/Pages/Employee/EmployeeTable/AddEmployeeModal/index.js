@@ -9,6 +9,8 @@ import { FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalComponent from "../../../../components/Modal";
 import {requestUserAction,requestUsersListAction} from "../../../../Redux/UserState/UserActionCreator"
+import { toast } from "react-toastify";
+
 
 const reportsToOptions = ["John Doe", "Jane Smith", "Michael Johnson"];
 const countryOptions = [
@@ -16,6 +18,7 @@ const countryOptions = [
   "Canada",
   "United Kingdom",
   "Australia",
+  "India",
 ];
 
 const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues }) => {
@@ -35,48 +38,28 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
     onClose();
   };
 
-  const handleAddSubmit = (values) => {
-    console.log("Form Submitted:", values);
-    dispatch(requestUserAction(values));
-    dispatch(requestUsersListAction());
-    // onAddEmployee(values);
-    handleCloseModals();
-    setTimeout(() => {
-      setIsSubmitting(false);
-      handleCloseModals();
-      alert("Form submitted successfully!");
-    }, 1000);
-  };
-
-  // useEffect(() => {
-  //   if (isAddModalOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, [isAddModalOpen]);
+ 
 
   return (
     <ModalComponent show={show} onClose={onClose} title={title} >
              <Formik
             initialValues={initialValues}
-            // validationSchema={validationSchema}
+            validationSchema={validationSchema}
             onSubmit={(values) => {
               const changedKeys = Object.keys(values).filter(key=>values[key] != initialValues[key])
               
               const changedValues ={}
               changedKeys.forEach(key=>{
-                changedValues[key] =values[key]
+                if(key === "joinDate" || key === "endDate"){
+                  changedValues[key] = `${values[key]}T00:00:00`
+                }else{
+                  changedValues[key] =values[key]
+                }
             })
-            console.log(changedValues, "vlp")
-              // handleAddSubmit(values);
-              onAddEmployee(values);
+              onAddEmployee(changedValues);
             }}
           >
-            {({ errors, touched }) => (
+            {({ errors, touched, handleChange }) => (
               <Form className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[70vh] overflow-y-scroll no-scrollbar">
                 <div>
                   <label className=" text-gray-700 text-sm">User Name</label>
@@ -101,6 +84,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                     type="password"
                     className="w-full border border-gray-300 p-1 rounded"
                     placeholder="Password"
+                    disabled={title === "Edit Employee"}
                   />
                   {errors.password && touched.password && (
                     <div className="text-red-500 text-sm">
@@ -113,10 +97,10 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                   <label className=" text-gray-700 text-sm">First Name</label>
                   <Field
                     id="firstName"
-                    name="fname"
+                    name="firstName"
                     className="w-full border border-gray-300 p-1 rounded"
                     placeholder="First Name"
-                    disabled={title === "Edit Employee"}
+                    // disabled={title === "Edit Employee"}
                   />
                   {errors.firstName && touched.firstName && (
                     <div className="text-red-500 text-sm">
@@ -129,7 +113,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                   <label className=" text-gray-700 text-sm">Last Name</label>
                   <Field
                     id="lastName"
-                    name="lname"
+                    name="lastName"
                     className="w-full border border-gray-300 p-1 rounded"
                     placeholder="Last Name"
                   />
@@ -179,6 +163,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                       name="joinDate"
                       type="date"
                       className="w-full border border-gray-300 p-1 rounded"
+                      // onChange={(value)=>{console.log(value.target.value, "vlp")}}
                     />
                     {errors.joinDate && touched.joinDate && (
                       <div className="text-red-500 text-sm">
@@ -195,6 +180,11 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                       type="date"
                       className="w-full border border-gray-300 p-1 rounded"
                     />
+                    {errors.endDate && touched.endDate && (
+                      <div className="text-red-500 text-sm">
+                        {errors.endDate}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -205,11 +195,11 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                     </label>
                     <div className="flex items-center ">
                       <label className="mr-4">
-                        <Field type="radio" name="acctType" value="User" />
+                        <Field type="radio" name="acctType" value="USER" />
                         <span className="ml-2 text-sm">User</span>
                       </label>
                       <label className="mr-4">
-                        <Field type="radio" name="acctType" value="Admin" />
+                        <Field type="radio" name="acctType" value="ADMIN" />
                         <span className="ml-2 text-sm">Admin</span>
                       </label>
                       <label>
@@ -221,9 +211,9 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                         <span className="ml-2">Employee Admin</span>
                       </label>
                     </div>
-                    {errors.accountType && touched.accountType && (
+                    {errors.acctType && touched.acctType && (
                       <div className="text-red-500 text-sm">
-                        {errors.accountType}
+                        {errors.acctType}
                       </div>
                     )}
                   </div>
@@ -240,9 +230,9 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                         <span className="ml-2 text-sm">Deactive</span>
                       </label>
                     </div>
-                    {errors.status && touched.status && (
+                    {errors.stsCd && touched.stsCd && (
                       <div className="text-red-500 text-sm">
-                        {errors.status}
+                        {errors.stsCd}
                       </div>
                     )}
                   </div>
@@ -280,13 +270,13 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                     <label className=" text-gray-700 text-sm">Address</label>
                     <Field
                       id="address"
-                      name="addressline1"
+                      name="addressLine1"
                       className="w-full border border-gray-300 p-1 rounded"
                       placeholder="Address"
                     />
-                    {errors.address && touched.address && (
+                    {errors.addressLine1 && touched.addressLine1 && (
                       <div className="text-red-500 text-sm">
-                        {errors.address}
+                        {errors.addressLine1}
                       </div>
                     )}
                   </div>
@@ -297,10 +287,11 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
                     </label>
                     <Field
                       id="addressLine2"
-                      name="addressline2"
+                      name="addressLine2"
                       className="w-full border border-gray-300 p-1 rounded"
                       placeholder="Address Line 2"
                     />
+                    
                   </div>
                 </div>
                 <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">

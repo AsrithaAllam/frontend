@@ -9,6 +9,8 @@ import {
   setResetStateUsersList,
   requestUserById,
   setResetStateUserById,
+  setResetStateEditUser,
+  requestEdituser,
 } from "../../../Redux/UserState/UserActionCreator";
 import Hoc from "../../../components/HOC";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -23,19 +25,20 @@ const EmployeeTable = () => {
   const usersListState = useSelector((state) => state.UsersListReducer);
   const userDetailsReducer = useSelector((state) => state.UserByIdReducer);
   const addUserReducer = useSelector((state) => state.UserReducer);
-
+  const editUserReducer = useSelector((state)=>state.EditUserReducer) 
+console.log(editUserReducer,"edit")
   const initialValues = {
-    username: "",
+    userName: "",
     email: "",
     password: "",
-    fname: "",
-    lname: "",
+    firstName: "",
+    lastName: "",
     gender: "",
     joinDate: "",
     endDate: "",
     phone: null,
-    addressline1: "",
-    addressline2: "",
+    addressLine1: "",
+    addressLine2: "",
     city: "",
     state: "",
     country: "",
@@ -96,6 +99,7 @@ const EmployeeTable = () => {
   const closeModal = () => {
     setModalOpen({ title: "", isOpen: false });
     dispatch(setResetStateUserById());
+    dispatch(setResetStateEditUser())
   };
 
   useEffect(() => {
@@ -107,9 +111,24 @@ const EmployeeTable = () => {
   useEffect(() => {
     if (!addUserReducer?.isLoading && addUserReducer?.isResponse) {
       setModalOpen({ title: "", isOpen: false });
+      toast.success("User Created successfully")
+    }
+    if(!addUserReducer?.isLoading && addUserReducer?.isError){
+      toast.error("User not created. Something went wrong")
     }
   }, [addUserReducer]);
 
+
+  useEffect(() => {
+    if (!editUserReducer?.Loading && editUserReducer?.Response) {
+      setModalOpen({ title: "Edit Employee", isOpen: false });
+      toast.success("User Details Updated Successfully")
+    }
+    if(!editUserReducer?.Loading && editUserReducer?.Error){
+      toast.error("something Went Wrong")
+
+    }
+  }, [editUserReducer]);
   
   const handleDelete = (row) => {
     console.log(row);
@@ -126,21 +145,27 @@ const EmployeeTable = () => {
     dispatch(requestUsersListAction());
     dispatch(setResetStateUserById());
     dispatch(setResetStateUser());
+    dispatch(setResetStateEditUser())
   }, []);
 
   const handleAddEmployee = (newEmployee) => {
+    console.log(newEmployee, "data1")
     if(modalOpen.title === "Add Employee"){
       dispatch(requestUserAction(newEmployee));
     }else{
-      // dispatch edit action
+      console.log(newEmployee, "data2")
+      dispatch(requestEdituser({...newEmployee,id:userDetailsReducer?.byIdResponse.id}))
     }
   };
 
   return (
-    <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
+
+    <div className="p-2 w-full h-[90vh] overflow-y-hidden">
+        <ToastContainer />
       <Loader
         isLoading={
-          usersListState?.usersLoading || userDetailsReducer?.byIdLoading
+          usersListState?.usersLoading || userDetailsReducer?.byIdLoading || editUserReducer?.Loading ||addUserReducer?.isLoading
+
         }
       />
 

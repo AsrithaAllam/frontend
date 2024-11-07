@@ -1,7 +1,6 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 import datacloud from "../../Assets/data-cloud.jpeg";
-// import dynamic from "../Asse/ts/dynamic_image.jpeg";
 import time from "../../Assets/time.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -25,13 +24,20 @@ const Login = () => {
 
   useEffect(() => {
     if (loginResponse !== null) {
-      setToLocalStorage(LOCAL_KEYS.ACCESS_TOKEN, loginResponse.access_token);
-      setToLocalStorage(LOCAL_KEYS.REFRESH_TOKEN, loginResponse.refresh_token);
-      setToLocalStorage(LOCAL_KEYS.USER_DETAILS, loginResponse.userDetails);
-      toast.success("login success");
-      dispatch(setResetStateLogin());
+      if (loginResponse.access_token) {
+        setToLocalStorage(LOCAL_KEYS.ACCESS_TOKEN, loginResponse.access_token);
+        setToLocalStorage(LOCAL_KEYS.REFRESH_TOKEN, loginResponse.refresh_token);
+        setToLocalStorage(LOCAL_KEYS.USER_DETAILS, loginResponse.userDetails);
+        toast.success("Login successful");
+        dispatch(setResetStateLogin());
+        navigate("/"); 
+      } else {
+        
+        toast.error("Invalid credentials");
+        dispatch(setResetStateLogin());
+      }
     }
-  }, [loginResponse]);
+  }, [loginResponse, dispatch, navigate]);
 
   useEffect(() => {
     // setDynamicImage("https://static.digit.in/vinayaka-chavithi-2024-1536x1134.jpg")
