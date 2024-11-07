@@ -5,21 +5,11 @@ import Hoc from "../../../components/HOC";
 import ModalComponent from "../../../components/Modal";
 import { clientValidationSchema } from "../../../components/Helpers";
 import CustomDataTable from "../../../components/CustomDataTable";
-
+import { MdDelete, MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setResetStateClientsList, requestClientAction,requestClientsListAction,setResetStateClient } from "../../../Redux/ClientState/ClientActionCreator";
 
-const columns = [
-  {
-    name: 'Client Name',
-    selector: row => row.clientName,
-    sortable: true,
-  },
-  {
-    name: 'Address',
-    selector: row =>`${row.address}, ${row.city}, ${row.state},${row.country}`,
-    sortable: true,
-  },
+
   // {
   //   name: 'City',
   //   selector: row => row.city,
@@ -40,7 +30,7 @@ const columns = [
   //   selector: row => row.zip,
   //   sortable: true,
   // },
-];
+
 
 const AddClient = () => {
   const [formData, setFormData] = useState([]);
@@ -49,6 +39,69 @@ const AddClient = () => {
   const clientsListState = useSelector((state) => state.ClientsListReducer);
   const addClientReducer = useSelector((state) => state.ClientReducer);
 
+  const columns = [
+    {
+      name: 'Client Name',
+      selector: row => row.name,
+      sortable: true,
+    },
+    {
+      name: 'Address Line1',
+      selector: row => row.addressLine1,
+      sortable: true,
+    },
+    {
+      name: 'Address Line2',
+      selector: row => row.addressLine2,
+      sortable: true,
+    },
+    {
+      name: 'City',
+      selector: row => row.city,
+      sortable: true,
+    },
+    {
+      name: 'State',
+      selector: row => row.state,
+      sortable: true,
+    },
+    {
+      name: 'Country',
+      selector: row => row.country,
+      sortable: true,
+    },
+    {
+      name: 'Zip',
+      selector: row => row.zip,
+      sortable: true,
+    },
+    // {
+    //   name: 'Address',
+    //   // selector: row =>`${row.address}, ${row.city}, ${row.state},${row.country}`,
+    //   selector: row => row.address,
+    //   sortable: true,
+    // },
+  
+    {
+      name: "Actions",
+      cell: (row, index) => (
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleEdit(row)}
+            className="text-blue-500 hover:text-blue-700"
+          >
+            <MdEdit size={24} />
+          </button>
+          <button
+            onClick={() => handleDelete(index)}
+            className="text-red-500 hover:text-red-700"
+          >
+            <MdDelete size={24} />
+          </button>
+        </div>
+      ),
+    },];
+
   const handleSubmit = (values, { resetForm }) => {
     setFormData([...formData, values]);
     dispatch(requestClientAction(values));
@@ -56,6 +109,11 @@ const AddClient = () => {
     resetForm();
     setIsModalOpen(false);
     console.log("Form values:", values);
+  };
+
+  const handleEdit = (row) => {
+    // dispatch(requestUserById(row.id));
+    console.log("handle edit");
   };
 
   const handleDelete = (idToDelete) => {
@@ -85,13 +143,8 @@ const AddClient = () => {
 
   
   return (
-    <div className="h-[92vh] mx-auto p-10">
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="absolute top-20 right-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mb-5"
-      >
-        Add Client
-      </button>
+    <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
+      
       <ModalComponent
         show={isModalOpen}
         onClose={handleClose}
@@ -99,8 +152,8 @@ const AddClient = () => {
       >
         <Formik
           initialValues={{
-            clientName: "",
-            address: "",
+            name: "",
+            addressLine1: "",
             addressLine2: "",
             city: "",
             state: "",
@@ -116,27 +169,27 @@ const AddClient = () => {
                 Client Name
               </label>
               <Field
-                name="clientName"
+                name="name"
                 type="text"
                 className="w-full border border-gray-300 p-2 rounded"
               />
               <ErrorMessage
-                name="clientName"
+                name="name"
                 component="div"
                 className="text-red-500"
               />
             </div>
             <div>
-              <label className=" text-sm font-sm" htmlFor="address">
+              <label className=" text-sm font-sm" htmlFor="addressLine1">
                 Address
               </label>
               <Field
-                name="address"
+                name="addressLine1"
                 type="text"
                 className="w-full border border-gray-300 p-2 rounded"
               />
               <ErrorMessage
-                name="address"
+                name="addressLine1"
                 component="div"
                 className="text-red-500"
               />
@@ -229,6 +282,16 @@ const AddClient = () => {
           </Form>
         </Formik>
       </ModalComponent>
+      
+      <div className="flex justify-end items-center mb-4">
+        <button
+          type="submit"
+          onClick={()=>setIsModalOpen(true)}
+          className="bg-blue-500 text-white py-1 px-4 rounded"
+        >
+          Add client
+        </button>
+      </div>
 
       <CustomDataTable
         columns={columns}
