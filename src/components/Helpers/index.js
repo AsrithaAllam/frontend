@@ -1,6 +1,28 @@
 import React from "react";
 import * as Yup from "yup";
 
+const editUser = 
+  {
+    userName: Yup.string().required("Required"),
+    // password: Yup.string().required("Required"),
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+    gender: Yup.string().required("Required"),
+    joinDate: Yup.date().required("Required"),
+    endDate: Yup.date().required("Required"),
+    acctType: Yup.string().required("Required"),
+    stsCd: Yup.string().required("Required"),
+    phone: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    // address: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
+    addressLine1:Yup.string().required("Required"),
+    state: Yup.string().required("Required"),
+    country: Yup.string().required("Required"),
+    zip: Yup.string().required("Required"),
+    // reportsTo: Yup.string().required("Required"),
+} 
+
 export const getValuesFromLocalstorage = (storageKey) => {
   const userDetails =
     storageKey === "accessToken"
@@ -47,26 +69,8 @@ export const UpdatePasswordSchema = Yup.object().shape({
   .required("Password is Required")
   .oneOf([Yup.ref('newPassword'),null],'passwords must match')
 })
-export const validationSchema = Yup.object({
-  userName: Yup.string().required("Required"),
-  password: Yup.string().required("Required"),
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  gender: Yup.string().required("Required"),
-  joinDate: Yup.date().required("Required"),
-  endDate: Yup.date().required("Required"),
-  acctType: Yup.string().required("Required"),
-  stsCd: Yup.string().required("Required"),
-  phone: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
-  // address: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
-  addressLine1:Yup.string().required("Required"),
-  state: Yup.string().required("Required"),
-  country: Yup.string().required("Required"),
-  zip: Yup.string().required("Required"),
-  // reportsTo: Yup.string().required("Required"),
-});
+export const EditUserSchema  = Yup.object(editUser);
+export const AddUserSchema = Yup.object({...editUser,password: Yup.string().required("Required") });
 
 export const projectValidationSchema = Yup.object({
   userId: Yup.number().required("User ID is required"),

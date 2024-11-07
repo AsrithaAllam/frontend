@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux';
-import { validationSchema } from "../../../../components/Helpers";
+import { AddUserSchema, EditUserSchema } from "../../../../components/Helpers";
 import Modal from "react-modal";
 import { FaPlus } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa"; 
@@ -44,7 +44,7 @@ const AddEmployeeModal = ({ onClose,  show ,onAddEmployee ,title, initialValues 
     <ModalComponent show={show} onClose={onClose} title={title} >
              <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema}
+            validationSchema={title === "Add Employee" ? AddUserSchema : EditUserSchema}
             onSubmit={(values) => {
               const changedKeys = Object.keys(values).filter(key=>values[key] != initialValues[key])
               
