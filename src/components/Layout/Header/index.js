@@ -6,7 +6,7 @@ import data_cloud from "../../../Assets/data-cloud.jpeg";
 function Header() {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure you want to Logout?',
@@ -29,7 +29,7 @@ function Header() {
     navigate(path);
   };
 
-  return (
+    return (
     <div className="h-[8vh] flex justify-between items-center px-4 md:px-10 bg-gradient-to-r from-blue-900 to-gray-900 text-gray-200 shadow-md">
       <div className="flex items-center">
         <img

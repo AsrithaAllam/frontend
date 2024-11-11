@@ -38,6 +38,7 @@ const AddClient = () => {
   const dispatch = useDispatch();
   const clientsListState = useSelector((state) => state.ClientsListReducer);
   const addClientReducer = useSelector((state) => state.ClientReducer);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const columns = [
     {
@@ -141,7 +142,10 @@ const AddClient = () => {
   //   localStorage.setItem("clients", JSON.stringify(formData));
   // }, [formData]);
 
-  
+  const handleSearch = () => {
+    console.log("Searching for:", searchQuery);
+    
+  }; 
   return (
     <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
       
@@ -283,7 +287,24 @@ const AddClient = () => {
         </Formik>
       </ModalComponent>
       
-      <div className="flex justify-end items-center mb-4">
+      {/* <div className="flex justify-end items-center mb-4"> */}
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl px-5 text-blue-900">Client Trak</h2>
+        <div className="flex items-center space-x-2">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-3 py-1 border-2 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={handleSearch}
+          className="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        >
+          Search
+        </button>
+      </div>
         <button
           type="submit"
           onClick={()=>setIsModalOpen(true)}
