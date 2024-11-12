@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import {
   HomeIcon, UsersIcon, FolderIcon, CalendarIcon,
@@ -25,17 +25,16 @@ const AdminNavigation = [
       { name: 'Budget', path: '/budget' },
     ]
   },
-  // { name: 'Logout', icon: LogoutIcon, children: false },
 ];
 
 const EmpNavigation = [
   { name: 'Dashboard', icon: HomeIcon, href: '/', children: false },
   { name: 'Documents', icon: DocumentIcon, href: '/documents', children: false },
-  // { name: 'Logout', icon: LogoutIcon, children: false },
 ];
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState({});
   const userType = getValuesFromLocalstorage("userDetails")?.acctType || 'EMPLOYEE';
   const Navigation = userType === "ADMIN" ? AdminNavigation : EmpNavigation;
@@ -66,7 +65,8 @@ const Sidebar = () => {
         {Navigation.map((item) => (
           <div key={item.name}>
             <div
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200"
+              className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors duration-200 
+                ${location.pathname === item.href ? 'bg-blue-700' : 'hover:bg-blue-700'}`}
               onClick={() => item.children ? handleToggle(item.name) : item.name === 'Logout' ? handleLogout() : navigate(item.href)}
             >
               <div className="flex items-center">
@@ -80,8 +80,9 @@ const Sidebar = () => {
                 {item.children.map((subItem) => (
                   <div
                     key={subItem.name}
-                    className="flex items-center p-2 text-gray-300 rounded-lg hover:bg-blue-600 cursor-pointer transition-colors duration-200"
-                    onClick={() => navigate(subItem.path)} // Navigate directly to the sub-item path
+                    className={`flex items-center p-2 text-gray-300 rounded-lg cursor-pointer transition-colors duration-200
+                      ${location.pathname === subItem.path ? 'bg-blue-600' : 'hover:bg-blue-600'}`}
+                    onClick={() => navigate(subItem.path)}
                   >
                     <span>{subItem.name}</span>
                   </div>

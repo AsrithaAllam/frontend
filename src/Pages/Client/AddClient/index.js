@@ -8,7 +8,8 @@ import CustomDataTable from "../../../components/CustomDataTable";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setResetStateClientsList, requestClientAction,requestClientsListAction,setResetStateClient } from "../../../Redux/ClientState/ClientActionCreator";
-
+import Loader from "../../../components/Loader";
+import { ToastContainer, toast } from "react-toastify";
 
   // {
   //   name: 'City',
@@ -39,7 +40,8 @@ const AddClient = () => {
   const clientsListState = useSelector((state) => state.ClientsListReducer);
   const addClientReducer = useSelector((state) => state.ClientReducer);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [combinedData, setCombinedData] = useState([]);
+  
   const columns = [
     {
       name: 'Client Name',
@@ -104,12 +106,15 @@ const AddClient = () => {
     },];
 
   const handleSubmit = (values, { resetForm }) => {
-    setFormData([...formData, values]);
+    // setFormData([...formData, values]);
+    setFormData([values,...formData]);
+    // setCombinedData([values,...(clientsListState?.clientsResponse || [])]);
     dispatch(requestClientAction(values));
     dispatch(requestClientsListAction());
     resetForm();
     setIsModalOpen(false);
     console.log("Form values:", values);
+   
   };
 
   const handleEdit = (row) => {
@@ -131,6 +136,16 @@ const AddClient = () => {
     dispatch(setResetStateClient());
   }, []);
 
+  useEffect(() => {
+    if (!addClientReducer?.isLoading && addClientReducer?.isResponse) {
+      // setModalOpen({ title: "", isOpen: false });
+      setIsModalOpen(false);
+      toast.success("Client Created successfully")
+    }
+    if(!addClientReducer?.isLoading && addClientReducer?.isError){
+      toast.error("Client not created. Something went wrong")
+    }
+  }, [addClientReducer]);
   // useEffect(() => {
   //   const storedData = JSON.parse(localStorage.getItem("clients"));
   //   if (storedData) {
@@ -148,7 +163,12 @@ const AddClient = () => {
   }; 
   return (
     <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
-      
+       <ToastContainer />
+      <Loader
+        isLoading={
+          clientsListState?.clientsLoading ||addClientReducer?.isLoading
+        }
+      />
       <ModalComponent
         show={isModalOpen}
         onClose={handleClose}
@@ -290,21 +310,6 @@ const AddClient = () => {
       {/* <div className="flex justify-end items-center mb-4"> */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl px-5 text-blue-900">Client Trak</h2>
-        <div className="flex items-center space-x-2">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="px-3 py-1 border-2 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={handleSearch}
-          className="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-        >
-          Search
-        </button>
-      </div>
         <button
           type="submit"
           onClick={()=>setIsModalOpen(true)}
@@ -317,7 +322,7 @@ const AddClient = () => {
       <CustomDataTable
         columns={columns}
         // data={formData}
-        data={clientsListState?.clientsResponse || []}
+        data={[...formData, ...(clientsListState?.clientsResponse || [])]}
         onDelete={handleDelete} 
       />
     </div>

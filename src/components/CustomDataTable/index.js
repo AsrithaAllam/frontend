@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import Loader from "../Loader";
 
 const CustomDataTable = ({ columns, data }) => {
+  const [search, setSearch] = useState("");
   const modifiedColumns = [
     ...columns,
   ];
@@ -34,8 +35,26 @@ const CustomDataTable = ({ columns, data }) => {
       },
     },
   };
+  const handleSearch = () => {
+    console.log("Searching for:", search);
+  }
 
   return (
+  
+    <div className="flex-row justify-items-center space-x-2">
+    <input
+        type="text"
+        placeholder="Search..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="p-2 mb-4 border border-gray-400 rounded"
+      />
+      <button
+          onClick={handleSearch}
+          className="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        >
+          Search
+        </button>
     <DataTable
       className="border-gray-400 border-2 radius-xl customBoder"
       columns={modifiedColumns}
@@ -45,6 +64,7 @@ const CustomDataTable = ({ columns, data }) => {
       highlightOnHover
       customStyles={customStyles}
     />
+    </div>
   );
 };
 

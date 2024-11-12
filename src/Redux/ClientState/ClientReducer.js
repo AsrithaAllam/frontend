@@ -26,7 +26,7 @@ export function defaultClientState() {
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE) {
-      return { ...state, isResponse: action.data, isLoading: false };
+      return { ...state, isResponse:action.data, isLoading: false };
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR) {
@@ -58,7 +58,7 @@ export function defaultClientState() {
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENTS_LIST) {
-      return { ...state, clientsResponse: action.data, clientsLoading: false };
+      return { ...state, clientsResponse:action.data, clientsLoading: false };
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENTS_LIST) {
