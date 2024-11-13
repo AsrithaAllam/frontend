@@ -1,6 +1,9 @@
 import React from "react";
 import * as Yup from "yup";
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*&]{8,}$/;
+
 const editUser = 
   {
     userName: Yup.string().required("Required"),
@@ -36,33 +39,39 @@ export const SignupSchema = Yup.object().shape({
   userName: Yup.string().required("Username is Required"),
   password: Yup.string("Enter your password")
     .min(8, "Password should be 8 characters length")
-    .required("Password is Required"),
+    .required("Password is Required")
+    .matches(passwordRegex,"Password don't matches criteria ")
 });
 
 export const ForgotPasswordSchema = Yup.object().shape({
-  email: Yup.string().email("Email is Required"),
+  // email: Yup.string().email("Email is Required"),
+  email : Yup.string().required("Email is required").matches(emailRegex,"This is not a valid email")
 });
 
 export const ResetPasswordSchema = Yup.object().shape({
   newPassword: Yup.string()
   .min(8, "New Password is too short")
   .max(25,"New Password is too long")
-  .required("Password is Required"),
+  .required("Password is Required")
+  .matches(passwordRegex,"Password don't matches criteria "),
+
   confirmPassword: Yup.string()
-  
   .min(8, "New Password is too short")
   .max(25,"New Password is too long")
   .required("Password is Required")
+  // .matches(passwordRegex,"Password don't matches")
   .oneOf([Yup.ref('newPassword'),null],'passwords must match')
 })
 
 export const UpdatePasswordSchema = Yup.object().shape({
 
-  oldPassword:Yup.string("old password is required"),
+  oldPassword:Yup.string("old password is required")
+  .matches(passwordRegex,"Password don't matches criteria "),
   newPassword: Yup.string()
   .min(6, "New Password is too short")
   .max(25,"New Password is too long")
-  .required("Password is Required"),
+  .required("Password is Required")
+  .matches(passwordRegex,"Password don't matches criteria "),
   confirmPassword: Yup.string()
   .min(6, "New Password is too short")
   .max(25,"New Password is too long")

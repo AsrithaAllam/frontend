@@ -36,6 +36,9 @@ const CustomDataTable = ({ columns, data }) => {
   };
 
   return (
+    <div>
+      <input className="flex float-end h-6 p-4 m-2 border-2 border-black rounded" placeholder="search" type="text" />
+    
     <DataTable
       className="border-gray-400 border-2 radius-xl customBoder"
       columns={modifiedColumns}
@@ -45,6 +48,7 @@ const CustomDataTable = ({ columns, data }) => {
       highlightOnHover
       customStyles={customStyles}
     />
+    </div>
   );
 };
 

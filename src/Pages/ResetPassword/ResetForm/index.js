@@ -52,7 +52,7 @@ function ResetForm() {
             newPassword: "",
             confirmPassword: "",
           }}
-          // validationSchema={ResetPasswordSchema}
+          validationSchema={ResetPasswordSchema}
           onSubmit={(values) => {
             if (values.newPassword === values.confirmPassword) {
               resetPassword(values);
@@ -89,7 +89,7 @@ function ResetForm() {
                   />
                 )}
                 {errors.newPassword && touched.newPassword && (
-                  <p className="text-red-400">{errors.newPassword}</p>
+                  <p className="text-red-400">{errors.newPassword} </p>
                 )}
               </div>
 

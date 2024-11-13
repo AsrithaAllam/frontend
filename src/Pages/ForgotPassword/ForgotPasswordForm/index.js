@@ -67,7 +67,7 @@ function ForgotPasswordForm() {
                   className="w-full p-1 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400"
                 />
                 {errors.email && touched.email ? (
-                  <p className="text-red-400">Invalid email address</p>
+                  <p className="text-red-400">{errors.email}</p>
                 ) : null}
               </div>
               <Link
