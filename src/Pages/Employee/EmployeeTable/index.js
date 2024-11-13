@@ -26,7 +26,9 @@ const EmployeeTable = () => {
   const userDetailsReducer = useSelector((state) => state.UserByIdReducer);
   const addUserReducer = useSelector((state) => state.UserReducer);
   const editUserReducer = useSelector((state)=>state.EditUserReducer) 
+
 console.log(editUserReducer,"edit")
+
   const initialValues = {
     userName: "",
     email: "",
@@ -100,6 +102,8 @@ console.log(editUserReducer,"edit")
     setModalOpen({ title: "", isOpen: false });
     dispatch(setResetStateUserById());
     dispatch(setResetStateEditUser())
+    dispatch(requestEdituser())
+
   };
 
   useEffect(() => {
