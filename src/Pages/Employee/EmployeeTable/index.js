@@ -164,7 +164,7 @@ console.log(editUserReducer,"edit")
 
   return (
 
-    <div className="p-2 w-full h-[90vh] overflow-y-hidden">
+    <div className="p-2 w-full h-[92vh] overflow-y-hidden">
         <ToastContainer />
       <Loader
         isLoading={
