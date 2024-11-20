@@ -47,11 +47,10 @@ const CustomDataTable = ({ columns, data }) => {
   }, [search, data]);
 
   return (
-    <div>
-      <div className="relative flex items-center float-end h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
-       
+    <div >
+      <div className=" flex items-center float-right h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
         <input
-          className="pl-2 w-full h-full text-sm border-none outline-none rounded-full focus:ring-0"
+          className=" w-full h-full text-sm border-none outline-none rounded-full focus:ring-0"
           placeholder="Search by first name or last name"
           type="text"
           value={search}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomDataTable from "../../../components/CustomDataTable";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import {
   setResetStateUser,
   requestUserAction,
@@ -16,18 +16,14 @@ import Hoc from "../../../components/HOC";
 import { MdDelete, MdEdit } from "react-icons/md";
 import AddEmployeeModal from "./AddEmployeeModal";
 import Loader from "../../../components/Loader";
-import { ToastContainer, toast } from "react-toastify";
 
 const EmployeeTable = () => {
   const [modalOpen, setModalOpen] = useState({ title: "", isOpen: false });
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const usersListState = useSelector((state) => state.UsersListReducer);
   const userDetailsReducer = useSelector((state) => state.UserByIdReducer);
   const addUserReducer = useSelector((state) => state.UserReducer);
-  const editUserReducer = useSelector((state)=>state.EditUserReducer) 
-
-console.log(editUserReducer,"edit")
+  const editUserReducer = useSelector((state) => state.EditUserReducer);
 
   const initialValues = {
     userName: "",
@@ -47,7 +43,6 @@ console.log(editUserReducer,"edit")
     zip: "",
     acctType: "",
     stsCd: "",
-    // reportsTo: "",
   };
 
   const columns = [
@@ -76,10 +71,9 @@ console.log(editUserReducer,"edit")
       selector: (row) => row.stsCd,
       sortable: true,
     },
-
     {
       name: "Actions",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="flex space-x-2">
           <button
             onClick={() => handleEdit(row)}
@@ -88,7 +82,7 @@ console.log(editUserReducer,"edit")
             <MdEdit size={24} />
           </button>
           <button
-            onClick={() => handleDelete(index)}
+            onClick={() => handleDelete(row)}
             className="text-red-500 hover:text-red-700"
           >
             <MdDelete size={24} />
@@ -101,9 +95,7 @@ console.log(editUserReducer,"edit")
   const closeModal = () => {
     setModalOpen({ title: "", isOpen: false });
     dispatch(setResetStateUserById());
-    dispatch(setResetStateEditUser())
-    dispatch(requestEdituser())
-
+    dispatch(setResetStateEditUser());
   };
 
   useEffect(() => {
@@ -115,25 +107,23 @@ console.log(editUserReducer,"edit")
   useEffect(() => {
     if (!addUserReducer?.isLoading && addUserReducer?.isResponse) {
       setModalOpen({ title: "", isOpen: false });
-      toast.success("User Created successfully")
+      toast.success("User Created successfully");
     }
-    if(!addUserReducer?.isLoading && addUserReducer?.isError){
-      toast.error("User not created. Something went wrong")
+    if (!addUserReducer?.isLoading && addUserReducer?.isError) {
+      toast.error("User not created. Something went wrong");
     }
   }, [addUserReducer]);
 
-
   useEffect(() => {
     if (!editUserReducer?.Loading && editUserReducer?.Response) {
-      setModalOpen({ title: "Edit Employee", isOpen: false });
-      toast.success("User Details Updated Successfully")
+      setModalOpen({ title: "", isOpen: false });
+      toast.success("User Details Updated Successfully");
     }
-    if(!editUserReducer?.Loading && editUserReducer?.Error){
-      toast.error("something Went Wrong")
-
+    if (!editUserReducer?.Loading && editUserReducer?.Error) {
+      toast.error("Something went wrong");
     }
   }, [editUserReducer]);
-  
+
   const handleDelete = (row) => {
     console.log(row);
   };
@@ -141,53 +131,52 @@ console.log(editUserReducer,"edit")
   const handleEdit = (row) => {
     dispatch(requestUserById(row.id));
   };
+
   const handleClick = () => {
     setModalOpen({ title: "Add Employee", isOpen: true });
   };
+
   useEffect(() => {
     dispatch(setResetStateUsersList());
     dispatch(requestUsersListAction());
     dispatch(setResetStateUserById());
     dispatch(setResetStateUser());
-    dispatch(setResetStateEditUser())
-  }, []);
+    dispatch(setResetStateEditUser());
+  }, [dispatch]);
 
   const handleAddEmployee = (newEmployee) => {
-    console.log(newEmployee, "data1")
-    if(modalOpen.title === "Add Employee"){
+    if (modalOpen.title === "Add Employee") {
       dispatch(requestUserAction(newEmployee));
-    }else{
-      console.log(newEmployee, "data2")
-      dispatch(requestEdituser({...newEmployee,id:userDetailsReducer?.byIdResponse.id}))
+    } else {
+      dispatch(
+        requestEdituser({ ...newEmployee, id: userDetailsReducer?.byIdResponse.id })
+      );
     }
   };
 
   return (
-
-    <div className="p-2 w-full h-[92vh] overflow-y-hidden">
-        <ToastContainer />
+    <div className="p-4 w-full h-[92vh] overflow-y-hidden">
+      <ToastContainer />
       <Loader
         isLoading={
-          usersListState?.usersLoading || userDetailsReducer?.byIdLoading || editUserReducer?.Loading ||addUserReducer?.isLoading
-
+          usersListState?.usersLoading ||
+          userDetailsReducer?.byIdLoading ||
+          editUserReducer?.Loading ||
+          addUserReducer?.isLoading
         }
       />
 
-      <div className="flex justify-end items-center mb-4">
+      <div className="flex  mb-4">
         <button
-          type="submit"
           onClick={handleClick}
-          className="bg-blue-500 text-white py-1 px-4 rounded"
+          className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
-          Add Employee
+          <span className="text-xl font-bold">+ User</span>
         </button>
       </div>
 
-      <CustomDataTable
-        columns={columns}
-        data={usersListState?.usersResponse || []}
-        // onDelete={handleDelete}
-      />
+      <CustomDataTable columns={columns} data={usersListState?.usersResponse || []} />
+
       <AddEmployeeModal
         initialValues={
           modalOpen.title === "Add Employee"
