@@ -322,7 +322,8 @@ const AddClient = () => {
       <CustomDataTable
         columns={columns}
         // data={formData}
-        data={[...formData, ...(clientsListState?.clientsResponse || [])]}
+        // data={[...formData, ...(clientsListState?.clientsResponse || [])]}
+        data={clientsListState?.clientsResponse || []}
         onDelete={handleDelete} 
       />
     </div>

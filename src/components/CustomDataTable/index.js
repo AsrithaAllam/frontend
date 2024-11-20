@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
-const CustomDataTable = ({ columns, data }) => {
+const CustomDataTable = ({ columns, data=[] }) => {
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState(data);
 

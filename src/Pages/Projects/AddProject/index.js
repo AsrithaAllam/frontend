@@ -126,7 +126,9 @@ const closeModal = () => {
         columns={columns}
         // data={formData}
         data={projectListState?.projectsResponse || []}
+        onDelete={handleDelete} 
       />
+      
       <AddProjectModal initialValues={initialValues} 
         show={modalOpen.isOpen} 
         onClose={closeModal}
