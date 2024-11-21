@@ -20,6 +20,10 @@ const AddProject = () => {
   const navigate=useNavigate();
   const projectListState  =  useSelector((state) => state.ProjectsListReducer);
   const addProjectReducer = useSelector((state) => state.ProjectReducer);
+<<<<<<< HEAD
+=======
+  const [serch, setSerch] = useState("");
+>>>>>>> c15c0660379600978360684d599e2ffe69e4b827
 
 
   const [modalOpen, setModalOpen] = useState({ title: "", isOpen: false });
@@ -122,11 +126,178 @@ const closeModal = () => {
           Add Project
         </button>
       </div>
+<<<<<<< HEAD
     <CustomDataTable
         columns={columns}
         // data={formData}
         data={projectListState?.projectsResponse || []}
         onDelete={handleDelete} 
+=======
+      <ModalComponent
+        show={isModalOpen}
+        onClose={handleClose}
+        title={editIndex !== null ? "Update Project" : "Add Project"}
+      >
+        <Formik
+          initialValues={initialValues}
+          validationSchema={projectValidationSchema}
+          onSubmit={handleSubmit}
+        >
+           {({ resetForm }) => (
+                <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="mb-4">
+                      <label
+                        htmlFor="userId"
+                        className="text-sm font-sm text-gray-700"
+                      >
+                        User Id
+                      </label>
+                      <Field
+                        type="number"
+                        name="userId"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="userId"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label
+                        htmlFor="projectName"
+                        className=" text-sm font-sm text-gray-700"
+                      >
+                        Project Name
+                      </label>
+                      <Field
+                        type="text"
+                        name="projectName"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="projectName"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label
+                        htmlFor="clientId"
+                        className=" text-sm font-sm text-gray-700"
+                      >
+                        Client Id
+                      </label>
+                      <Field
+                        type="number"
+                        name="clientId"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="clientId"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                    {/* Start Date */}
+                    <div className="mb-4">
+                      <label
+                        htmlFor="startDate"
+                        className=" text-sm font-sm text-gray-700"
+                      >
+                        Start Date
+                      </label>
+                      <Field
+                        type="date"
+                        name="startDate"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="startDate"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+
+                    {/* End Date with restriction */}
+                    <div className="mb-4">
+                      <label
+                        htmlFor="endDate"
+                        className=" text-sm font-sm text-gray-700"
+                      >
+                        End Date
+                      </label>
+                      <Field
+                        type="date"
+                        name="endDate"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="endDate"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="budget"
+                        className=" text-sm font-sm text-gray-700"
+                      >
+                        Budget
+                      </label>
+                      <Field
+                        type="number"
+                        name="budget"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="budget"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="netPay"
+                        className=" text-sm font-sm text-gray-700"
+                      >
+                        Net Pay
+                      </label>
+                      <Field
+                        type="number"
+                        name="netPay"
+                        className="w-full border border-gray-300 rounded-lg p-1"
+                      />
+                      <ErrorMessage
+                        name="netPay"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+                   <div className="col-span-2 flex justify-end mt-4">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-1 rounded-lg"
+              >
+                Add Project
+              </button>
+            </div>
+                </Form>
+              )}
+        </Formik>
+      </ModalComponent>
+      
+      <CustomDataTable
+        columns={columns}
+        data={[]}
+        search={serch}
+        setSearch={setSerch}
+        serverPagenation={true}
+>>>>>>> c15c0660379600978360684d599e2ffe69e4b827
       />
       
       <AddProjectModal initialValues={initialValues} 
