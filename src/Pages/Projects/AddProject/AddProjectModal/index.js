@@ -43,6 +43,7 @@ const AddProjectModal = ({ onClose,  show ,onAddProject ,title, initialValues })
      
       return(
         <ModalComponent  
+        className="relative top-10 mx-auto"
         show={show}
         onClose={handleClose}
         // title={editIndex !== null ? "Update Project" : "Add Project"}
@@ -54,8 +55,9 @@ const AddProjectModal = ({ onClose,  show ,onAddProject ,title, initialValues })
           onSubmit={handleSubmit}
         >
            {({ resetForm }) => (
-                <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                // <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
+                <Form className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[70vh] overflow-y-scroll no-scrollbar">
+                  {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
                     <div className="mb-4">
                       <label
                         htmlFor="userId"
@@ -187,7 +189,7 @@ const AddProjectModal = ({ onClose,  show ,onAddProject ,title, initialValues })
                         className="text-red-500"
                       />
                     </div>
-                  </div>
+                  {/* </div> */}
                   {/* <div className="flex justify-end space-x-4 mt-2">
                     <button
                       type="submit"

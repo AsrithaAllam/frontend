@@ -187,7 +187,8 @@ const AddClient = () => {
           validationSchema={clientValidationSchema} // Fixing the validation schema prop name
           onSubmit={handleSubmit}
         >
-          <Form className="grid grid-cols-2 gap-4 h-[52vh] ">
+          {/* <Form className="grid grid-cols-2 gap-4 h-[52vh] "> */}
+          <Form className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[70vh] overflow-y-scroll no-scrollbar">
             <div>
               <label className=" text-sm font-sm" htmlFor="clientName">
                 Client Name
