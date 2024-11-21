@@ -8,36 +8,14 @@ import CustomDataTable from "../../../components/CustomDataTable";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setResetStateClientsList, requestClientAction,requestClientsListAction,setResetStateClient } from "../../../Redux/ClientState/ClientActionCreator";
-
-
-  // {
-  //   name: 'City',
-  //   selector: row => row.city,
-  //   sortable: true,
-  // },
-  // {
-  //   name: 'State',
-  //   selector: row => row.state,
-  //   sortable: true,
-  // },
-  // {
-  //   name: 'Country',
-  //   selector: row => row.country,
-  //   sortable: true,
-  // },
-  // {
-  //   name: 'ZIP',
-  //   selector: row => row.zip,
-  //   sortable: true,
-  // },
-
+import Loader from "../../../components/Loader";
 
 const AddClient = () => {
-  const [formData, setFormData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const clientsListState = useSelector((state) => state.ClientsListReducer);
   const addClientReducer = useSelector((state) => state.ClientReducer);
+  const [search, setSearch] = useState("");
 
   const columns = [
     {
@@ -103,12 +81,10 @@ const AddClient = () => {
     },];
 
   const handleSubmit = (values, { resetForm }) => {
-    setFormData([...formData, values]);
     dispatch(requestClientAction(values));
     dispatch(requestClientsListAction());
     resetForm();
     setIsModalOpen(false);
-    console.log("Form values:", values);
   };
 
   const handleEdit = (row) => {
@@ -117,34 +93,39 @@ const AddClient = () => {
   };
 
   const handleDelete = (idToDelete) => {
-    const updatedData = formData.filter((item) => item.id !== idToDelete);
-    setFormData(updatedData);
+    console.log(idToDelete);
   };
+
+  const handlePageChange = (page)=>{
+    dispatch(requestClientsListAction({page: page, size: 5, search: search}));
+  }
+
+  const handleRowsChange = (size)=>{
+    dispatch(requestClientsListAction({page: 0, size: size, search: ""}));
+    setSearch("");
+  }
+
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     dispatch(setResetStateClientsList());
-    dispatch(requestClientsListAction());
+    dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
     dispatch(setResetStateClient());
   }, []);
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("clients"));
-  //   if (storedData) {
-  //     setFormData(storedData);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("clients", JSON.stringify(formData));
-  // }, [formData]);
-
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(requestClientsListAction({ page: 0, size: clientsListState?.size, search: search }));
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [search]);
   
   return (
     <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
-      
+      <Loader isLoading={clientsListState?.loading} />
       <ModalComponent
         show={isModalOpen}
         onClose={handleClose}
@@ -292,12 +273,17 @@ const AddClient = () => {
           Add client
         </button>
       </div>
-
       <CustomDataTable
         columns={columns}
-        // data={formData}
-        data={clientsListState?.clientsResponse || []}
+        data={clientsListState?.response?.content}
         onDelete={handleDelete} 
+        enableSearch={false}
+        search={search}
+        setSearch={setSearch}
+        serverPagenation
+        paginationTotalRows={clientsListState?.response?.totalElements}
+        handleChangePage={handlePageChange}
+        handleRowsChange={handleRowsChange}
       />
     </div>
   );

@@ -25,11 +25,11 @@ export default class ClientService {
     });
   }
 
-  clientsListRequest = () => {
+  clientsListRequest = (payload) => {
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
-          ApiUrl.getAllClients(),
+          ApiUrl.getAllClients(payload.page, payload.size, payload.search),
           this.request.clientsListRequest( REQUEST_METHOD.GET)
         )
         .then((response) => {

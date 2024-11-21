@@ -39,8 +39,12 @@ export class ApiUrl {
     static addClient = () =>{
       return BASE_URL +"adminrest/saveclient";
     }
-    static getAllClients =() =>{
-      return BASE_URL +"adminrest/allclients"
+    static getAllClients =(page, size, search) =>{
+      if(search && search.length > 0){
+        return BASE_URL +`adminrest/allclients?page=${page}&size=${size}&search=${search}`;
+      }else{
+        return BASE_URL +`adminrest/allclients?page=${page}&size=${size}`;
+      }
     }
     static projectRequest = () =>{
       return BASE_URL +"adminrest/project";

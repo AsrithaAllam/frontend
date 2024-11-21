@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
-const CustomDataTable = ({ columns, data }) => {
-  const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState(data);
-
+const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch, serverPagenation=false, paginationTotalRows, handleChangePage, handleRowsChange }) => {
   const customStyles = {
     rows: {
       style: {
@@ -31,20 +28,28 @@ const CustomDataTable = ({ columns, data }) => {
     },
   };
 
-  useEffect(() => {
-    if (search) {
-      const filtered = data.filter(
-        (row) =>
-          (row.firstName &&
-            row.firstName.toLowerCase().includes(search.toLowerCase())) ||
-          (row.lastName &&
-            row.lastName.toLowerCase().includes(search.toLowerCase()))
-      );
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(data);
-    }
-  }, [search, data]);
+  const handlePageChange = (page) => {
+    handleChangePage(page-1);
+  };
+
+  const handleRowsPerPage = (rowsPerPage) => {
+    handleRowsChange(rowsPerPage);
+  };
+
+  // useEffect(() => {
+  //   if (search) {
+  //     const filtered = data.filter(
+  //       (row) =>
+  //         (row.firstName &&
+  //           row.firstName.toLowerCase().includes(search.toLowerCase())) ||
+  //         (row.lastName &&
+  //           row.lastName.toLowerCase().includes(search.toLowerCase()))
+  //     );
+  //     setFilteredData(filtered);
+  //   } else {
+  //     setFilteredData(data);
+  //   }
+  // }, [search, data]);
 
   return (
     <div >
@@ -58,18 +63,19 @@ const CustomDataTable = ({ columns, data }) => {
         />
          <FaSearch className=" text-gray-500 " />
       </div>
-      {search && filteredData.length === 0 ? (
-        <p className="text-center mt-4">No matching data found</p>
-      ) : (
         <DataTable
           columns={columns}
-          data={filteredData}
+          data={data || []}
           pagination
+          paginationServer={serverPagenation}
           striped
           highlightOnHover
           customStyles={customStyles}
+          paginationTotalRows={paginationTotalRows}
+          onChangePage={handlePageChange}
+          onChangeRowsPerPage={handleRowsPerPage}
+          paginationRowsPerPageOptions={[5, 10, 15, 20]}
         />
-      )}
     </div>
   );
 };

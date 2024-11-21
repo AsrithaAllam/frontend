@@ -18,7 +18,8 @@ const AddProject = () => {
   const [editIndex, setEditIndex] = useState(null);
   const dispatch=useDispatch();
   const projectListState  =  useSelector((state) => state.ProjectsListReducer);
-  const addProjectReducer = useSelector((state) => state.ProjectReducer)
+  const addProjectReducer = useSelector((state) => state.ProjectReducer);
+  const [serch, setSerch] = useState("");
 
   const clients = ["Client A", "Client B", "Client C", "Client D"];
   const columns = [
@@ -242,14 +243,6 @@ const initialValues ={
                       />
                     </div>
                   </div>
-                  {/* <div className="flex justify-end space-x-4 mt-2">
-                    <button
-                      type="submit"
-                      className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
-                    >
-                      {editIndex !== null ? "Update Project" : "Add Project"}
-                    </button>
-                  </div> */}
                    <div className="col-span-2 flex justify-end mt-4">
               <button
                 type="submit"
@@ -265,8 +258,10 @@ const initialValues ={
       
       <CustomDataTable
         columns={columns}
-        // data={formData}
-        data={projectListState?.projectsResponse || []}
+        data={[]}
+        search={serch}
+        setSearch={setSerch}
+        serverPagenation={true}
       />
     </div>
   );
