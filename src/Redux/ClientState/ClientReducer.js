@@ -39,9 +39,11 @@ export function defaultClientState() {
 
   export function defaultClientsListState() {
     return {
-      usersLoading: false,
-      usersResponse: null,
-      usersError: null,
+      loading: false,
+      response: null,
+      error: null,
+      page: 0,
+      size: 10
     };
   }
 
@@ -54,15 +56,15 @@ export function defaultClientState() {
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.REQUEST_CLIENTS_LIST) {
-      return { ...state, clientsLoading: true };
+      return { ...state, loading: true, page: action.data.page, size: action.data.size };
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENTS_LIST) {
-      return { ...state, clientsResponse: action.data, clientsLoading: false };
+      return { ...state, response: action.data, loading: false };
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENTS_LIST) {
-      return { ...state, clientsError: action.data, clientsLoading: false };
+      return { ...state, error: action.data, loading: false, response: null, page: 0, size: 10 };
     }
   
     return state; 

@@ -20,6 +20,7 @@ import Loader from "../../../components/Loader";
 const EmployeeTable = () => {
   const [modalOpen, setModalOpen] = useState({ title: "", isOpen: false });
   const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
   const usersListState = useSelector((state) => state.UsersListReducer);
   const userDetailsReducer = useSelector((state) => state.UserByIdReducer);
   const addUserReducer = useSelector((state) => state.UserReducer);
@@ -176,7 +177,7 @@ const EmployeeTable = () => {
       </div>
       
 
-      <CustomDataTable columns={columns} data={usersListState?.usersResponse || []} />
+      <CustomDataTable columns={columns} search={search} setSearch={setSearch} data={usersListState?.usersResponse?.contents || []} />
 
       <AddEmployeeModal
         initialValues={
