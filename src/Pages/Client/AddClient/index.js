@@ -294,7 +294,7 @@ const AddClient = () => {
       </div>
 
       <CustomDataTable
-        columns={columns}
+        columns={columns || []}
         // data={formData}
         data={clientsListState?.clientsResponse || []}
         onDelete={handleDelete} 

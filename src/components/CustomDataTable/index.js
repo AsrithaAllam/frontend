@@ -63,7 +63,7 @@ const CustomDataTable = ({ columns, data }) => {
       ) : (
         <DataTable
           columns={columns}
-          data={filteredData}
+          data={filteredData || []}
           pagination
           striped
           highlightOnHover

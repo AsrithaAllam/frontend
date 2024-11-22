@@ -40,7 +40,7 @@ export class ApiUrl {
       return BASE_URL +"adminrest/saveclient";
     }
     static getAllClients =() =>{
-      return BASE_URL +"adminrest/allclients"
+      return BASE_URL +"adminrest/allclients?page=0&size=10"
     }
     static projectRequest = () =>{
       return BASE_URL +"adminrest/project";

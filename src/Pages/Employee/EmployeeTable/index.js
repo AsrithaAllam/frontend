@@ -171,9 +171,10 @@ const EmployeeTable = () => {
           onClick={handleClick}
           className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
-          <span className="text-xl font-bold">+ User</span>
+          <span className="text-xl font-bold">+</span>
         </button>
       </div>
+      
 
       <CustomDataTable columns={columns} data={usersListState?.usersResponse || []} />
 
