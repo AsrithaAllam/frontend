@@ -11,7 +11,7 @@ export function* clientRequest(action) {
     }
   }
 
-
+ 
   export function* clientsListRequest(action) {
     try {
       const response = yield call(ClientService.shared.clientsListRequest, action.data);

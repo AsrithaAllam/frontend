@@ -27,8 +27,12 @@ export class ApiUrl {
     static userRequest = () =>{
       return BASE_URL +"user";
     }
-    static getAllUsers =() =>{
-      return BASE_URL +"user/all"
+    static getAllUsers =(page, size,search) =>{
+      if(search && search.length >0){
+         return BASE_URL +`user/all?page=${page}&size=${size}&search=${search}`;
+      }else{
+       return BASE_URL +`user/all?page=${page}&size=${size}`;
+      }
     }
     static getUserById =(id)=>{
       return BASE_URL +`user/${id}`

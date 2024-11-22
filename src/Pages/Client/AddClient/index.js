@@ -83,7 +83,7 @@ const AddClient = () => {
   const handleSubmit = (values, { resetForm }) => {
     dispatch(requestClientAction(values));
     dispatch(requestClientsListAction());
-    resetForm();
+    resetForm(); 
     setIsModalOpen(false);
   };
 

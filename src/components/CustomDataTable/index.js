@@ -53,10 +53,10 @@ const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch,
 
   return (
     <div >
-      <div className=" flex items-center float-right h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
+      <div className=" flex items-center float-left h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
         <input
-          className=" w-full h-full text-sm border-none outline-none rounded-full focus:ring-0"
-          placeholder="Search by first name or last name"
+          className=" w-full h-full text-sm p-1 border-none outline-none rounded-full focus:ring-0"
+          placeholder="Search by name"
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}

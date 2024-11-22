@@ -24,11 +24,12 @@ export default class UserService {
         });
     });
   }
-  usersListRequest = () => {
+
+  usersListRequest = (payload) => {
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
-          ApiUrl.getAllUsers(),
+          ApiUrl.getAllUsers(payload.page, payload.size, payload.search),
           this.request.usersListRequest( REQUEST_METHOD.GET)
         )
         .then((response) => {
