@@ -192,5 +192,4 @@ const EmployeeTable = () => {
     </div>
   );
 };
-
 export default Hoc(EmployeeTable);
