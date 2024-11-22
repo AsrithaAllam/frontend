@@ -41,10 +41,12 @@ export function defaultUserState() {
       usersLoading: false,
       usersResponse: null,
       usersError: null,
+      page:0,
+      size:10
     };
   }
 
-  export const UsersListReducer = (state, action) => {
+  export const UsersListReducer = (state, action) => { 
     if (
       !state ||
       action.type === UserActionCreator.USER_ACTION.RESET_USERS_LIST_STATE
@@ -53,7 +55,7 @@ export function defaultUserState() {
     }
   
     if (action.type === UserActionCreator.USER_ACTION.REQUEST_USERS_LIST) {
-      return { ...state, usersLoading: true };
+      return { ...state, usersLoading: true, page: action.data.page, size: action.data.size  };
     }
   
     if (action.type === UserActionCreator.USER_ACTION.RESPONSE_USERS_LIST) {
@@ -61,7 +63,7 @@ export function defaultUserState() {
     }
   
     if (action.type === UserActionCreator.USER_ACTION.ERROR_USERS_LIST) {
-      return { ...state, usersError: action.data, usersLoading: false };
+      return { ...state, usersError: action.data, usersLoading: false , response: null, page: 0, size: 10};
     }
   
     return state; 

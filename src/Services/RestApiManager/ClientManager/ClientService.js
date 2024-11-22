@@ -34,7 +34,7 @@ export default class ClientService {
         )
         .then((response) => {
           resolve(response);
-        })
+        }) 
         .catch((error) => {
           reject(error);
         });

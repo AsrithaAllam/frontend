@@ -62,11 +62,11 @@ const EmployeeTable = () => {
       selector: (row) => row.acctType,
       sortable: true,
     },
-    {
-      name: "Gender",
-      selector: (row) => row.gender.toUpperCase(),
-      sortable: true,
-    },
+    // {
+    //   name: "Gender",
+    //   selector: (row) => row.gender.toUpperCase(),
+    //   sortable: true,
+    // },
     {
       name: "Status",
       selector: (row) => row.stsCd,
@@ -136,21 +136,38 @@ const EmployeeTable = () => {
   const handleClick = () => {
     setModalOpen({ title: "Add Employee", isOpen: true });
   };
+  const handlePageChange = (page)=>{
+    dispatch(requestUsersListAction({page: page, size: 5, search: search}));
+  }
+  const handleRowsChange = (size)=>{
+    dispatch(requestUsersListAction({page: 0, size: size, search: ""}));
+    setSearch("");
+  }
 
   useEffect(() => {
     dispatch(setResetStateUsersList());
-    dispatch(requestUsersListAction());
+    dispatch(requestUsersListAction({ page: usersListState?.page, size: usersListState?.size }));
     dispatch(setResetStateUserById());
     dispatch(setResetStateUser());
     dispatch(setResetStateEditUser());
   }, [dispatch]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(requestUsersListAction({ page: 0, size: usersListState?.size, search: search }));
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [search]);
 
   const handleAddEmployee = (newEmployee) => {
     if (modalOpen.title === "Add Employee") {
       dispatch(requestUserAction(newEmployee));
     } else {
       dispatch(
-        requestEdituser({ ...newEmployee, id: userDetailsReducer?.byIdResponse.id })
+        requestEdituser({
+          ...newEmployee,
+          id: userDetailsReducer?.byIdResponse.id,
+        })
       );
     }
   };
@@ -167,17 +184,28 @@ const EmployeeTable = () => {
         }
       />
 
-      <div className="flex  mb-4">
+      <div className="absolute flex  mb-4 right-6">
         <button
           onClick={handleClick}
-          className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
+          className="flex items-center float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
-          <span className="text-xl font-bold">+ User</span>
+          <span className="text-xl font-extrabold">+</span>
         </button>
       </div>
 
-      <CustomDataTable columns={columns} search={search} setSearch={setSearch} data={usersListState?.usersResponse?.contents || []} />
-
+      <CustomDataTable
+        columns={columns}
+        search={search}
+        setSearch={setSearch}
+        data={usersListState?.usersResponse?.content}
+        onDelete={handleDelete} 
+        enableSearch={false}
+        serverPagenation
+        paginationTotalRows={usersListState?.usersResponse?.totalElements}
+        handleChangePage={handlePageChange}
+        handleRowsChange={handleRowsChange}
+      />
+       
       <AddEmployeeModal
         initialValues={
           modalOpen.title === "Add Employee"
@@ -192,5 +220,4 @@ const EmployeeTable = () => {
     </div>
   );
 };
-
 export default Hoc(EmployeeTable);
