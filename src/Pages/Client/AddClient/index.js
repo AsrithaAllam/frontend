@@ -53,13 +53,7 @@ const AddClient = () => {
       selector: row => row.zip,
       sortable: true,
     },
-    // {
-    //   name: 'Address',
-    //   // selector: row =>`${row.address}, ${row.city}, ${row.state},${row.country}`,
-    //   selector: row => row.address,
-    //   sortable: true,
-    // },
-  
+     
     {
       name: "Actions",
       cell: (row, index) => (

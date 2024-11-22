@@ -60,11 +60,7 @@ export function defaultClientState() {
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENTS_LIST) {
-<<<<<<< HEAD
-      return { ...state, clientsResponse:action.data, clientsLoading: false };
-=======
       return { ...state, response: action.data, loading: false };
->>>>>>> c15c0660379600978360684d599e2ffe69e4b827
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENTS_LIST) {

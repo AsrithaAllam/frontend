@@ -2,14 +2,27 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
-<<<<<<< HEAD
-const CustomDataTable = ({ columns, data=[] }) => {
+// <<<<<<< HEAD
+const CustomDataTable = ({ columns, 
+                           data=[],
+                           handleChangePage,
+                           handleRowsChange,
+                           serverPagenation,
+                           paginationTotalRows}) => {
   const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState(data);
+  const modifiedColumns = [
+    ...columns,
+  ];
+  // const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
-=======
-const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch, serverPagenation=false, paginationTotalRows, handleChangePage, handleRowsChange }) => {
->>>>>>> c15c0660379600978360684d599e2ffe69e4b827
+  // const filteredData = data.filter(row =>
+
+  // Object.values(row).some(value =>
+  //   value && value.toString().toLowerCase().includes(search.toLowerCase())
+  // )
+  // );
+
   const customStyles = {
     rows: {
       style: {

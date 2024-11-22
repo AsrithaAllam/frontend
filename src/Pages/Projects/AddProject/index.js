@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Hoc from "../../../components/HOC";
 // import { FaEdit } from "react-icons/fa";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { MdDelete, MdEdit } from "react-icons/md";
-// import ModalComponent from "../../../components/Modal";
-// import { projectValidationSchema } from "../../../components/Helpers";
+import ModalComponent from "../../../components/Modal";
+import { projectValidationSchema } from "../../../components/Helpers";
 import CustomDataTable from "../../../components/CustomDataTable";
 import { useDispatch, useSelector } from "react-redux";
 import {setResetStateProjectsList,requestProjectAction, requestProjectsListAction,setResetStateProject} from "../../../Redux/ProjectState/ProjectActionCreator";
@@ -20,10 +21,7 @@ const AddProject = () => {
   const navigate=useNavigate();
   const projectListState  =  useSelector((state) => state.ProjectsListReducer);
   const addProjectReducer = useSelector((state) => state.ProjectReducer);
-<<<<<<< HEAD
-=======
   const [serch, setSerch] = useState("");
->>>>>>> c15c0660379600978360684d599e2ffe69e4b827
 
 
   const [modalOpen, setModalOpen] = useState({ title: "", isOpen: false });
@@ -126,13 +124,6 @@ const closeModal = () => {
           Add Project
         </button>
       </div>
-<<<<<<< HEAD
-    <CustomDataTable
-        columns={columns}
-        // data={formData}
-        data={projectListState?.projectsResponse || []}
-        onDelete={handleDelete} 
-=======
       <ModalComponent
         show={isModalOpen}
         onClose={handleClose}
@@ -297,7 +288,6 @@ const closeModal = () => {
         search={serch}
         setSearch={setSerch}
         serverPagenation={true}
->>>>>>> c15c0660379600978360684d599e2ffe69e4b827
       />
       
       <AddProjectModal initialValues={initialValues} 
