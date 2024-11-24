@@ -166,8 +166,8 @@ const AddClientModal = ({
                   }`}
                   disabled={isSubmitting}
               >
-                {isSubmitting ? "Submitting..." : "Add"}
-                </button>
+                {title}
+               </button>
             </div>
           </Form>    
            )}

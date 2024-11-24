@@ -58,6 +58,7 @@ const AddProjectModal = ({ onClose, show ,onAddProject ,title, initialValues }) 
                         type="number"
                         name="userId"
                         className="w-full border border-gray-300 rounded-lg p-1"
+                        // disabled={title === "Edit Project"}
                       />
                       <ErrorMessage
                         name="userId"
@@ -90,6 +91,7 @@ const AddProjectModal = ({ onClose, show ,onAddProject ,title, initialValues }) 
                         type="number"
                         name="clientId"
                         className="w-full border border-gray-300 rounded-lg p-1"
+                        // disabled={title === "Edit Project"}
                       />
                       <ErrorMessage
                         name="clientId"
@@ -199,7 +201,7 @@ const AddProjectModal = ({ onClose, show ,onAddProject ,title, initialValues }) 
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-1 rounded-lg"
               >
-                Add Project
+                {title}
               </button>
             </div>
                 </Form>

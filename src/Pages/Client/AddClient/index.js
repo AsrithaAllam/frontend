@@ -115,7 +115,7 @@ const AddClient = () => {
       console.log("updated client",updatedClient);
       dispatch(requestEditClient(updatedClient));
     }
-    
+
   };
 
   const handleDelete = (idToDelete) => {
@@ -140,7 +140,7 @@ const AddClient = () => {
   useEffect(() => {
     if (!addClientReducer?.isLoading && addClientReducer?.isResponse) {
       toast.success("Client added successfully");
-      // dispatch(requestClientsListAction({ page: 0, size: 5, search }));
+      dispatch(requestClientsListAction({ page: 0, size: 5, search }));
       handleClose();
     } else if (!addClientReducer?.isLoading && addClientReducer?.isError) {
       toast.error("Error adding client");
