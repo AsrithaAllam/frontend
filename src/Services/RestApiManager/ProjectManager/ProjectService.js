@@ -55,4 +55,21 @@ export default class ProjectService {
         });
     });
   }
+  projectByIdRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getProjectById(payload),
+          this.request.projectByIdRequest(REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+  
+
 }

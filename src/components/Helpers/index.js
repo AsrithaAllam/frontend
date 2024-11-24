@@ -81,19 +81,7 @@ export const UpdatePasswordSchema = Yup.object().shape({
 export const EditUserSchema  = Yup.object(editUser);
 export const AddUserSchema = Yup.object({...editUser,password: Yup.string().required("Required") });
 
-export const projectValidationSchema = Yup.object({
-  userId: Yup.number().required("User ID is required"),
-  username: Yup.string().required("Username is required"),
-  projectName: Yup.string().required("Project Name is required"),
-  clientId: Yup.string().required("Client is required"),
-  startDate: Yup.date().required("Start Date is required"),
-  endDate: Yup.date()
-    .required("End Date is required")
-    .min(Yup.ref("startDate"), "End date cannot be before start date"),
-  budget: Yup.number().required("Budget is required"),
-  netPay: Yup.number().required("Net Pay is required"),
-});
- 
+
 export const clientValidationSchema = Yup.object({
   name: Yup.string().required('Client Name is required'),
   addressLine1: Yup.string().required('Address is required'),
@@ -144,3 +132,32 @@ export const editvalidationSchema = Yup.object({
   zip: Yup.string().required("Required"),
   reportsTo: Yup.string().required("Required"),
 });
+
+const editClient = {
+  name: Yup.string().required('Client Name is required'),
+  addressLine1: Yup.string().required('Address is required'),
+  addressLine2: Yup.string(),
+  city: Yup.string().required('City is required'),
+  state: Yup.string().required('State is required'),
+  country: Yup.string().required('Country is required'),
+  zip: Yup.string().required('ZIP is required'),
+}
+
+export const EditClientSchema  = Yup.object(editClient);
+export const AddClientSchema = Yup.object(editClient);
+
+export const projectValidationSchema = Yup.object({
+  userId: Yup.number().required("User ID is required"),
+  // username: Yup.string().required("Username is required"),
+  projectName: Yup.string().required("Project Name is required"),
+  clientId: Yup.string().required("Client is required"),
+  startDate: Yup.date().required("Start Date is required"),
+  endDate: Yup.date()
+    .required("End Date is required")
+    .min(Yup.ref("startDate"), "End date cannot be before start date"),
+  budget: Yup.number().required("Budget is required"),
+  netPay: Yup.number().required("Net Pay is required"),
+});
+
+export const EditProjectSchema  = Yup.object(projectValidationSchema);
+export const AddProjectSchema = Yup.object(projectValidationSchema);

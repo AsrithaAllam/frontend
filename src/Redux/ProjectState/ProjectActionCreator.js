@@ -13,6 +13,11 @@ export const PROJECT_ACTION = {
     REQUEST_EDIT_PROJECT:"REQEST_EDIT_PROJECT",
     RESPONSE_EDIT_PROJECT:"RESPONSE_EDIT_PROJECT",
     ERROR_EDIT_PROJECT:"RESET_EDIT_PROJECT",
+
+    RESET_PROJECT_BY_ID_STATE :"RESET_PROJECT_BY_ID_STATE",
+    REQUEST_PROJECT_BY_ID:"REQUEST_PROJECT_BY_ID",
+    RESPONSE_PROJECT_BY_ID:"RESPONSE_PROJECT_BY_ID",
+    ERROR_PROJECT_BY_ID:"ERROR_PROJECT_BY_ID",
   };
 
   export const setResetStateProject = () => ({
@@ -73,4 +78,22 @@ export const PROJECT_ACTION = {
     data: err
   });
 
+  export const setResetStateProjectById = () => ({
+    type: PROJECT_ACTION.RESET_PROJECT_BY_ID_STATE,
+    data: undefined
+  });
+  
+  export const requestProjectById = (params) =>({
+    type:PROJECT_ACTION.REQUEST_PROJECT_BY_ID,
+    data: params
+  })
+  export const responseProjectById = (res) => ({
+    type: PROJECT_ACTION.RESPONSE_PROJECT_BY_ID,
+    data: res
+  });
+  
+  export const errorProjectById = (err) => ({
+    type: PROJECT_ACTION.ERROR_PROJECT_BY_ID,
+    data: err
+  });
   

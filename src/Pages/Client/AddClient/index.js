@@ -1,62 +1,83 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Hoc from "../../../components/HOC";
-import ModalComponent from "../../../components/Modal";
-import { clientValidationSchema } from "../../../components/Helpers";
-import CustomDataTable from "../../../components/CustomDataTable";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setResetStateClientsList, requestClientAction,requestClientsListAction,setResetStateClient } from "../../../Redux/ClientState/ClientActionCreator";
+import {
+  setResetStateClientsList,
+  requestClientAction,
+  requestClientsListAction,
+  setResetStateClient,
+  setResetEditClient,
+  requestEditClient,
+  setResetStateClientById,
+  requestClientById,
+} from "../../../Redux/ClientState/ClientActionCreator";
+import CustomDataTable from "../../../components/CustomDataTable";
+import AddClientModal from "./AddClientModal";
 import Loader from "../../../components/Loader";
+import { MdDelete, MdEdit } from "react-icons/md";
+import Hoc from "../../../components/HOC";
 
 const AddClient = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState({ title: "", isOpen: false });
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const [editData,setEditData]=useState({});
+
+
   const clientsListState = useSelector((state) => state.ClientsListReducer);
   const addClientReducer = useSelector((state) => state.ClientReducer);
-  const [search, setSearch] = useState("");
+  const editClientReducer = useSelector((state) => state.EditClientReducer);
+  const clientByIdReducer = useSelector((state) => state.ClientByIdReducer);
+
+  const initialValues = {
+    name: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    country: "",
+    zip: "",
+  };
 
   const columns = [
     {
-      name: 'Client Name',
-      selector: row => row.name,
+      name: "Client Name",
+      selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: 'Address Line1',
-      selector: row => row.addressLine1,
+      name: "Address Line1",
+      selector: (row) => row.addressLine1,
       sortable: true,
     },
     {
-      name: 'Address Line2',
-      selector: row => row.addressLine2,
+      name: "Address Line2",
+      selector: (row) => row.addressLine2,
       sortable: true,
     },
     {
-      name: 'City',
-      selector: row => row.city,
+      name: "City",
+      selector: (row) => row.city,
       sortable: true,
     },
     {
-      name: 'State',
-      selector: row => row.state,
+      name: "State",
+      selector: (row) => row.state,
       sortable: true,
     },
     {
-      name: 'Country',
-      selector: row => row.country,
+      name: "Country",
+      selector: (row) => row.country,
       sortable: true,
     },
     {
-      name: 'Zip',
-      selector: row => row.zip,
+      name: "Zip",
+      selector: (row) => row.zip,
       sortable: true,
     },
-     
     {
       name: "Actions",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="flex space-x-2">
           <button
             onClick={() => handleEdit(row)}
@@ -65,222 +86,131 @@ const AddClient = () => {
             <MdEdit size={24} />
           </button>
           <button
-            onClick={() => handleDelete(index)}
+            onClick={() => handleDelete(row.id)}
             className="text-red-500 hover:text-red-700"
           >
             <MdDelete size={24} />
           </button>
         </div>
       ),
-    },];
+    },
+  ];
 
-  const handleSubmit = (values, { resetForm }) => {
-    dispatch(requestClientAction(values));
-    dispatch(requestClientsListAction());
-    resetForm(); 
-    setIsModalOpen(false);
+  const handleClose = () => {
+    setIsModalOpen({ title: "", isOpen: false });
+    dispatch(setResetEditClient());
+    dispatch(setResetStateClientById());
   };
 
-  const handleEdit = (row) => {
-    // dispatch(requestUserById(row.id));
-    console.log("handle edit");
+  const handleAddClient = (values) => {
+    if (isModalOpen.title === "Add Client") {
+      dispatch(requestClientAction(values));
+    } else {
+      const updatedClient = {
+        ...editData,
+        ...values,
+        // id:editData.id
+        // id: clientByIdReducer?.byIdResponse?.id, 
+      };
+      console.log("updated client",updatedClient);
+      dispatch(requestEditClient(updatedClient));
+    }
+    
   };
 
   const handleDelete = (idToDelete) => {
-    console.log(idToDelete);
+    console.log(`Delete client with ID: ${idToDelete}`);
+    };
+
+  const handleEdit = (row) => {
+    // dispatch(requestClientById(row.id)); // Fetch client data by ID
+    setEditData({name:row.name,id:row.id});
+    setIsModalOpen({ title: "Edit Client", isOpen: true });
   };
 
-  const handlePageChange = (page)=>{
-    dispatch(requestClientsListAction({page: page, size: 5, search: search}));
-  }
+  const handlePageChange = (page) => {
+    dispatch(requestClientsListAction({ page: page - 1, size: 5, search }));
+  };
 
-  const handleRowsChange = (size)=>{
-    dispatch(requestClientsListAction({page: 0, size: size, search: ""}));
+  const handleRowsChange = (size) => {
+    dispatch(requestClientsListAction({ page: 0, size, search: "" }));
     setSearch("");
-  }
-
-
-  const handleClose = () => {
-    setIsModalOpen(false);
   };
 
   useEffect(() => {
-    dispatch(setResetStateClientsList());
-    dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
-    dispatch(setResetStateClient());
-  }, []);
+    if (!addClientReducer?.isLoading && addClientReducer?.isResponse) {
+      toast.success("Client added successfully");
+      // dispatch(requestClientsListAction({ page: 0, size: 5, search }));
+      handleClose();
+    } else if (!addClientReducer?.isLoading && addClientReducer?.isError) {
+      toast.error("Error adding client");
+    }
+  }, [addClientReducer]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(requestClientsListAction({ page: 0, size: clientsListState?.size, search: search }));
-    }, 500);
-    return () => clearTimeout(timeoutId);
-  }, [search]);
-  
+    if (!clientByIdReducer?.byIdLoading && clientByIdReducer?.byIdResponse) {
+      console.log("Fetched Client Data:", clientByIdReducer.byIdResponse);
+      setIsModalOpen({ title: "Edit Client", isOpen: true });
+    }
+  }, [clientByIdReducer]);
+
+  useEffect(() => {
+    if (!editClientReducer?.Loading && editClientReducer?.Response) {
+      toast.success("Client updated successfully");
+      dispatch(requestClientsListAction({ page: 0, size: 5, search }));
+      handleClose();
+    } else if (!editClientReducer?.Loading && editClientReducer?.Error) {
+      toast.error("Error updating client");
+    }
+  }, [editClientReducer]);
+
+  useEffect(() => {
+    dispatch(requestClientsListAction({ page: 0, size: 5, search: "" }));
+    dispatch(setResetStateClientsList());
+    dispatch(setResetStateClient());
+    dispatch(setResetStateClientById());
+    dispatch(setResetEditClient());
+  }, [dispatch]);
+
   return (
     <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
-      <Loader isLoading={clientsListState?.loading} />
-      <ModalComponent
-        show={isModalOpen}
-        onClose={handleClose}
-        title={"Add Client"}
-      >
-        <Formik
-          initialValues={{
-            name: "",
-            addressLine1: "",
-            addressLine2: "",
-            city: "",
-            state: "",
-            country: "",
-            zip: "",
-          }}
-          validationSchema={clientValidationSchema} // Fixing the validation schema prop name
-          onSubmit={handleSubmit}
-        >
-          {/* <Form className="grid grid-cols-2 gap-4 h-[52vh] "> */}
-          <Form className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[70vh] overflow-y-scroll no-scrollbar">
-            <div>
-              <label className=" text-sm font-sm" htmlFor="clientName">
-                Client Name
-              </label>
-              <Field
-                name="name"
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
-            <div>
-              <label className=" text-sm font-sm" htmlFor="addressLine1">
-                Address
-              </label>
-              <Field
-                name="addressLine1"
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-              <ErrorMessage
-                name="addressLine1"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
-            <div>
-              <label className=" text-sm font-sm" htmlFor="addressLine2">
-                Address Line 2
-              </label>
-              <Field
-                name="addressLine2"
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className=" text-sm font-sm" htmlFor="city">
-                City
-              </label>
-              <Field
-                name="city"
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-              <ErrorMessage
-                name="city"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
-            <div>
-              <label className=" text-sm font-sm" htmlFor="state">
-                State
-              </label>
-              <Field
-                name="state"
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-              <ErrorMessage
-                name="state"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
-            <div>
-              <label className=" text-sm font-sm" htmlFor="country">
-                Country
-              </label>
-              <Field
-                as="select"
-                name="country"
-                className="w-full border border-gray-300 p-2 rounded"
-              >
-                <option value="">Select Country</option>
-                <option value="USA">USA</option>
-                <option value="Canada">Canada</option>
-                <option value="India">India</option>
-                <option value="UK">UK</option>
-              </Field>
-              <ErrorMessage
-                name="country"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
-            <div>
-              <label className=" text-sm font-sm" htmlFor="zip">
-                Zip
-              </label>
-              <Field
-                name="zip"
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-              <ErrorMessage
-                name="zip"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
-
-            <div className="col-span-2 flex justify-end mt-4">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-1 rounded-lg"
-              >
-                Add Client
-              </button>
-            </div>
-          </Form>
-        </Formik>
-      </ModalComponent>
-      
-      {/* <div className="flex justify-end items-center mb-4"> */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl px-5 text-blue-900">Client Trak</h2>
+      <ToastContainer />
+      <Loader
+        isLoading={
+          clientsListState?.loading ||
+          clientByIdReducer?.byIdLoading ||
+          editClientReducer?.Loading ||
+          addClientReducer?.isLoading
+        }
+      />
+      <div className="absolute flex mb-4 right-6">
         <button
-          type="submit"
-          onClick={()=>setIsModalOpen(true)}
-          className="bg-blue-500 text-white py-1 px-4 rounded"
+          onClick={() => setIsModalOpen({ title: "Add Client", isOpen: true })}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
-          Add client
+          <span className="text-xl font-extrabold">+</span>
         </button>
       </div>
+
       <CustomDataTable
         columns={columns}
-        data={clientsListState?.response?.content}
-        onDelete={handleDelete} 
-        enableSearch={false}
-        search={search}
-        setSearch={setSearch}
+        data={clientsListState?.response?.content || []}
         serverPagenation
-        paginationTotalRows={clientsListState?.response?.totalElements}
+        paginationTotalRows={clientsListState?.response?.totalElements || 0}
         handleChangePage={handlePageChange}
         handleRowsChange={handleRowsChange}
+      />
+
+      <AddClientModal
+        initialValues={
+          isModalOpen.title === "Add Client"
+            ? initialValues
+            : editData
+        }
+        show={isModalOpen.isOpen}
+        onClose={handleClose}
+        title={isModalOpen.title}
+        onAddClient={handleAddClient}
       />
     </div>
   );

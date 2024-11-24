@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import  { ForgotPasswordReducer, LoginReducer, ResetPasswordReducer, UpdatePasswordReducer } from "../LoginState/LoginReducer";
 import { EditUserReducer, UserByIdReducer, UserReducer, UsersListReducer } from "../UserState/UserReducer";
-import { ClientReducer, ClientsListReducer} from "../ClientState/ClientReducer";
-import {EditProjectReducer, ProjectReducer,ProjectsListReducer} from "../ProjectState/ProjectReducer"
+import { ClientReducer, ClientsListReducer,EditClientReducer,ClientByIdReducer} from "../ClientState/ClientReducer";
+import {EditProjectReducer, ProjectReducer,ProjectsListReducer,ProjectByIdReducer} from "../ProjectState/ProjectReducer"
 const rootReducer = combineReducers({
     LoginReducer,
     ForgotPasswordReducer,
@@ -14,9 +14,12 @@ const rootReducer = combineReducers({
     EditUserReducer,
     ClientReducer,
     ClientsListReducer,
+    EditClientReducer,
+    ClientByIdReducer,
     ProjectReducer,
     ProjectsListReducer,
     EditProjectReducer,
+    ProjectByIdReducer,
 });
 const rootR = (state, action) => rootReducer(state, action);
 export default rootR;
