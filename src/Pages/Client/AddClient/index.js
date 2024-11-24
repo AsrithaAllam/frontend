@@ -137,7 +137,7 @@ const AddClient = () => {
     setSearch("");
   };
 
-  useEffect(() => {
+   useEffect(() => {
     if (!addClientReducer?.isLoading && addClientReducer?.isResponse) {
       toast.success("Client added successfully");
       dispatch(requestClientsListAction({ page: 0, size: 5, search:""}));
