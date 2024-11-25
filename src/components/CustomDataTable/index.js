@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import DataTable from "react-data-table-component";
-import { FaSearch } from "react-icons/fa"; // Import search icon
+import { FaSearch } from "react-icons/fa";
 
-const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch, serverPagenation=false, paginationTotalRows, handleChangePage, handleRowsChange }) => {
+const CustomDataTable = ({
+  columns,
+  data = [],
+  enableSearch = false,
+  search,
+  setSearch,
+  serverPagenation = false,
+  paginationTotalRows,
+  handleChangePage,
+  handleRowsChange,
+}) => {
   const customStyles = {
     rows: {
       style: {
@@ -14,6 +24,9 @@ const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch,
         fontSize: "0.8rem",
         backgroundColor: "black",
         color: "white",
+        position: "sticky",
+        top: 0,
+        zIndex: 0,
       },
     },
     cells: {
@@ -29,43 +42,28 @@ const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch,
   };
 
   const handlePageChange = (page) => {
-    handleChangePage(page-1);
+    handleChangePage(page - 1);
   };
 
   const handleRowsPerPage = (rowsPerPage) => {
     handleRowsChange(rowsPerPage);
   };
 
-  // useEffect(() => {
-  //   if (search) {
-  //     const filtered = data.filter(
-  //       (row) =>
-  //         (row.firstName &&
-  //           row.firstName.toLowerCase().includes(search.toLowerCase())) ||
-  //         (row.lastName &&
-  //           row.lastName.toLowerCase().includes(search.toLowerCase()))
-  //     );
-  //     setFilteredData(filtered);
-  //   } else {
-  //     setFilteredData(data);
-  //   }
-  // }, [search, data]);
-
   return (
-    <div >
-      <div className=" flex items-center float-left h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
+    <div className="relative flex flex-col">
+      <div className="flex items-center float-left h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
         <input
-          className=" w-full h-full text-sm p-1 border-none outline-none rounded-full focus:ring-0"
+          className="w-full h-full text-sm p-1 border-none outline-none rounded-full focus:ring-0"
           placeholder="Search by name"
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-         <FaSearch className=" text-gray-500 " />
+        <FaSearch className="text-gray-500" />
       </div>
         <DataTable
           columns={columns}
-          data={data || []}
+          data={data}
           pagination
           paginationServer={serverPagenation}
           striped
@@ -74,10 +72,17 @@ const CustomDataTable = ({ columns, data, enableSearch=false, search, setSearch,
           paginationTotalRows={paginationTotalRows}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPage}
-          paginationRowsPerPageOptions={[5, 10, 15, 20]}
+          paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30, 35]}
+          fixedHeader fixedHeaderScrollHeight=
+          '74vh'
         />
-    </div>
+         
+      </div>
   );
+};
+
+CustomDataTable.defaultProps = {
+  data: [],
 };
 
 export default CustomDataTable;
