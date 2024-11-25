@@ -130,12 +130,12 @@ const AddClient = () => {
     setIsModalOpen({ title: "Edit Client", isOpen: true });
   };
 
-  const handlePageChange = (page) => {
-    dispatch(requestClientsListAction({ page: page, size: 5, search: search}));
-  };
-
-  const handleRowsChange = (size) => {
-    dispatch(requestClientsListAction({ page: 0, size:size, search: "" }));
+  const handlePageChange = (page)=>{
+    dispatch(requestClientsListAction({page: page, size:clientsListState?.size, search: search}));
+  }
+ 
+  const handleRowsChange = (size)=>{
+    dispatch(requestClientsListAction({page: 0, size: size, search: ""}));
     setSearch("");
   };
 
