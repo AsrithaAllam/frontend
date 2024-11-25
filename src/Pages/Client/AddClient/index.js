@@ -129,11 +129,11 @@ const AddClient = () => {
   };
 
   const handlePageChange = (page) => {
-    dispatch(requestClientsListAction({ page: page - 1, size: 5, search }));
+    dispatch(requestClientsListAction({ page: page, size: 5, search: search}));
   };
 
   const handleRowsChange = (size) => {
-    dispatch(requestClientsListAction({ page: 0, size, search: "" }));
+    dispatch(requestClientsListAction({ page: 0, size:size, search: "" }));
     setSearch("");
   };
 
@@ -166,12 +166,20 @@ const AddClient = () => {
   }, [editClientReducer]);
 
   useEffect(() => {
-    dispatch(requestClientsListAction({ page: 0, size: 5, search: "" }));
+    // dispatch(requestClientsListAction({ page: 0, size: 5, search: "" }));
+    dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
     dispatch(setResetStateClientsList());
     dispatch(setResetStateClient());
     dispatch(setResetStateClientById());
     dispatch(setResetEditClient());
   }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(requestClientsListAction({ page: 0, size: clientsListState?.size, search: search }));
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [search]);
 
   return (
     <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
@@ -195,9 +203,13 @@ const AddClient = () => {
 
       <CustomDataTable
         columns={columns}
-        data={clientsListState?.response?.content || []}
+        data={clientsListState?.response?.content}
+        onDelete={handleDelete}
         serverPagenation
-        paginationTotalRows={clientsListState?.response?.totalElements || 0}
+        search={search}
+        setSearch={setSearch}
+        enableSearch={false}
+        paginationTotalRows={clientsListState?.response?.totalElements}
         handleChangePage={handlePageChange}
         handleRowsChange={handleRowsChange}
       />

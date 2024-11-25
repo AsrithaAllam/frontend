@@ -73,7 +73,7 @@ export function defaultProjectState() {
       Loading: false,
       Response: null,
       Error: null,
-    };
+      };
 
   }
    export const EditProjectReducer = (state, action) => {
