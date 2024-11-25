@@ -39,9 +39,11 @@ export function defaultProjectState() {
 
   export function defaultProjectsListState() {
     return {
-      usersLoading: false,
-      usersResponse: null,
-      usersError: null,
+      projectsLoading: false,
+      projectsResponse: null,
+      projectsError: null,
+      page: 0,
+      size: 10
     };
   }
 
@@ -54,7 +56,7 @@ export function defaultProjectState() {
     }
   
     if (action.type === ProjectActionCreator.PROJECT_ACTION.REQUEST_PROJECTS_LIST) {
-      return { ...state, projectsLoading: true };
+      return { ...state, projectsLoading: true, page: action.data.page, size: action.data.size };
     }
   
     if (action.type === ProjectActionCreator.PROJECT_ACTION.RESPONSE_PROJECTS_LIST) {
@@ -62,7 +64,7 @@ export function defaultProjectState() {
     }
   
     if (action.type === ProjectActionCreator.PROJECT_ACTION.ERROR_PROJECTS_LIST) {
-      return { ...state, projectsError: action.data, projectsLoading: false };
+      return { ...state, projectsError: action.data, projectsLoading: false, projectsResponse: null,page: 0, size: 10  };
     }
   
     return state; 

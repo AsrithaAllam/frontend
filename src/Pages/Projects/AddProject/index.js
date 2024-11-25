@@ -110,11 +110,11 @@ const initialValues ={
    };
 
    const handlePageChange = (page) => {
-    dispatch(requestProjectsListAction({ page: page - 1, size: 5, search }));
+    dispatch(requestProjectsListAction({ page: page, size: 5, search:search }));
   };
 
   const handleRowsChange = (size) => {
-    dispatch(requestProjectsListAction({ page: 0, size, search: "" }));
+    dispatch(requestProjectsListAction({ page: 0, size:size , search: "" }));
     setSearch("");
   };
   useEffect(()=>{
@@ -124,26 +124,28 @@ const initialValues ={
   dispatch(setResetStateProject());
   dispatch(setResetStateProjectById());
   dispatch(setResetEditProject());
-  },[dispatch])
+  },[])
 
   useEffect(() => {
     if (!addProjectReducer?.isLoading && addProjectReducer?.isResponse) {
       toast.success("Project added successfully");
+      dispatch(requestProjectsListAction({ page: projectListState?.page, size: projectListState?.size }));
       handleClose();
     } else if (!addProjectReducer?.isLoading && addProjectReducer?.isError) {
       toast.error("Error adding project");
     }
-  }, [addProjectReducer]);
+   }, [addProjectReducer]);
 
   useEffect(() => {
     if (!editProjectReducer?.Loading && editProjectReducer?.Response) {
       toast.success("Project updated successfully");
+      dispatch(requestProjectsListAction({ page: projectListState?.page, size: projectListState?.size }));
       // dispatch(requestProjectsListAction({ page: 0, size: 5, search }));
       handleClose();
     } else if (!editProjectReducer?.Loading && editProjectReducer?.Error) {
       toast.error("Error updating project");
     }
-  }, [editProjectReducer]);
+   }, [editProjectReducer]);
 
   const handleClick = () => {
     setIsModalOpen({ title: "Add Project", isOpen: true });
@@ -155,7 +157,7 @@ console.log(projectListState?.projectsResponse?.content,"project list");
       <ToastContainer />
       <Loader
         isLoading={
-          projectListState?.loading ||
+          projectListState?.projectsLoading ||
           projectByIdReducer?.byIdLoading ||
           editProjectReducer?.Loading ||
           addProjectReducer?.isLoading
@@ -172,11 +174,12 @@ console.log(projectListState?.projectsResponse?.content,"project list");
             
       <CustomDataTable
         columns={columns}
-        // data={[]}
         data={projectListState?.projectsResponse?.content}
         search={search}
+        onDelete={handleDelete}
         setSearch={setSearch}
         serverPagenation
+        enableSearch={false}
         paginationTotalRows={projectListState?.projectsResponse?.totalElements}
         handleChangePage={handlePageChange}
         handleRowsChange={handleRowsChange}

@@ -124,7 +124,9 @@ const AddClient = () => {
 
   const handleEdit = (row) => {
     // dispatch(requestClientById(row.id)); // Fetch client data by ID
-    setEditData({name:row.name,id:row.id});
+    // setEditData({name:row.name,id:row.id});
+    setEditData({...row, name:row.name,id:row.id,                 
+    });
     setIsModalOpen({ title: "Edit Client", isOpen: true });
   };
 
@@ -140,39 +142,51 @@ const AddClient = () => {
    useEffect(() => {
     if (!addClientReducer?.isLoading && addClientReducer?.isResponse) {
       toast.success("Client added successfully");
-      dispatch(requestClientsListAction({ page: 0, size: 5, search:""}));
+      dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
       setSearch("");
       handleClose();
+      dispatch(setResetStateClient()); // Reset the reducer state after processing
     } else if (!addClientReducer?.isLoading && addClientReducer?.isError) {
       toast.error("Error adding client");
+      dispatch(setResetStateClient());
     }
   }, [addClientReducer]);
-
+  
   useEffect(() => {
     if (!clientByIdReducer?.byIdLoading && clientByIdReducer?.byIdResponse) {
       console.log("Fetched Client Data:", clientByIdReducer.byIdResponse);
       setIsModalOpen({ title: "Edit Client", isOpen: true });
+      dispatch(setResetStateClientById()); // Reset state after processing
     }
   }, [clientByIdReducer]);
-
+  
   useEffect(() => {
     if (!editClientReducer?.Loading && editClientReducer?.Response) {
       toast.success("Client updated successfully");
-      dispatch(requestClientsListAction({ page: 0, size: 5, search }));
+      dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
       handleClose();
+      // dispatch(setResetEditClient()); // Reset state after successful update
     } else if (!editClientReducer?.Loading && editClientReducer?.Error) {
       toast.error("Error updating client");
+      dispatch(setResetEditClient());
     }
   }, [editClientReducer]);
-
+  
   useEffect(() => {
-    // dispatch(requestClientsListAction({ page: 0, size: 5, search: "" }));
     dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
     dispatch(setResetStateClientsList());
     dispatch(setResetStateClient());
     dispatch(setResetStateClientById());
     dispatch(setResetEditClient());
   }, []);
+  
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(requestClientsListAction({ page: 0, size: clientsListState?.size, search: search }));
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [search]);
+  
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
