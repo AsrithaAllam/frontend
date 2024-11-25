@@ -97,7 +97,7 @@ const AddClient = () => {
   };
 
   const handlePageChange = (page)=>{
-    dispatch(requestClientsListAction({page: page, size: 5, search: search}));
+    dispatch(requestClientsListAction({page: page, size:clientsListState?.size, search: search}));
   }
 
   const handleRowsChange = (size)=>{
