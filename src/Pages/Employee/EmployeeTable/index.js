@@ -137,7 +137,7 @@ const EmployeeTable = () => {
     setModalOpen({ title: "Add Employee", isOpen: true });
   };
   const handlePageChange = (page)=>{
-    dispatch(requestUsersListAction({page: page, size: 5, search: search}));
+    dispatch(requestUsersListAction({page: page, size: usersListState.size, search: search}));
   }
   const handleRowsChange = (size)=>{
     dispatch(requestUsersListAction({page: 0, size: size, search: ""}));
