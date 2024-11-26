@@ -10,7 +10,7 @@ export function* clientRequest(action) {
       yield put(errorClientAction(error));
     }
   }
-
+ 
  
   export function* clientsListRequest(action) {
     try {

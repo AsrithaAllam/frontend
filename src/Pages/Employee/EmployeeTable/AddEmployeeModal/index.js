@@ -98,7 +98,7 @@ const AddEmployeeModal = ({
                 <div className="text-red-500 text-sm">{errors.password}</div>
               )}
             </div>
-
+ 
             <div>
               <label className=" text-gray-700 text-sm">First Name</label>
               <Field

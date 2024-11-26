@@ -134,8 +134,10 @@ const EmployeeTable = () => {
   };
 
   const handleClick = () => {
+
     setModalOpen({ title: "Add Employee", isOpen: true });
   };
+  
   const handlePageChange = (page)=>{
     dispatch(requestUsersListAction({page: page, size: usersListState.size, search: search}));
   }
@@ -184,12 +186,12 @@ const EmployeeTable = () => {
         }
       />
 
-      <div className="absolute flex  mb-4 right-6">
+      <div className="absolute flex  mb-4 z-10 right-6">
         <button
           onClick={handleClick}
-          className="flex items-center float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
+          className="flex items-center cursor-pointer float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
-          <span className="text-xl font-extrabold">+</span>
+          <span className="text-xl cursor-pointer font-extrabold">+</span>
         </button>
       </div>
 

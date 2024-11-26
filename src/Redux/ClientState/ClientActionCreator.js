@@ -8,7 +8,7 @@ export const CLIENT_ACTION = {
     REQUEST_CLIENTS_LIST:"REQUEST_CLIENTS_LIST",
     RESPONSE_CLIENTS_LIST:"RESPONSE_CLIENTS_LIST",
     ERROR_CLIENTS_LIST:"ERROR_CLIENTS_LIST",
-
+ 
   };
 
   export const setResetStateClient = () => ({

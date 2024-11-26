@@ -22,7 +22,7 @@ export default class ClientService {
         .catch((error) => {
           reject(error);
         });
-    });
+    }); 
   }
 
   clientsListRequest = (payload) => {

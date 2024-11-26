@@ -59,5 +59,8 @@ export class ApiUrl {
     static editProject =()=>{
       return BASE_URL +""
     }
+    static uploadFile =() =>{
+      return BASE_URL +'file'
+    }
 
   }

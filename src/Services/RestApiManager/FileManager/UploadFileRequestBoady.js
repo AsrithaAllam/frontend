@@ -3,8 +3,9 @@ import LOCAL_KEYS, { parseLocalStorageJSON } from "../../../helpers/Localstorage
 import { RequestBody } from "../../WebServiceManager/RequestBody";
 import { RequestHeader } from "../../WebServiceManager/RequestHeader";
 
-export default class ClientRequestBody {
-    clientRequest(obj, method) {
+
+export default class UploadFileRequestBody {
+    fileRequest(obj, method) {
     const header = new RequestHeader();
     const request = new RequestBody(
       method,
@@ -14,7 +15,7 @@ export default class ClientRequestBody {
     return request; 
   }
  
-  clientsListRequest(method) {
+  uploadFileRequest(method) {
     const header = new RequestHeader();
     const request = new RequestBody(
       method,

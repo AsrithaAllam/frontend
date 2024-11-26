@@ -3,6 +3,8 @@ import  { ForgotPasswordReducer, LoginReducer, ResetPasswordReducer, UpdatePassw
 import { EditUserReducer, UserByIdReducer, UserReducer, UsersListReducer } from "../UserState/UserReducer";
 import { ClientReducer, ClientsListReducer} from "../ClientState/ClientReducer";
 import {EditProjectReducer, ProjectReducer,ProjectsListReducer} from "../ProjectState/ProjectReducer"
+import {UploadFileReducer} from "../FileState/uploadFileReducer";
+
 const rootReducer = combineReducers({
     LoginReducer,
     ForgotPasswordReducer,
@@ -17,6 +19,7 @@ const rootReducer = combineReducers({
     ProjectReducer,
     ProjectsListReducer,
     EditProjectReducer,
+    UploadFileReducer,
 });
 const rootR = (state, action) => rootReducer(state, action);
 export default rootR;

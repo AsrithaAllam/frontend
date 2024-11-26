@@ -53,7 +53,7 @@ export function defaultClientState() {
       action.type === ClientActionCreator.CLIENT_ACTION.RESET_CLIENTS_LIST_STATE
     ) {
       return { ...state, ...defaultClientsListState() };
-    }
+    } 
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.REQUEST_CLIENTS_LIST) {
       return { ...state, loading: true, page: action.data.page, size: action.data.size };
