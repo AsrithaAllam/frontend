@@ -1,34 +1,32 @@
 import React, { useState } from "react";
 import { HiDownload, HiTrash } from "react-icons/hi";
+import { useFormik } from "formik";
+import { documentValidationSchema } from "../../../components/Helpers"; 
 import Hoc from "../../../components/HOC";
 
 const Documents = () => {
-  const [selectedDocumentType, setSelectedDocumentType] = useState("Passport");
-  const [startDate, setStartDate] = useState("");
-  const [issueDate, setIssueDate] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [referenceId, setReferenceId] = useState("");
-  const [statusCode, setStatusCode] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [isUpdated, setIsUpdated] = useState(false);
   const [savedFiles, setSavedFiles] = useState([
     { name: "Passport1", type: "Passport", expiryDate: "2025-12-31" },
     { name: "Visa", type: "Visa", expiryDate: "2023-11-15" },
     { name: "EAD1", type: "EAD", expiryDate: null },
   ]);
 
-  const documentTypes = [
-    { name: "Passport" },
-    { name: "Visa" },
-    { name: "I-20" },
-    { name: "EAD" },
-  ];
-
-  const statusCodes = ["Active(A)", "Deactive(D)", "Closed(C)"];
-
-  const handleDocumentTypeChange = (e) => {
-    setSelectedDocumentType(e.target.value);
-  };
+  const formik = useFormik({
+    initialValues: {
+      documentType: "Passport",
+      startDate: "",
+      issueDate: "",
+      expiryDate: "",
+      referenceId: "",
+      statusCode: "",
+    },
+    validationSchema: documentValidationSchema, // Apply schema
+    onSubmit: (values) => {
+      console.log("Form Submitted", values);
+      console.log("Uploaded Files", uploadedFiles);
+    },
+  });
 
   const handleFileChange = (e) => {
     const filesArray = Array.from(e.target.files);
@@ -39,20 +37,6 @@ const Documents = () => {
     setUploadedFiles((prevFiles) =>
       prevFiles.filter((file) => file.name !== fileName)
     );
-  };
-
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    setIsUpdated(true);
-    console.log({
-      selectedDocumentType,
-      startDate,
-      issueDate,
-      expiryDate,
-      referenceId,
-      statusCode,
-      uploadedFiles,
-    });
   };
 
   return (
@@ -88,7 +72,7 @@ const Documents = () => {
         <h3 className="font-semibold text-lg mb-2 text-gray-800">Documents</h3>
         <form
           className="flex flex-col space-y-4"
-          onSubmit={handleUpdate}
+          onSubmit={formik.handleSubmit}
         >
           {uploadedFiles.length > 0 && (
             <div className="mb-4">
@@ -114,48 +98,60 @@ const Documents = () => {
             </div>
           )}
 
-          {/* For larger screens - side by side. For medium/small screens - one by one */}
+          {/* Form Fields */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
               <label className="block text-gray-700">Document Type</label>
               <select
                 id="documentType"
-                value={selectedDocumentType}
-                onChange={handleDocumentTypeChange}
+                name="documentType"
+                value={formik.values.documentType}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {documentTypes.map((docType, index) => (
-                  <option key={index} value={docType.name}>
-                    {docType.name}
+                <option value="">Select Document Type</option>
+                {["Passport", "Visa", "I-20", "EAD"].map((docType, index) => (
+                  <option key={index} value={docType}>
+                    {docType}
                   </option>
                 ))}
               </select>
+              {formik.touched.documentType && formik.errors.documentType ? (
+                <p className="text-red-500 text-sm">{formik.errors.documentType}</p>
+              ) : null}
             </div>
-
             <div className="w-full">
               <label htmlFor="startDate" className="block text-gray-700">
                 Start Date
               </label>
               <input
                 id="startDate"
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                type="Date"
+                value={formik.values.startDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              {formik.touched.startDate && formik.errors.startDate ? (
+                <p className="text-red-500 text-sm">{formik.errors.startDate}</p>
+              ) : null}
             </div>
-
             <div className="w-full">
               <label htmlFor="issueDate" className="block text-gray-700">
                 Issue Date
               </label>
               <input
                 id="issueDate"
-                type="date"
-                value={issueDate}
-                onChange={(e) => setIssueDate(e.target.value)}
+                type="Date"
+                value={formik.values.issueDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              {formik.touched.issueDate && formik.errors.issueDate ? (
+                <p className="text-red-500 text-sm">{formik.errors.issueDate}</p>
+              ) : null}
             </div>
 
             <div className="w-full">
@@ -165,10 +161,14 @@ const Documents = () => {
               <input
                 id="expiryDate"
                 type="date"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
+                value={formik.values.expiryDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              {formik.touched.expiryDate && formik.errors.expiryDate ? (
+                <p className="text-red-500 text-sm">{formik.errors.expiryDate}</p>
+              ) : null}
             </div>
 
             <div className="w-full">
@@ -178,27 +178,36 @@ const Documents = () => {
               <input
                 id="referenceId"
                 type="text"
-                value={referenceId}
-                onChange={(e) => setReferenceId(e.target.value)}
+                value={formik.values.referenceId}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              {formik.touched.referenceId && formik.errors.referenceId ? (
+                <p className="text-red-500 text-sm">{formik.errors.referenceId}</p>
+              ) : null}
             </div>
 
             <div className="w-full">
-              <label className="block text-gray-700 mb-2">Status Code</label>
+              <label className="block text-gray-700">status Code</label>
               <select
                 id="statusCode"
-                value={statusCode}
-                onChange={(e) => setStatusCode(e.target.value)}
+                name="statusCode"
+                value={formik.values.statusCode}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">Select Status Code</option>
-                {statusCodes.map((code, index) => (
-                  <option key={index} value={code}>
-                    {code}
+                <option value="">Select  Status Code</option>
+                {["Passport", "Visa", "I-20", "EAD"].map((stsCd, index) => (
+                  <option key={index} value={stsCd}>
+                    {stsCd}
                   </option>
                 ))}
               </select>
+              {formik.touched.statusCode && formik.errors.statusCode ? (
+                <p className="text-red-500 text-sm">{formik.errors.statusCode}</p>
+              ) : null}
             </div>
 
             <div className="w-full">
@@ -210,16 +219,14 @@ const Documents = () => {
                 onChange={handleFileChange}
                 className="w-full shadow border rounded py-1 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              {formik.touched.documents && formik.errors.documents ? (
+                <p className="text-red-500 text-sm">{formik.errors.documents}</p>
+              ) : null}
             </div>
+
           </div>
 
           <div className="w-full flex justify-end space-x-4">
-            {/* <button
-              type="button"
-              className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-1 px-6 rounded"
-            >
-              Cancel
-            </button> */}
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 text-white font-sm py-1 px-2 rounded"

@@ -53,6 +53,11 @@ const EmployeeTable = () => {
       sortable: true,
     },
     {
+      name: "User Name",
+      selector: (row) => row.userName,
+      sortable: true,
+    },
+    {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,

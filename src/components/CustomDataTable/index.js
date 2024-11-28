@@ -50,7 +50,7 @@ const CustomDataTable = ({
   };
 
   return (
-    <div className="relative flex flex-col">
+    <div className="relative flex flex-col ">
       <div className="flex items-center float-left h-10 px-4 py-2 m-2 border-2 border-black rounded-full w-80">
         <input
           className="w-full h-full text-sm p-1 border-none outline-none rounded-full focus:ring-0"
@@ -73,8 +73,7 @@ const CustomDataTable = ({
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPage}
           paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30, 35]}
-          fixedHeader fixedHeaderScrollHeight=
-          '74vh'
+          fixedHeader fixedHeaderScrollHeight='74vh'
         />
          
       </div>

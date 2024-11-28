@@ -144,3 +144,55 @@ export const editvalidationSchema = Yup.object({
   zip: Yup.string().required("Required"),
   reportsTo: Yup.string().required("Required"),
 });
+
+
+export const documentValidationSchema = Yup.object({
+  documentType: Yup.string()
+    .oneOf(["Passport", "Visa", "I-20", "EAD"], "Invalid document type")
+    .required("Document type is required"),
+  startDate: Yup.date()
+    .nullable()
+    .required("Start date is required"),
+  issueDate: Yup.date()
+    .nullable()
+    .required("Issue date is required")
+    .max(
+      new Date(),
+      "Issue date cannot be in the future"
+    ),
+  expiryDate: Yup.date()
+    .nullable()
+    .min(
+      Yup.ref("issueDate"),
+      "Expiry date cannot be before the issue date"
+    )
+    .required("Expiry date is required"),
+  referenceId: Yup.string()
+    .matches(/^[a-zA-Z0-9_-]+$/, "Reference ID can only contain letters, numbers, hyphens, and underscores")
+    .required("Reference ID is required"),
+  statusCode: Yup.string()
+    .oneOf(["Active(A)", "Deactive(D)", "Closed(C)"], "Invalid status code")
+    .required("Status code is required"),
+});
+
+
+
+export const timeSheetValidationSchema = Yup.object({
+  project: Yup.string().required("Project is required"),
+  location: Yup.string().required("Work location is required"),
+  fromDate: Yup.date().required("From date is required"),
+  toDate: Yup.date()
+    .required("To date is required")
+    .min(Yup.ref("fromDate"), "To date cannot be before From date"),
+  totalHours: Yup.number()
+    .required("Total hours are required")
+    .positive("Total hours must be greater than 0"),
+  holidayList: Yup.array().of(
+    Yup.object({
+      date: Yup.date().required("Holiday date is required"),
+      note: Yup.string().required("Note is required"),
+    })
+  ),
+});
+
+
