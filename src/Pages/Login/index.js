@@ -17,7 +17,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [dynamicImage, setDynamicImage] = useState("");
-  const [enableReset, setEnableReset] = useState(false)
   const { loginResponse, isLoading } = useSelector(
     (state) => state.LoginReducer
   );
@@ -32,9 +31,10 @@ const Login = () => {
         // dispatch(setResetStateLogin());
         // navigate("/"); 
       } else {
-        setEnableReset(true)
-        console.log(loginResponse,"hi")
-        toast.error("Invalid credentials");
+        if(loginResponse.message){
+          toast.error("Your password is expired please reset your password");
+        }
+        // toast.error("Invalid credentials");
         dispatch(setResetStateLogin());
       }
     }
@@ -50,7 +50,7 @@ const Login = () => {
       <div className="absolute top-0 left-0 p-8 ">
         <img src={datacloud} alt="Logo" className="h-20 w-30" />
       </div>
-      {!enableReset ? <LoginForm />: <div><button>Please reset your password</button></div>}
+       <LoginForm />
       <img className="w-1/2 " src={dynamicImage || time} alt="Background" />
     </div>
   );

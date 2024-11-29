@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 function LoginForm() {
   const [isOpen, setIsOpen] = useState(false);
+  const [resetPassword, setResetPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const  LoginReducerState = useSelector(state=>state.LoginReducer) 
@@ -22,16 +23,24 @@ function LoginForm() {
   };
 
   useEffect(()=>{
-    if(LoginReducerState.loginResponse && !LoginReducerState.isLoading){
+    if(LoginReducerState.loginResponse?.userDetails && !LoginReducerState.isLoading){
       toast.success("Login successful");
       navigate("/", { replace: true });
       dispatch(setResetStateLogin());
     }
+
+    if(LoginReducerState.loginResponse?.message && !LoginReducerState.isLoading){
+      setResetPassword(true);
+    }
+
   },[LoginReducerState])
 
   return (
     <div>
       <ToastContainer />
+      {
+        !resetPassword ?
+      
       <Formik
         initialValues={{
           userName: "",
@@ -103,6 +112,8 @@ function LoginForm() {
           </Form>
         )}
       </Formik>
+      : <p><Link className="text-blue-400" to="/forgotpassword">click hear</Link> to reset your password </p>
+}
     </div>
   );
 }
