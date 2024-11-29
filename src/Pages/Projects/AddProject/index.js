@@ -163,7 +163,7 @@ console.log(projectListState?.projectsResponse?.content,"project list");
           addProjectReducer?.isLoading
         }
       />
-      <div className="absolute flex mb-4 right-6">
+      <div className="absolute flex mb-4 right-6 z-10">
         <button
           onClick={() => setIsModalOpen({ title: "Add Project", isOpen: true })}
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
