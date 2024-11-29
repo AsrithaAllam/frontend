@@ -17,22 +17,23 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [dynamicImage, setDynamicImage] = useState("");
-
+  const [enableReset, setEnableReset] = useState(false)
   const { loginResponse, isLoading } = useSelector(
     (state) => state.LoginReducer
   );
-
+ 
   useEffect(() => {
     if (loginResponse !== null) {
       if (loginResponse.access_token) {
         setToLocalStorage(LOCAL_KEYS.ACCESS_TOKEN, loginResponse.access_token);
         setToLocalStorage(LOCAL_KEYS.REFRESH_TOKEN, loginResponse.refresh_token);
         setToLocalStorage(LOCAL_KEYS.USER_DETAILS, loginResponse.userDetails);
-       
+
         // dispatch(setResetStateLogin());
         // navigate("/"); 
       } else {
-        
+        setEnableReset(true)
+        console.log(loginResponse,"hi")
         toast.error("Invalid credentials");
         dispatch(setResetStateLogin());
       }
@@ -49,7 +50,7 @@ const Login = () => {
       <div className="absolute top-0 left-0 p-8 ">
         <img src={datacloud} alt="Logo" className="h-20 w-30" />
       </div>
-      <LoginForm />
+      {!enableReset ? <LoginForm />: <div><button>Please reset your password</button></div>}
       <img className="w-1/2 " src={dynamicImage || time} alt="Background" />
     </div>
   );
