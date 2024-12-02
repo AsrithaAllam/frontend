@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import {
   HomeIcon, UsersIcon, FolderIcon, CalendarIcon,
   LogoutIcon, DocumentIcon, BriefcaseIcon, ClipboardListIcon
-} from '@heroicons/react/outline';
+} from "@heroicons/react/outline";
 import { getValuesFromLocalstorage } from "../../Helpers";
 
 const AdminNavigation = [
@@ -72,22 +72,22 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="lg:w-1/6 h-[92vh] border-r bg-gradient-to-br from-blue-900 to-gray-900 text-gray-200 shadow-xl">
-      <div className="flex flex-col space-y-2 mt-5">
+    <div className="lg:w-1/5 h-[92vh] shadow-xl bg-slate-100">
+      <div className="flex flex-col space-y-2 mt-2">
         {Navigation.map((item) => {
           const isActiveMain = item.href === location.pathname || (item.children && item.children.some(subItem => subItem.path === location.pathname));
 
           return (
             <div key={item.name}>
               <div
-                className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors duration-200 ${
-                  isActiveMain ? 'bg-blue-600 text-white' : 'hover:bg-blue-700'
+                className={`flex items-center justify-between p-3 rounded-none cursor-pointer transition-colors duration-200 ${
+                  isActiveMain ? ' text-primary' : 'hover:text-secondaryBlue'
                 }`}
                 onClick={() => item.children ? handleToggle(item.name) : item.name === 'Logout' ? handleLogout() : navigate(item.href)}
               >
-                <div className="flex items-center">
-                  <item.icon className="h-6 w-6 text-gray-300" />
-                  <span className="ml-3 font-semibold">{item.name}</span>
+                <div className="flex items-center ml-2">
+                  <item.icon className={`h-6 w-6 ${isActiveMain && 'text-primary'} ml-2`} />
+                  <span className="ml-3 font-normal">{item.name}</span>
                 </div>
                 {item.children && <span>{isOpen[item.name] ? '▲' : '▼'}</span>}
               </div>

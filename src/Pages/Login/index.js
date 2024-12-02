@@ -51,7 +51,7 @@ const Login = () => {
         <img src={datacloud} alt="Logo" className="h-20 w-30" />
       </div>
        <LoginForm />
-      <img className="w-1/2 " src={dynamicImage || time} alt="Background" />
+      <img className="w-1/2 hidden md:block " src={dynamicImage || time} alt="Background" />
     </div>
   );
 };

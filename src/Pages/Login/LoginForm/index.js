@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { requestLoginAction, setResetStateLogin } from "../../../Redux/LoginState/LoginActionCreator";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { SignupSchema } from "../../../components/Helpers";
 import { useSelector } from "react-redux";
 
@@ -37,7 +36,6 @@ function LoginForm() {
 
   return (
     <div>
-      <ToastContainer />
       {
         !resetPassword ?
       

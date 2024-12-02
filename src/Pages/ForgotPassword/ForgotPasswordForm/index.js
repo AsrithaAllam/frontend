@@ -3,8 +3,7 @@ import { ForgotPasswordSchema } from "../../../components/Helpers";
 import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   requestForgotPassword,
@@ -43,7 +42,6 @@ function ForgotPasswordForm() {
 
   return (
     <div>
-      <ToastContainer />
       {!ForgetPasswordState?.response ? (
         <Formik
           initialValues={{

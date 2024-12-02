@@ -124,7 +124,7 @@ const AddClient = () => {
   }, [search]);
   
   return (
-    <div className="p-2 w-full overflow-x-scroll overflow-y-hidden">
+    <div className="p-4 w-full h-[92vh] overflow-y-hidden">
       <Loader isLoading={clientsListState?.loading} />
       <ModalComponent
         show={isModalOpen}
@@ -264,13 +264,12 @@ const AddClient = () => {
         </Formik>
       </ModalComponent>
       
-      <div className="flex justify-end items-center mb-4">
+      <div className="absolute flex  mb-4 z-10 right-6">
         <button
-          type="submit"
           onClick={()=>setIsModalOpen(true)}
-          className="bg-blue-500 text-white py-1 px-4 rounded"
+          className="flex items-center cursor-pointer float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
-          Add client
+          <span className="text-xl cursor-pointer font-extrabold">+</span>
         </button>
       </div>
       <CustomDataTable

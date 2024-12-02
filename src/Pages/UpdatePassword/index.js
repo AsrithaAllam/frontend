@@ -9,8 +9,7 @@ import {
   requestUpdatePassword,
   setResetUpdatePassword,
 } from "../../Redux/LoginState/LoginActionCreator";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import ModalComponent from "../../components/Modal";
 import LOCAL_KEYS, { parseLocalStorageJSON } from "../../helpers/Localstorage";
 
@@ -64,7 +63,6 @@ function UpdatePassword(  ) {
 
   return (
     <div className="flex items-center justify-center h-[92vh]">
-      <ToastContainer />
       <Formik
         initialValues={{
           newPassword: "",

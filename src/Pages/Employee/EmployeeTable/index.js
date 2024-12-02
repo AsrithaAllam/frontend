@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomDataTable from "../../../components/CustomDataTable";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {
   setResetStateUser,
   requestUserAction,
@@ -181,7 +181,6 @@ const EmployeeTable = () => {
 
   return (
     <div className="p-4 w-full h-[92vh] overflow-y-hidden">
-      <ToastContainer />
       <Loader
         isLoading={
           usersListState?.usersLoading ||

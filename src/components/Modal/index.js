@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-// import PropTypes from "prop-types";
 import { Dialog, Transition } from "@headlessui/react";
 import {XCircleIcon} from "@heroicons/react/outline"
 
@@ -63,11 +62,5 @@ const ModalComponent=(props)=> {
   )
 }
 
-// ModalComponent.propTypes = {
-//     onClose: PropTypes.func.isRequired,
-//     show: PropTypes.bool,
-//     title: PropTypes.string,
-//     children: PropTypes.node,
-// }
 
 export default ModalComponent;

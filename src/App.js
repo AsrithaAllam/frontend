@@ -14,6 +14,8 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import Reset from "./Pages/ResetPassword";
 import UpdatePassword from "./Pages/UpdatePassword";
 import EmployeeTable from "./Pages/Employee/EmployeeTable";
+import NotFound from "./Pages/NotFound";
+
 
 
 const App = () => {
@@ -37,6 +39,7 @@ const App = () => {
             <Route path="/forgotpassword" element={<ForgotPassword/>}/>
             <Route path="/resetpassword/:token" element={<Reset/>}/>
           </Route>
+          <Route exact path="*" element={<NotFound/>} />
         </Routes>
       </Router>
   );
