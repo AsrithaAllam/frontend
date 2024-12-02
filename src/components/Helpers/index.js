@@ -38,7 +38,7 @@ export const getValuesFromLocalstorage = (storageKey) => {
 export const SignupSchema = Yup.object().shape({
   userName: Yup.string().required("Username is Required"),
   password: Yup.string("Enter your password")
-    .min(8, "Password should be 8 characters length")
+    .min(7, "Password should be 7 characters length")
     .required("Password is Required")
     .matches(passwordRegex,"Password don't matches criteria ")
 });

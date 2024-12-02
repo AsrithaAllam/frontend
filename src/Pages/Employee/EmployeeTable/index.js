@@ -180,7 +180,7 @@ const EmployeeTable = () => {
   };
 
   return (
-    <div className="p-4 w-full h-[92vh] overflow-y-hidden">
+    <div className="p-4 w-full h-[90vh] overflow-y-hidden">
       <Loader
         isLoading={
           usersListState?.usersLoading ||

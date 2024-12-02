@@ -35,7 +35,7 @@ function LoginForm() {
   },[LoginReducerState])
 
   return (
-    <div>
+    <div className="flex items-center justify-center w-full md:w-1/2 p-1 md:px-5 ">
       {
         !resetPassword ?
       
@@ -50,7 +50,7 @@ function LoginForm() {
         }}
       >
         {({ errors, touched }) => (
-          <Form className="bg-transparent p-20 rounded-lg shadow-none w-full max-w-lg">
+          <Form className="bg-transparent  rounded-lg shadow-none w-full md:w-3/6">
             <h1 className="text-2xl text-gray-800 font-semibold flex items-center justify-center">
               Sign In
             </h1>
@@ -103,7 +103,7 @@ function LoginForm() {
             </div>
             <button
               type="submit"
-              className="w-full md:w-1/2 text-white font-medium text-lg bg-blue-500 hover:bg-gray-500 p-2 rounded"
+              className="w-full text-white font-medium text-lg bg-blue-500 hover:bg-gray-500 p-2 rounded"
             >
               Submit
             </button>

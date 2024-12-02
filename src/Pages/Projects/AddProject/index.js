@@ -88,7 +88,7 @@ const initialValues ={
   )
 
   return (
-    <div className="p-4 w-full h-[92vh] overflow-y-hidden">
+    <div className="p-4 w-full h-[90vh] overflow-y-hidden">
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
           onClick={()=>setIsModalOpen(true)}

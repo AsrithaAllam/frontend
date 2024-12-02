@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import datacloud from "../../Assets/data-cloud.jpeg";
+import datacloud from "../../Assets/data-cloud.png";
 import time from "../../Assets/time.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -45,13 +45,13 @@ const Login = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-evenly h-screen bg-white">
+    <div className="flex p-2 items-center justify-evenly h-screen bg-white">
       <Loader isLoading={isLoading} />
       <div className="absolute top-0 left-0 p-8 ">
         <img src={datacloud} alt="Logo" className="h-20 w-30" />
       </div>
        <LoginForm />
-      <img className="w-1/2 hidden md:block " src={dynamicImage || time} alt="Background" />
+      <img className="w-1/2 h-full hidden sm:block " src={dynamicImage || time} alt="Background" />
     </div>
   );
 };

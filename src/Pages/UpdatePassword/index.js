@@ -62,7 +62,7 @@ function UpdatePassword(  ) {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-[92vh]">
+    <div className="flex items-center justify-center h-[90vh]">
       <Formik
         initialValues={{
           newPassword: "",

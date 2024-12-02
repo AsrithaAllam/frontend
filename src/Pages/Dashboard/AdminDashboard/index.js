@@ -44,7 +44,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="w-full max-h-[85vh] overflow-y-scroll p-5 ">
+    <div className="w-full max-h-[90vh] overflow-y-scroll p-5 ">
   <form onSubmit={formik.handleSubmit} className="flex flex-col md:flex-row lg:flex-row gap-10">
     <div className="lg:w-1/3 md:w-1/2 w-full">
       <select

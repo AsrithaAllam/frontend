@@ -27,7 +27,7 @@ const EmployeeDashboard = () => {
   const filteredTimesheets = timesheets.filter((timesheet) => timesheet.project === selectedProject);
 
   return (
-    <div className="bg-slate-200 h-[92vh] w-5/6 px-5 pt-2">
+    <div className="bg-slate-200 h-[90vh] w-5/6 px-5 pt-2">
       <div className="flex justify-end items-center mb-4">
         <button
           onClick={() => navigate("/timesheet")}

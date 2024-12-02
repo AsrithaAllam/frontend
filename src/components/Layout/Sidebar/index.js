@@ -72,7 +72,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="lg:w-1/5 h-[92vh] shadow-xl bg-slate-100">
+    <div className="lg:w-1/5 h-[90vh] shadow-xl bg-slate-100">
       <div className="flex flex-col space-y-2 mt-2">
         {Navigation.map((item) => {
           const isActiveMain = item.href === location.pathname || (item.children && item.children.some(subItem => subItem.path === location.pathname));

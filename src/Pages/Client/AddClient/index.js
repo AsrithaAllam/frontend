@@ -124,7 +124,7 @@ const AddClient = () => {
   }, [search]);
   
   return (
-    <div className="p-4 w-full h-[92vh] overflow-y-hidden">
+    <div className="p-4 w-full h-[90vh] overflow-y-hidden">
       <Loader isLoading={clientsListState?.loading} />
       <ModalComponent
         show={isModalOpen}
