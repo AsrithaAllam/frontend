@@ -10,6 +10,7 @@ import CustomDataTable from "../../../components/CustomDataTable";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {setResetStateProjectsList,requestProjectAction, requestProjectsListAction,setResetStateProject} from "../../../Redux/ProjectState/ProjectActionCreator";
+import Loader from "../../../components/Loader";
 
 
 const AddProject = () => {
@@ -19,7 +20,7 @@ const AddProject = () => {
   const dispatch=useDispatch();
   const projectListState  =  useSelector((state) => state.ProjectsListReducer);
   const addProjectReducer = useSelector((state) => state.ProjectReducer);
-  const [serch, setSerch] = useState("");
+  const [search, setSearch] = useState("");
 
   const clients = ["Client A", "Client B", "Client C", "Client D"];
   const columns = [
@@ -75,20 +76,37 @@ const initialValues ={
     setFormData(updatedData);
   };
 
+  const handlePageChange = (page)=>{
+    dispatch(requestProjectsListAction({page: page, size:projectListState?.size, search: search}));
+  }
+ 
+  const handleRowsChange = (size)=>{
+    dispatch(requestProjectsListAction({page: 0, size: size, search: ""}));
+    setSearch("");
+  }
+
   const handleEdit = (index) => {
     setEditIndex(index);
     // setIsModalOpen(true);
   };
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(requestProjectsListAction({ page: 0, size: projectListState?.size, search: search }));
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [search]);
+
   useEffect(()=>{
   dispatch(setResetStateProjectsList());
-  dispatch(requestProjectsListAction());
+  dispatch(requestProjectsListAction({ page: 0, size: projectListState?.size, search: search }));
   dispatch(setResetStateProject());
   },[]
   )
 
   return (
     <div className="p-4 w-full h-[90vh] overflow-y-hidden">
+      <Loader isLoading={projectListState?.projectsLoading} />
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
           onClick={()=>setIsModalOpen(true)}
@@ -257,10 +275,13 @@ const initialValues ={
       
       <CustomDataTable
         columns={columns}
-        data={[]}
-        search={serch}
-        setSearch={setSerch}
+        data={ projectListState?.projectsResponse?.content  || [] }
+        paginationTotalRows={projectListState?.projectsResponse?.totalElements}
+        search={search}
+        setSearch={setSearch}
         serverPagenation={true}
+        handleChangePage={handlePageChange}
+        handleRowsChange={handleRowsChange}
       />
     </div>
   );

@@ -25,11 +25,11 @@ export default class ProjectService {
     });
   }
 
-  projectsListRequest = () => {
+  projectsListRequest = (payload) => {
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
-          ApiUrl.projectsListRequest(),
+          ApiUrl.projectsListRequest(payload.page, payload.size, payload.search),
           this.request.projectsListRequest( REQUEST_METHOD.GET)
         )
         .then((response) => {

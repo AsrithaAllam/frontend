@@ -53,8 +53,12 @@ export class ApiUrl {
     static projectRequest = () =>{
       return BASE_URL +"adminrest/project";
     }
-    static projectsListRequest = () =>{
-      return BASE_URL +"adminrest/allproject";
+    static projectsListRequest = (page, size, search) =>{
+      if(search && search.length > 0){
+        return BASE_URL +`adminrest/allproject?page=${page}&size=${size}&search=${search}`;
+      }else{
+        return BASE_URL +`adminrest/allproject?page=${page}&size=${size}`;
+      }
     }
     static editProject =()=>{
       return BASE_URL +""
