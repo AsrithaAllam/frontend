@@ -86,8 +86,8 @@ const Sidebar = () => {
                 onClick={() => item.children ? handleToggle(item.name) : item.name === 'Logout' ? handleLogout() : navigate(item.href)}
               >
                 <div className="flex items-center ml-2">
-                  <item.icon className={`h-6 w-6 ${isActiveMain && 'text-primary'} ml-2`} />
-                  <span className="ml-3 font-normal">{item.name}</span>
+                  <item.icon className={`h-7 w-7 ${isActiveMain && 'text-primary'} mr-5`} />
+                  <span className="font-normal">{item.name}</span>
                 </div>
                 {item.children && <span>{isOpen[item.name] ? '▲' : '▼'}</span>}
               </div>

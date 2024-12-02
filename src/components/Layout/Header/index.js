@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import data_cloud from "../../../Assets/data-cloud.jpeg";
+import data_cloud from "../../../Assets/data-cloud.png";
 import { UserCircleIcon } from "@heroicons/react/outline";
 
 function Header() {
@@ -52,7 +52,7 @@ function Header() {
     <div className="h-[10vh] flex justify-between items-center px-4 md:px-10 bg-gradient-to-r from-blue-700 to-purple-300 text-gray-200 shadow-md">
       <div className="flex items-center">
         <img
-          className="h-6 w-auto sm:h-8 md:h-10"
+          className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 p-1 rounded-lg bg-slate-50"
           src={data_cloud}
           alt="Workflow"
         />
