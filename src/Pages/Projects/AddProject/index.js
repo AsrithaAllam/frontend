@@ -60,16 +60,7 @@ const initialValues ={
   netPay:  "",
 }
 
-  const handleSubmit = (values, { resetForm }) => {
-    setFormData([...formData, values]);
-    dispatch(requestProjectAction(values));
-    dispatch(requestProjectsListAction());
-    resetForm();
-    setIsModalOpen(false);
-    console.log("Form values:", values);
-  };
-
-  const handleClose = () => {
+   const handleClose = () => {
     setIsModalOpen({ title: "", isOpen: false });
     dispatch(setResetEditProject());
     dispatch(setResetStateProjectById());
@@ -143,6 +134,7 @@ const initialValues ={
   useEffect(() => {
     if (!projectByIdReducer?.byIdLoading && projectByIdReducer?.byIdResponse) {
       console.log("Fetched Project Data:", projectByIdReducer.byIdResponse);
+      setEditData(projectByIdReducer.byIdResponse);
       setIsModalOpen({ title: "Edit Project", isOpen: true });
       dispatch(setResetStateProjectById()); 
     }
@@ -166,7 +158,7 @@ const initialValues ={
       <Loader isLoading={projectListState?.projectsLoading} />
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
-          onClick={()=>setIsModalOpen(true)}
+          onClick={()=>setIsModalOpen({ title: "Edit Project", isOpen: true })}
           className="flex items-center cursor-pointer float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
           <span className="text-xl cursor-pointer font-extrabold">+</span>

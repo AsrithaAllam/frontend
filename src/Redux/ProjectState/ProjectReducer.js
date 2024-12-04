@@ -120,7 +120,7 @@ export function defaultProjectState() {
     }
   
     if (action.type === ProjectActionCreator.PROJECT_ACTION.RESPONSE_PROJECT_BY_ID) {
-      return { ...state, byIdResponse:action.payload , byIdLoading: true };
+      return { ...state, byIdResponse:action.data , byIdLoading: true };
     }
   
     if (action.type === ProjectActionCreator.PROJECT_ACTION.ERROR_PROJECT_BY_ID) {

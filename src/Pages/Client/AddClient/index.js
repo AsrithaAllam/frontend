@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import {toast } from "react-toastify";
 import Hoc from "../../../components/HOC";
 // import ModalComponent from "../../../components/Modal";
 // import { clientValidationSchema } from "../../../components/Helpers";
@@ -27,7 +27,13 @@ const AddClient = () => {
   const editClientReducer = useSelector((state) => state.EditClientReducer);
   const clientByIdReducer = useSelector((state) => state.ClientByIdReducer);
   const [search, setSearch] = useState("");
-  const [editData,setEditData]=useState({});
+  // const [editData,setEditData]=useState({name: "",
+  //   addressLine1: "",
+  //   addressLine2: "",
+  //   city: "",
+  //   state: "",
+  //   country: "",
+  //   zip: "",});
 
   const initialValues = {
     name: "",
@@ -102,14 +108,8 @@ const AddClient = () => {
       ),
     },];
 
-  const handleSubmit = (values, { resetForm }) => {
-    dispatch(requestClientAction(values));
-    dispatch(requestClientsListAction());
-    resetForm(); 
-    setIsModalOpen(false);
-  };
-
-  const handleEdit = (row) => {
+    const handleEdit = (row) => {
+      dispatch(setResetStateClient());
     dispatch(requestClientById(row.id)); // Fetch client data by ID
     // setEditData({name:row.name,id:row.id});
     // setEditData({...row, name:row.name,id:row.id,                 
@@ -123,11 +123,10 @@ const AddClient = () => {
       dispatch(requestClientAction(values));
     } else {
       const updatedClient = {
-        ...editData,
         ...values,
         // id:editData.id
         // id: clientByIdReducer?.byIdResponse?.id, 
-        id: editData.id || clientByIdReducer?.byIdResponse?.id,
+        id:clientByIdReducer?.byIdResponse?.id,
       };
       console.log("updated client",updatedClient);
       dispatch(requestEditClient(updatedClient));
@@ -171,10 +170,11 @@ const AddClient = () => {
   useEffect(() => {
     if (!addClientReducer?.isLoading && addClientReducer?.isResponse) {
       toast.success("Client added successfully");
+      dispatch(setResetStateClient());
       dispatch(requestClientsListAction({ page: clientsListState?.page, size: clientsListState?.size }));
       setSearch("");
       handleClose();
-      dispatch(setResetStateClient()); 
+      // dispatch(setResetStateClient()); 
     } else if (!addClientReducer?.isLoading && addClientReducer?.isError) {
       toast.error("Error adding client");
       dispatch(setResetStateClient());
@@ -183,11 +183,9 @@ const AddClient = () => {
   
   useEffect(() => {
     if (!clientByIdReducer?.byIdLoading && clientByIdReducer?.byIdResponse) {
-      console.log("Fetched Client Data:", clientByIdReducer.byIdResponse);
-      setEditData(clientByIdReducer.byIdResponse); // Update editData with API response
+       console.log("ID data:",clientByIdReducer) 
       setIsModalOpen({ title: "Edit Client", isOpen: true });
-      dispatch(setResetStateClientById()); // Reset the state to avoid conflicts
-    } else if (!clientByIdReducer?.byIdLoading && clientByIdReducer?.byIdError) {
+      } else if (!clientByIdReducer?.byIdLoading && clientByIdReducer?.byIdError) {
       toast.error("Error fetching client data");
       dispatch(setResetStateClientById());
     }
@@ -208,13 +206,13 @@ const AddClient = () => {
   
   
   return (
-    <div className="p-4 w-full h-[90vh] overflow-y-hidden">
-      <ToastContainer />
+    <div className="p-4 w-full h-[90vh] overflow-y-scroll">
+    
       <Loader isLoading={clientsListState?.loading} />
        
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
-          onClick={()=>setIsModalOpen(true)}
+          onClick={()=>setIsModalOpen({ title: "Add Client", isOpen: true })}
           className="flex items-center cursor-pointer float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
           <span className="text-xl cursor-pointer font-extrabold">+</span>
@@ -237,7 +235,7 @@ const AddClient = () => {
         initialValues={
           isModalOpen.title === "Add Client"
             ? initialValues
-            : editData
+            : clientByIdReducer.byIdResponse
         }
         show={isModalOpen.isOpen}
         onClose={handleClose}

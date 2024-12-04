@@ -201,7 +201,7 @@ const AddProjectModal = ({ onClose,  show ,onAddProject ,title, initialValues })
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-1 rounded-lg"
               >
-                Add Project
+                {title}
               </button>
             </div>
                 </Form>

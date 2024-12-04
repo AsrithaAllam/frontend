@@ -122,7 +122,7 @@ export function defaultClientState() {
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENT_BY_ID) {
-      return { ...state, byIdResponse:action.payload , byIdLoading: true };
+      return { ...state, byIdResponse:action.data , byIdLoading: true };
     }
   
     if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENT_BY_ID) {
