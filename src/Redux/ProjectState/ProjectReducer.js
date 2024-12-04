@@ -76,7 +76,6 @@ export function defaultProjectState() {
       Response: null,
       Error: null,
     };
-
   }
    export const EditProjectReducer = (state, action) => {
     if (
@@ -96,6 +95,36 @@ export function defaultProjectState() {
   
     if (action.type === ProjectActionCreator.PROJECT_ACTION.ERROR_EDIT_PROJECT) {
       return { ...state, Error: action.data, Loading: false };
+    }
+  
+    return state; 
+  };
+
+  export function defaultProjectById() {
+    return {
+      byIdLoading: false,
+      byIdResponse: null,
+      byIdError: null,
+    };
+  }
+  export const ProjectByIdReducer = (state, action) => {
+    if (
+      !state ||
+      action.type === ProjectActionCreator.PROJECT_ACTION.RESET_PROJECT_BY_ID_STATE
+    ) {
+      return { ...state, ...defaultProjectById() };
+    }
+  
+    if (action.type === ProjectActionCreator.PROJECT_ACTION.REQUEST_PROJECT_BY_ID) {
+      return { ...state, byIdLoading: true };
+    }
+  
+    if (action.type === ProjectActionCreator.PROJECT_ACTION.RESPONSE_PROJECT_BY_ID) {
+      return { ...state, byIdResponse:action.payload , byIdLoading: true };
+    }
+  
+    if (action.type === ProjectActionCreator.PROJECT_ACTION.ERROR_PROJECT_BY_ID) {
+      return { ...state, byIdError: action.data, byIdLoading: false };
     }
   
     return state; 

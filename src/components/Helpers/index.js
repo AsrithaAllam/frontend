@@ -104,6 +104,19 @@ export const clientValidationSchema = Yup.object({
   zip: Yup.string().required('ZIP is required'),
 });
 
+const editClient = {
+  name: Yup.string().required('Client Name is required'),
+  addressLine1: Yup.string().required('Address is required'),
+  addressLine2: Yup.string(),
+  city: Yup.string().required('City is required'),
+  state: Yup.string().required('State is required'),
+  country: Yup.string().required('Country is required'),
+  zip: Yup.string().required('ZIP is required'),
+}
+
+export const EditClientSchema  = Yup.object(editClient);
+export const AddClientSchema = Yup.object(editClient);
+
 export const employeeValidationSchema=Yup.object({
   userName:Yup.string().required('User Name required'),
   password: Yup.string().required('Password required'),

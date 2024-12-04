@@ -60,11 +60,22 @@ export class ApiUrl {
         return BASE_URL +`adminrest/allproject?page=${page}&size=${size}`;
       }
     }
-    static editProject =()=>{
-      return BASE_URL +""
-    }
+   
     static uploadFile =() =>{
       return BASE_URL +'file'
     }
+
+    static editProject =(id)=>{
+      return BASE_URL +`adminrest/project/${id}`
+    }
+    static editClient=(id)=>{
+      return BASE_URL +`adminrest/client/${id}`
+   }
+   static getClientById =(id)=>{
+     return BASE_URL +`adminrest/client/${id}`
+   }
+   static getProjectById=(id)=>{
+    return BASE_URL +`adminrest/project/${id}`
+   }
 
   }

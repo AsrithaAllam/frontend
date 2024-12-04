@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { AiFillDelete } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
 import Hoc from "../../../components/HOC";
-import { FaEdit } from "react-icons/fa";
 import ModalComponent from "../../../components/Modal";
-import { projectValidationSchema } from "../../../components/Helpers";
 import CustomDataTable from "../../../components/CustomDataTable";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import {setResetStateProjectsList,requestProjectAction, requestProjectsListAction,setResetStateProject} from "../../../Redux/ProjectState/ProjectActionCreator";
+import {setResetStateProjectsList,requestProjectAction, 
+  requestProjectById,requestProjectsListAction,
+  setResetStateProject,requestEditProject,
+  setResetStateProjectById,setResetEditProject} from "../../../Redux/ProjectState/ProjectActionCreator";
 import Loader from "../../../components/Loader";
+import AddProjectModal from "./AddProjectModal";
 
 
 const AddProject = () => {
   const [formData, setFormData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState({ title: "", isOpen: false });
   const [editIndex, setEditIndex] = useState(null);
   const dispatch=useDispatch();
   const projectListState  =  useSelector((state) => state.ProjectsListReducer);
   const addProjectReducer = useSelector((state) => state.ProjectReducer);
+  const editProjectReducer = useSelector((state) => state.EditProjectReducer);
+  const projectByIdReducer = useSelector((state) => state.ProjectByIdReducer);
   const [search, setSearch] = useState("");
+  const [editData,setEditData]=useState({});
 
   const clients = ["Client A", "Client B", "Client C", "Client D"];
   const columns = [
@@ -67,8 +70,9 @@ const initialValues ={
   };
 
   const handleClose = () => {
-    setIsModalOpen(false);
-    setEditIndex(null); // reset edit mode on modal close
+    setIsModalOpen({ title: "", isOpen: false });
+    dispatch(setResetEditProject());
+    dispatch(setResetStateProjectById());
   };
 
   const handleDelete = (index) => {
@@ -85,9 +89,26 @@ const initialValues ={
     setSearch("");
   }
 
-  const handleEdit = (index) => {
-    setEditIndex(index);
+  const handleEdit = (row) => {
+    dispatch(requestProjectById(row.id));
+    setIsModalOpen({ title: "Edit Project", isOpen: true });
+    // setEditIndex(index);
     // setIsModalOpen(true);
+  };
+
+  const handleAddProject = (values) => {
+    if (isModalOpen.title === "Add Project") {
+      dispatch(requestProjectAction(values));
+    } else {
+      const updatedProject = {
+        ...editData,
+        ...values,
+        // id:editData.id
+        // id: projectByIdReducer?.byIdResponse?.id, 
+      };
+      console.log("updated project",updatedProject);
+      dispatch(requestEditProject(updatedProject));
+    }
   };
 
   useEffect(() => {
@@ -101,8 +122,44 @@ const initialValues ={
   dispatch(setResetStateProjectsList());
   dispatch(requestProjectsListAction({ page: 0, size: projectListState?.size, search: search }));
   dispatch(setResetStateProject());
+  dispatch(setResetStateProjectById());
+    dispatch(setResetEditProject());
   },[]
   )
+
+  useEffect(() => {
+    if (!addProjectReducer?.isLoading && addProjectReducer?.isResponse) {
+      toast.success("Project added successfully");
+      dispatch(requestProjectsListAction({ page: projectListState?.page, size: projectListState?.size }));
+      setSearch("");
+      handleClose();
+      dispatch(setResetStateProject()); 
+    } else if (!addProjectReducer?.isLoading && addProjectReducer?.isError) {
+      toast.error("Error adding project");
+      dispatch(setResetStateProject());
+    }
+  }, [addProjectReducer]);
+  
+  useEffect(() => {
+    if (!projectByIdReducer?.byIdLoading && projectByIdReducer?.byIdResponse) {
+      console.log("Fetched Project Data:", projectByIdReducer.byIdResponse);
+      setIsModalOpen({ title: "Edit Project", isOpen: true });
+      dispatch(setResetStateProjectById()); 
+    }
+  }, [projectByIdReducer]);
+  
+  useEffect(() => {
+    if (!editProjectReducer?.Loading && editProjectReducer?.Response) {
+      toast.success("Project updated successfully");
+      dispatch(requestProjectsListAction({ page: projectListState?.page, size: projectListState?.size }));
+      handleClose();
+      dispatch(setResetEditProject()); 
+    } else if (!editProjectReducer?.Loading && editProjectReducer?.Error) {
+      toast.error("Error updating project");
+      dispatch(setResetEditProject());
+    }
+  }, [editProjectReducer]);
+  
 
   return (
     <div className="p-4 w-full h-[90vh] overflow-y-hidden">
@@ -115,164 +172,7 @@ const initialValues ={
           <span className="text-xl cursor-pointer font-extrabold">+</span>
         </button>
       </div>
-      <ModalComponent
-        show={isModalOpen}
-        onClose={handleClose}
-        title={editIndex !== null ? "Update Project" : "Add Project"}
-      >
-        <Formik
-          initialValues={initialValues}
-          validationSchema={projectValidationSchema}
-          onSubmit={handleSubmit}
-        >
-           {({ resetForm }) => (
-                <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="mb-4">
-                      <label
-                        htmlFor="userId"
-                        className="text-sm font-sm text-gray-700"
-                      >
-                        User Id
-                      </label>
-                      <Field
-                        type="number"
-                        name="userId"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="userId"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        htmlFor="projectName"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        Project Name
-                      </label>
-                      <Field
-                        type="text"
-                        name="projectName"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="projectName"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        htmlFor="clientId"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        Client Id
-                      </label>
-                      <Field
-                        type="number"
-                        name="clientId"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="clientId"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    {/* Start Date */}
-                    <div className="mb-4">
-                      <label
-                        htmlFor="startDate"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        Start Date
-                      </label>
-                      <Field
-                        type="date"
-                        name="startDate"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="startDate"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-
-                    {/* End Date with restriction */}
-                    <div className="mb-4">
-                      <label
-                        htmlFor="endDate"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        End Date
-                      </label>
-                      <Field
-                        type="date"
-                        name="endDate"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="endDate"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label
-                        htmlFor="budget"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        Budget
-                      </label>
-                      <Field
-                        type="number"
-                        name="budget"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="budget"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label
-                        htmlFor="netPay"
-                        className=" text-sm font-sm text-gray-700"
-                      >
-                        Net Pay
-                      </label>
-                      <Field
-                        type="number"
-                        name="netPay"
-                        className="w-full border border-gray-300 rounded-lg p-1"
-                      />
-                      <ErrorMessage
-                        name="netPay"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                  </div>
-                   <div className="col-span-2 flex justify-end mt-4">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-1 rounded-lg"
-              >
-                Add Project
-              </button>
-            </div>
-                </Form>
-              )}
-        </Formik>
-      </ModalComponent>
-      
+          
       <CustomDataTable
         columns={columns}
         data={ projectListState?.projectsResponse?.content  || [] }
@@ -282,6 +182,18 @@ const initialValues ={
         serverPagenation={true}
         handleChangePage={handlePageChange}
         handleRowsChange={handleRowsChange}
+      />
+
+<AddProjectModal
+        initialValues={
+          isModalOpen.title === "Add Project"
+            ? initialValues
+            : editData
+        }
+        show={isModalOpen.isOpen}
+        onClose={handleClose}
+        title={isModalOpen.title}
+        onAddClient={handleAddProject}
       />
     </div>
   );
