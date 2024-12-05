@@ -26,7 +26,6 @@ const AddClientModal = ({
         dispatch(requestClientAction(values));
         resetForm();
         setIsAddModalOpen(false);
-        console.log("Form values:", values);
         onAddClient(values);
       };
       return (

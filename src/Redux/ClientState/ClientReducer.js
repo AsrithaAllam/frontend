@@ -132,3 +132,34 @@ export function defaultClientState() {
     return state; 
   };
 
+  export function clientsListState() {
+    return {
+      loading: false,
+      response: null,
+      error: null,
+      };
+  }
+
+  export const ClientsListWithOutPagination = (state, action) => {
+    if (
+      !state ||
+      action.type === ClientActionCreator.CLIENT_ACTION.RESET_CLIENTS_LIST_WITHOUT_PAGINATION_STATE
+    ) {
+      return { ...state, ...clientsListState() };
+    } 
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.REQUEST_CLIENTS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, loading: true};
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENTS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, response: action.data, loading: false };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENTS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, error: action.data, loading: false, response: null};
+    }
+  
+    return state; 
+  };
+

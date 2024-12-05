@@ -11,6 +11,8 @@ import {setResetStateProjectsList,requestProjectAction,
   setResetStateProjectById,setResetEditProject} from "../../../Redux/ProjectState/ProjectActionCreator";
 import Loader from "../../../components/Loader";
 import AddProjectModal from "./AddProjectModal";
+import { requestUsersListActionWithOutPagination } from "../../../Redux/UserState/UserActionCreator";
+import { requestClientsListActionWithOutPagination } from "../../../Redux/ClientState/ClientActionCreator";
 
 
 const AddProject = () => {
@@ -24,6 +26,8 @@ const AddProject = () => {
   const projectByIdReducer = useSelector((state) => state.ProjectByIdReducer);
   const [search, setSearch] = useState("");
   const [editData,setEditData]=useState({});
+  const usersListState=useSelector((state)=>state.UsersListWithOutPagination);
+  const clientsListState = useSelector((state)=> state.ClientsListWithOutPagination);
 
   const clients = ["Client A", "Client B", "Client C", "Client D"];
   const columns = [
@@ -40,10 +44,10 @@ const AddProject = () => {
         name: 'Actions',
         cell: (row) => (
           <div className="flex space-x-2">
-            <button onClick={() => handleEdit(row.id)} className="text-blue-500 hover:text-blue-700">
+            <button onClick={() => handleEdit(row)} className="text-blue-500 hover:text-blue-700">
               <MdEdit size={24} />
             </button>
-            <button onClick={() => handleDelete(row.id)} className="text-red-500 hover:text-red-700">
+            <button onClick={() => handleDelete(row)} className="text-red-500 hover:text-red-700">
               <MdDelete size={24} />
             </button>
           </div>
@@ -81,23 +85,19 @@ const initialValues ={
   }
 
   const handleEdit = (row) => {
+    dispatch(setResetStateProject());
     dispatch(requestProjectById(row.id));
     setIsModalOpen({ title: "Edit Project", isOpen: true });
-    // setEditIndex(index);
-    // setIsModalOpen(true);
-  };
+   };
 
   const handleAddProject = (values) => {
     if (isModalOpen.title === "Add Project") {
       dispatch(requestProjectAction(values));
     } else {
       const updatedProject = {
-        ...editData,
         ...values,
-        // id:editData.id
-        // id: projectByIdReducer?.byIdResponse?.id, 
+         id: projectByIdReducer?.byIdResponse?.id,
       };
-      console.log("updated project",updatedProject);
       dispatch(requestEditProject(updatedProject));
     }
   };
@@ -115,9 +115,11 @@ const initialValues ={
   dispatch(setResetStateProject());
   dispatch(setResetStateProjectById());
     dispatch(setResetEditProject());
-  },[]
-  )
+    dispatch(requestUsersListActionWithOutPagination());
+    dispatch(requestClientsListActionWithOutPagination());
+  },[])
 
+  console.log("clients list",clientsListState);
   useEffect(() => {
     if (!addProjectReducer?.isLoading && addProjectReducer?.isResponse) {
       toast.success("Project added successfully");
@@ -133,10 +135,10 @@ const initialValues ={
   
   useEffect(() => {
     if (!projectByIdReducer?.byIdLoading && projectByIdReducer?.byIdResponse) {
-      console.log("Fetched Project Data:", projectByIdReducer.byIdResponse);
-      setEditData(projectByIdReducer.byIdResponse);
       setIsModalOpen({ title: "Edit Project", isOpen: true });
-      dispatch(setResetStateProjectById()); 
+    }else if (!projectByIdReducer?.byIdLoading && projectByIdReducer?.byIdError) {
+      toast.error("Error fetching project data");
+      dispatch(setResetStateProjectById());
     }
   }, [projectByIdReducer]);
   
@@ -152,13 +154,15 @@ const initialValues ={
     }
   }, [editProjectReducer]);
   
-
+  const handleClick = () => {
+    setIsModalOpen({ title: "Add Project", isOpen: true });
+  };
   return (
-    <div className="p-4 w-full h-[90vh] overflow-y-hidden">
+    <div className="p-4 w-full h-[90vh] overflow-y-scroll">
       <Loader isLoading={projectListState?.projectsLoading} />
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
-          onClick={()=>setIsModalOpen({ title: "Edit Project", isOpen: true })}
+          onClick={handleClick}
           className="flex items-center cursor-pointer float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
           <span className="text-xl cursor-pointer font-extrabold">+</span>
@@ -167,11 +171,12 @@ const initialValues ={
           
       <CustomDataTable
         columns={columns}
-        data={ projectListState?.projectsResponse?.content  || [] }
+        data={ projectListState?.projectsResponse?.content }
         paginationTotalRows={projectListState?.projectsResponse?.totalElements}
+        enableSearch={false}
         search={search}
         setSearch={setSearch}
-        serverPagenation={true}
+        serverPagenation
         handleChangePage={handlePageChange}
         handleRowsChange={handleRowsChange}
       />
@@ -180,7 +185,7 @@ const initialValues ={
         initialValues={
           isModalOpen.title === "Add Project"
             ? initialValues
-            : editData
+            : projectByIdReducer?.byIdResponse
         }
         show={isModalOpen.isOpen}
         onClose={handleClose}

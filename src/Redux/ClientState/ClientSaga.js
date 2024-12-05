@@ -2,6 +2,8 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import ClientService from "../../Services/RestApiManager/ClientManager/ClientService";
 import { responseClientAction, errorClientAction, CLIENT_ACTION,responseClientsListAction,errorClientsListAction,
   responseEditClient,errorEditClient,responseClientById,errorClientById,
+  errorClientsListActionWithOutPagination,
+  responseClientsListActionWithOutPagination,
 } from "./ClientActionCreator"
 
 export function* clientRequest(action) {
@@ -20,6 +22,15 @@ export function* clientRequest(action) {
       yield put(responseClientsListAction(response));
     } catch (error) {
       yield put(errorClientsListAction(error));
+    }
+  }
+
+  export function* clientsListWithOutPagination(action) {
+    try {
+      const response = yield call(ClientService.shared.clientsListWithOutPaginationRequest, action.data);
+      yield put(responseClientsListActionWithOutPagination(response));
+    } catch (error) {
+      yield put(errorClientsListActionWithOutPagination(error));
     }
   }
 
@@ -47,4 +58,5 @@ export function* clientRequest(action) {
     yield takeLatest(CLIENT_ACTION.REQUEST_CLIENTS_LIST, clientsListRequest);
     yield takeLatest(CLIENT_ACTION.REQUEST_EDIT_CLIENT, editClientRequest);
     yield takeLatest(CLIENT_ACTION.REQUEST_CLIENT_BY_ID, clientByIdRequest);
+    yield takeLatest(CLIENT_ACTION.REQUEST_CLIENTS_LIST_WITHOUT_PAGINATION,clientsListWithOutPagination)
   }

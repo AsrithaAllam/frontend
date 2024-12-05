@@ -34,6 +34,14 @@ export class ApiUrl {
        return BASE_URL +`user/all?page=${page}&size=${size}`;
       }
     }
+    static getAllUsersWithOUtPagination= () =>{
+      return BASE_URL + `user/all`;
+    }
+
+    static getAllClientsWithOUtPagination = () =>{
+      return BASE_URL +`adminrest/allclients`;
+    }
+
     static getUserById =(id)=>{
       return BASE_URL +`user/${id}`
     }

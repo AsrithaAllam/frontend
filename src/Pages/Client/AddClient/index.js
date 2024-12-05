@@ -110,10 +110,7 @@ const AddClient = () => {
 
     const handleEdit = (row) => {
       dispatch(setResetStateClient());
-    dispatch(requestClientById(row.id)); // Fetch client data by ID
-    // setEditData({name:row.name,id:row.id});
-    // setEditData({...row, name:row.name,id:row.id,                 
-    // });
+    dispatch(requestClientById(row.id)); 
     setIsModalOpen({ title: "Edit Client", isOpen: true });
   };
   
@@ -124,11 +121,8 @@ const AddClient = () => {
     } else {
       const updatedClient = {
         ...values,
-        // id:editData.id
-        // id: clientByIdReducer?.byIdResponse?.id, 
         id:clientByIdReducer?.byIdResponse?.id,
       };
-      console.log("updated client",updatedClient);
       dispatch(requestEditClient(updatedClient));
     }
   };
@@ -204,7 +198,10 @@ const AddClient = () => {
     }
   }, [editClientReducer]);
   
-  
+  const handleClick = () => {
+    setIsModalOpen({ title: "Add Client", isOpen: true });
+  };
+
   return (
     <div className="p-4 w-full h-[90vh] overflow-y-scroll">
     
@@ -212,7 +209,7 @@ const AddClient = () => {
        
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
-          onClick={()=>setIsModalOpen({ title: "Add Client", isOpen: true })}
+          onClick={handleClick}
           className="flex items-center cursor-pointer float-right justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md transition-all duration-300"
         >
           <span className="text-xl cursor-pointer font-extrabold">+</span>

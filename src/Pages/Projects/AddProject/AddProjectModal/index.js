@@ -10,6 +10,7 @@ import CustomDataTable from "../../../../components/CustomDataTable";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {setResetStateProjectsList,requestProjectAction, requestProjectsListAction,setResetStateProject} from "../../../../Redux/ProjectState/ProjectActionCreator";
+import { requestUsersListActionWithOutPagination } from "../../../../Redux/UserState/UserActionCreator";
 
 const AddProjectModal = ({ onClose,  show ,onAddProject ,title, initialValues }) => {
 
@@ -21,39 +22,34 @@ const AddProjectModal = ({ onClose,  show ,onAddProject ,title, initialValues })
     const [selectedProject,setSelectedProject]=useState(null);
     const [editIndex,setEditIndex]=useState(null);
     const dispatch = useDispatch();
+    
 
-    const handleAdd = () => {
-      setSelectedProject(null);
-      setIsModalOpen(true);
-    };
-
-    const handleSubmit = (values, { resetForm }) => {
+      const handleSubmit = (values, { resetForm }) => {
         dispatch(requestProjectAction(values));
-        dispatch(requestProjectsListAction());
+        // dispatch(requestProjectsListAction());
         resetForm();
         setIsModalOpen(false);
-        console.log("Form values:", values);
+        onAddProject(values);
       };
     
       const handleClose = () => {
         setIsModalOpen(false);
         onClose();
-        // setEditIndex(null); // reset edit mode on modal close
       };
-     
-      return(
+      
+     return(
         <ModalComponent  
         show={show}
         onClose={handleClose}
-        // title={editIndex !== null ? "Update Project" : "Add Project"}
         title={title}
       >
 <Formik
           initialValues={initialValues}
+          enableReinitialize
           validationSchema={projectValidationSchema}
           onSubmit={handleSubmit}
         >
-           {({ resetForm }) => (
+          {({ errors, touched, handleChange }) => (
                 <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="mb-4">

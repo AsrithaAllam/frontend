@@ -72,4 +72,20 @@ export default class ClientService {
     });
   }
 
+  clientsListWithOutPaginationRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getAllClientsWithOUtPagination(),
+          this.request.clientsListRequest( REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        }) 
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
 }

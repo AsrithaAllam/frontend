@@ -17,8 +17,33 @@ export const USER_ACTION = {
     RESET_EDIT_USER_STATE:"RESET_EDIT_USER",
     REQUEST_EDIT_USER:"REQUEST_EDIT_USER",
     RESPONSE_EDIT_USER:"RESPONSE_EDIT_USER",
-    ERROR_EDIT_USER:"ERROR_EDIT_USER"
+    ERROR_EDIT_USER:"ERROR_EDIT_USER",
+
+    RESET_USERS_LIST_WITHOUT_PAGINATION_STATE:"RESET_USERS_LIST_WITHOUT_PAGINATION_STATE",
+    REQUEST_USERS_LIST_WITHOUT_PAGINATION:"REQUEST_USERS_LIST_WITHOUT_PAGINATION",
+    RESPONSE_USERS_LIST_WITHOUT_PAGINATION:"RESPONSE_USERS_LIST_WITHOUT_PAGINATION",
+    ERROR_USERS_LIST_WITHOUT_PAGINATION:"ERROR_USERS_LIST_WITHOUT_PAGINATION"
+
   };
+
+  export const setResetStateUsersListWithOutPagination= () => ({
+    type: USER_ACTION.RESET_USERS_LIST_WITHOUT_PAGINATION_STATE,
+    data: undefined
+  });
+  
+  export const requestUsersListActionWithOutPagination = (params) =>({
+    type:USER_ACTION.REQUEST_USERS_LIST_WITHOUT_PAGINATION,
+    data: params
+  })
+  export const responseUsersListActionWithOutPagination = (res) => ({
+    type: USER_ACTION.RESPONSE_USERS_LIST_WITHOUT_PAGINATION,
+    data: res
+  });
+  
+  export const errorUsersListActionWithOutPagination = (err) => ({
+    type: USER_ACTION.ERROR_USERS_LIST_WITHOUT_PAGINATION,
+    data: err
+  });
 
   export const setResetStateUser = () => ({
     type: USER_ACTION.RESET_USER_STATE,

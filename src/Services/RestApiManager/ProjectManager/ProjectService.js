@@ -40,11 +40,11 @@ export default class ProjectService {
         });
     });
   }
-  editProjectRequest = () => {
+  editProjectRequest = (payload) => {
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
-          ApiUrl.editProject(),
+          ApiUrl.editProject(payload.id),
           this.request.editProjectRequest( REQUEST_METHOD.PUT)
         )
         .then((response) => {
