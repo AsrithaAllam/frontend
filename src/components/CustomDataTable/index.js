@@ -57,7 +57,7 @@ const CustomDataTable = ({
 
   return (
     <div className="relative flex flex-col ">
-      <div className="flex items-center float-left h-10 px-4 py-2 mb-5 border-2 border-gray-200 rounded-full w-80">
+      <div className="flex items-center float-left h-10 px-4 py-2 mb-5 border-2 border-gray-200 rounded-[0.3rem] w-80">
         <input
           className="w-full h-full text-sm p-1 border-none outline-none rounded-full focus:ring-0"
           placeholder="Search by name"

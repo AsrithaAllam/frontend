@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ModalComponent from "../../../../components/Modal";
 import { projectValidationSchema } from "../../../../components/Helpers";
+import Select from "react-select";
 
 const AddProjectModal = ({
   onClose,
@@ -29,28 +30,22 @@ const AddProjectModal = ({
         validationSchema={projectValidationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, handleChange, handleBlur, handleSubmit }) => (
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
           <Form className="h-[60vh] overflow-y-scroll no-scrollbar">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="mb-4">
-                <label className="text-sm font-sm text-gray-700">
-                  User Id
-                </label>
-                <Field
-                  as="select"
+                <label className="text-sm font-sm text-gray-700">User Id</label>
+                <Select
+                  value={usersList.find((user) => user.id == values?.userId)}
                   name="userId"
-                  className="w-full border border-gray-300 rounded-lg p-1"
-                  onChange={(e) => {
-                    handleChange(e); // Update Formik's state
+                  placeholder="Select a user"
+                  options={usersList}
+                  getOptionValue={(option) => option.id}
+                  getOptionLabel={(option) => option.userName}
+                  onChange={(selectedOption) => {
+                    setFieldValue("userId", selectedOption?.id); // Update Formik state
                   }}
-                >
-                  <option value="">Select a user</option>
-                  {usersList.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.userName}
-                    </option>
-                  ))}
-                </Field>
+                />
                 <ErrorMessage
                   name="userId"
                   component="div"
@@ -58,15 +53,13 @@ const AddProjectModal = ({
                 />
               </div>
               <div className="mb-4">
-                <label
-                  className=" text-sm font-sm text-gray-700"
-                >
+                <label className=" text-sm font-sm text-gray-700">
                   Project Name
                 </label>
                 <Field
                   type="text"
                   name="projectName"
-                  className="w-full border border-gray-300 rounded-lg p-1"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 <ErrorMessage
                   name="projectName"
@@ -75,28 +68,18 @@ const AddProjectModal = ({
                 />
               </div>
               <div className="mb-4">
-                <label
-                  className=" text-sm font-sm text-gray-700"
-                >
+                <label className=" text-sm font-sm text-gray-700">
                   Client Id
                 </label>
-                <Field
-                  type="number"
+                <Select
+                  value={clientsList.find((user) => user.id == values?.clientId)}
                   name="clientId"
-                  as="select"
-                  className="w-full border border-gray-300 rounded-lg p-1"
-                  onChange={(e) => {
-                    handleChange(e); // Update Formik's state
-                  }}
-                >
-                  <option value="">Select a client</option>
-                  {clientsList.map((client) => (
-                    <option key={client.id} value={client.id}>
-                      {client.name}
-                    </option>
-                  ))}
-
-                  </Field>
+                  placeholder="Select a client"
+                  options={clientsList}
+                  getOptionValue={(option) => option.id}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(selectedOption) => setFieldValue("clientId", selectedOption.id)}
+                />
                 <ErrorMessage
                   name="clientId"
                   component="div"
@@ -105,16 +88,13 @@ const AddProjectModal = ({
               </div>
               {/* Start Date */}
               <div className="mb-4">
-                <label
-               
-                  className=" text-sm font-sm text-gray-700"
-                >
+                <label className=" text-sm font-sm text-gray-700">
                   Start Date
                 </label>
                 <Field
                   type="date"
                   name="startDate"
-                  className="w-full border border-gray-300 rounded-lg p-1"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 <ErrorMessage
                   name="startDate"
@@ -125,16 +105,13 @@ const AddProjectModal = ({
 
               {/* End Date with restriction */}
               <div className="mb-4">
-                <label
-                
-                  className=" text-sm font-sm text-gray-700"
-                >
+                <label className=" text-sm font-sm text-gray-700">
                   End Date
                 </label>
                 <Field
                   type="date"
                   name="endDate"
-                  className="w-full border border-gray-300 rounded-lg p-1"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 <ErrorMessage
                   name="endDate"
@@ -144,16 +121,11 @@ const AddProjectModal = ({
               </div>
 
               <div className="mb-4">
-                <label
-                 
-                  className=" text-sm font-sm text-gray-700"
-                >
-                  Budget
-                </label>
+                <label className=" text-sm font-sm text-gray-700">Budget</label>
                 <Field
                   type="number"
                   name="budget"
-                  className="w-full border border-gray-300 rounded-lg p-1"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 <ErrorMessage
                   name="budget"
@@ -163,16 +135,13 @@ const AddProjectModal = ({
               </div>
 
               <div className="mb-4">
-                <label
-                 
-                  className=" text-sm font-sm text-gray-700"
-                >
+                <label className=" text-sm font-sm text-gray-700">
                   Net Pay
                 </label>
                 <Field
                   type="number"
                   name="netPay"
-                  className="w-full border border-gray-300 rounded-lg p-1"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 <ErrorMessage
                   name="netPay"

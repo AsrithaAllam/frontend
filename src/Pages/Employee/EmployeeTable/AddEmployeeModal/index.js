@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch} from "react-redux";
 import { AddUserSchema, EditUserSchema } from "../../../../components/Helpers";
-import Modal from "react-modal";
-import { FaPlus } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalComponent from "../../../../components/Modal";
-import {
-  requestUserAction,
-  requestUsersListAction,
-  } from "../../../../Redux/UserState/UserActionCreator";
-import { toast } from "react-toastify";
+import Select from "react-select";
 
-const reportsToOptions = ["John Doe", "Jane Smith", "Michael Johnson"];
 const countryOptions = [
-  "United States",
-  "Canada",
-  "United Kingdom",
-  "Australia",
-  "India",
+  { value: "USA", label: "United States" },
+  { value: "UK", label: "United Kingdom" },
+  { value: "CA", label: "Canada" },
+  { value: "AU", label: "Australia" },
+  { value: "IN", label: "India" },
 ];
 
 const AddEmployeeModal = ({
@@ -32,10 +22,7 @@ const AddEmployeeModal = ({
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(true);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [search, setSearch] = useState("");
-  const dispatch = useDispatch();
-  
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   const handleAdd = () => {
     setSelectedEmployee(null);
@@ -71,14 +58,14 @@ const AddEmployeeModal = ({
           onAddEmployee(changedValues);
         }}
       >
-        {({ errors, touched, handleChange }) => (
+        {({ values, errors, touched, handleChange, setFieldValue }) => (
           <Form className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[70vh] overflow-y-scroll no-scrollbar">
             <div>
               <label className=" text-gray-700 text-sm">User Name</label>
               <Field
                 id="userName"
                 name="userName"
-                className="w-full border border-gray-300 p-1 rounded "
+               className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 placeholder="User Name"
               />
               {errors.userName && touched.userName && (
@@ -92,7 +79,7 @@ const AddEmployeeModal = ({
                 id="pwd"
                 name="password"
                 type="password"
-                className="w-full border border-gray-300 p-1 rounded"
+                className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 placeholder="Password"
                 disabled={title === "Edit Employee"}
               />
@@ -106,7 +93,7 @@ const AddEmployeeModal = ({
               <Field
                 id="firstName"
                 name="firstName"
-                className="w-full border border-gray-300 p-1 rounded"
+                className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 placeholder="First Name"
                 // disabled={title === "Edit Employee"}
               />
@@ -120,7 +107,7 @@ const AddEmployeeModal = ({
               <Field
                 id="lastName"
                 name="lastName"
-                className="w-full border border-gray-300 p-1 rounded"
+                className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 placeholder="Last Name"
               />
               {errors.lastName && touched.lastName && (
@@ -166,7 +153,7 @@ const AddEmployeeModal = ({
                   id="joinDate"
                   name="joinDate"
                   type="date"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   // onChange={(value)=>{console.log(value.target.value, "vlp")}}
                 />
                 {errors.joinDate && touched.joinDate && (
@@ -180,7 +167,7 @@ const AddEmployeeModal = ({
                   id="endDate"
                   name="endDate"
                   type="date"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 {errors.endDate && touched.endDate && (
                   <div className="text-red-500 text-sm">{errors.endDate}</div>
@@ -233,7 +220,7 @@ const AddEmployeeModal = ({
                 <Field
                   id="phone"
                   name="phone"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   placeholder="Phone Number"
                 />
                 {errors.phone && touched.phone && (
@@ -247,7 +234,7 @@ const AddEmployeeModal = ({
                   id="email"
                   name="email"
                   type="email"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   placeholder="Email"
                 />
                 {errors.email && touched.email && (
@@ -261,7 +248,7 @@ const AddEmployeeModal = ({
                 <Field
                   id="address"
                   name="addressLine1"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   placeholder="Address"
                 />
                 {errors.addressLine1 && touched.addressLine1 && (
@@ -276,7 +263,7 @@ const AddEmployeeModal = ({
                 <Field
                   id="addressLine2"
                   name="addressLine2"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   placeholder="Address Line 2"
                 />
               </div>
@@ -287,7 +274,7 @@ const AddEmployeeModal = ({
                 <Field
                   id="city"
                   name="city"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   placeholder="City"
                 />
                 {errors.city && touched.city && (
@@ -300,7 +287,7 @@ const AddEmployeeModal = ({
                 <Field
                   id="state"
                   name="state"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   placeholder="State"
                 />
                 {errors.state && touched.state && (
@@ -311,11 +298,11 @@ const AddEmployeeModal = ({
             <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className=" text-gray-700 text-sm">Country</label>
-                <Field
+                {/* <Field
                   as="select"
                   id="country"
                   name="country"
-                  className="w-full border border-gray-300 p-1 rounded"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 >
                   <option value="">Select Country</option>
                   {countryOptions.map((country, index) => (
@@ -323,7 +310,19 @@ const AddEmployeeModal = ({
                       {country}
                     </option>
                   ))}
-                </Field>
+                </Field> */}
+
+                <Select
+                  value={countryOptions.find((user) => user?.value == values?.country)}
+                  name="country"
+                  onChange={(selectedOption) => {
+                    setFieldValue("country", selectedOption.value);
+                  }}
+                  placeholder="Select Country"
+                  options={countryOptions}
+                  getOptionValue={(option) => option.value}
+                  getOptionLabel={(option) => option.label}
+                />
                 {errors.country && touched.country && (
                   <div className="text-red-500 text-sm">{errors.country}</div>
                 )}
@@ -349,7 +348,7 @@ const AddEmployeeModal = ({
                     as="select"
                     id="reportsTo"
                     name="reportsTo"
-                    className="w-full border border-gray-300 p-1 rounded"
+                    className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                   >
                     <option value="">Select Manager</option>
                     {reportsToOptions.map((manager, index) => (
