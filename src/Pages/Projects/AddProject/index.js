@@ -26,7 +26,7 @@ const AddProject = () => {
   const projectByIdReducer = useSelector((state) => state.ProjectByIdReducer);
   const [search, setSearch] = useState("");
   const [editData,setEditData]=useState({});
-  const usersListState=useSelector((state)=>state.UsersListWithOutPagination);
+  const usersListState = useSelector((state)=>state.UsersListWithOutPagination);
   const clientsListState = useSelector((state)=> state.ClientsListWithOutPagination);
 
   const clients = ["Client A", "Client B", "Client C", "Client D"];
@@ -159,7 +159,7 @@ const initialValues ={
   };
   return (
     <div className="p-4 w-full h-[90vh] overflow-y-scroll">
-      <Loader isLoading={projectListState?.projectsLoading} />
+      <Loader isLoading={projectListState?.projectsLoading || projectByIdReducer?.byIdLoading} />
       <div className="absolute flex  mb-4 z-10 right-6">
         <button
           onClick={handleClick}
@@ -191,6 +191,8 @@ const initialValues ={
         onClose={handleClose}
         title={isModalOpen.title}
         onAddProject={handleAddProject}
+        usersList={usersListState?.response || []}
+        clientsList={clientsListState?.response || []}
       />
     </div>
   );

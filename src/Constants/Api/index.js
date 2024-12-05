@@ -35,11 +35,11 @@ export class ApiUrl {
       }
     }
     static getAllUsersWithOUtPagination= () =>{
-      return BASE_URL + `user/all`;
+      return BASE_URL + `adminrest/users`;
     }
 
     static getAllClientsWithOUtPagination = () =>{
-      return BASE_URL +`adminrest/allclients`;
+      return BASE_URL +`adminrest/clients`;
     }
 
     static getUserById =(id)=>{

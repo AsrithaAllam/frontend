@@ -45,7 +45,7 @@ export default class ProjectService {
       WebService.clientShared
         .callServiceApi(
           ApiUrl.editProject(payload.id),
-          this.request.editProjectRequest( REQUEST_METHOD.PUT)
+          this.request.editProjectRequest(payload,REQUEST_METHOD.PUT)
         )
         .then((response) => {
           resolve(response);

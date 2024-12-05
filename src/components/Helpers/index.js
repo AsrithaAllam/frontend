@@ -83,7 +83,7 @@ export const AddUserSchema = Yup.object({...editUser,password: Yup.string().requ
 
 export const projectValidationSchema = Yup.object({
   userId: Yup.number().required("User ID is required"),
-  username: Yup.string().required("Username is required"),
+  // username: Yup.string().required("Username is required"),
   projectName: Yup.string().required("Project Name is required"),
   clientId: Yup.string().required("Client is required"),
   startDate: Yup.date().required("Start Date is required"),
