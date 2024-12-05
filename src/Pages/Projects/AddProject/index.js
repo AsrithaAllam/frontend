@@ -190,7 +190,7 @@ const initialValues ={
         show={isModalOpen.isOpen}
         onClose={handleClose}
         title={isModalOpen.title}
-        onAddClient={handleAddProject}
+        onAddProject={handleAddProject}
       />
     </div>
   );
