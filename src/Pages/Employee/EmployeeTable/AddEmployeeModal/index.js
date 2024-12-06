@@ -7,9 +7,6 @@ import Select from "react-select";
 
 const countryOptions = [
   { value: "USA", label: "United States" },
-  { value: "UK", label: "United Kingdom" },
-  { value: "CA", label: "Canada" },
-  { value: "AU", label: "Australia" },
   { value: "IN", label: "India" },
 ];
 

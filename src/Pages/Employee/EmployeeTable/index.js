@@ -40,7 +40,7 @@ const EmployeeTable = () => {
     addressLine2: "",
     city: "",
     state: "",
-    country: "",
+    country: "USA",
     zip: "",
     acctType: "",
     stsCd: "",

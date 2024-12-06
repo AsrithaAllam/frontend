@@ -36,7 +36,7 @@ const App = () => {
           </Route>
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<Login />} />
-            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+            <Route path="/resetPassword" element={<ForgotPassword/>}/>
             <Route path="/resetpassword/:token" element={<Reset/>}/>
           </Route>
           <Route exact path="*" element={<NotFound/>} />

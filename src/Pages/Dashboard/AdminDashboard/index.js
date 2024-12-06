@@ -48,24 +48,9 @@ const AdminDashboard = () => {
       {({ values, errors, touched, handleChange, setFieldValue, handleSubmit, handleBlur }) => (
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col md:flex-row lg:flex-row gap-10"
+        className="flex flex-col md:flex-row lg:flex-row gap-5"
       >
-        <div className="lg:w-1/3 md:w-1/2 w-full">
-          {/* <select
-            id="employee"
-            name="employee"
-            value={formik.values.employee}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className="border border-gray-300 rounded-lg p-1 h-11 w-full"
-          >
-            <option value="">Select Employee</option>
-            {employees.map((employee) => (
-              <option key={employee.id} value={employee.id}>
-                {employee.name}
-              </option>
-            ))}
-          </select> */}
+        <div className="lg:w-2/3 md:w-1/2 w-full">
           <Select
             value={
               employees.find((user) => user.id == values?.employee) ||
@@ -75,30 +60,30 @@ const AdminDashboard = () => {
             onChange={(selectedOption) => {
               setFieldValue("employee", selectedOption?.id);
             }}
-            placeholder="Select a client"
+            placeholder="Select client"
             options={employees}
             getOptionValue={(option) => option.id}
             getOptionLabel={(option) => option.name}
           />
         </div>
-        <div className="lg:w-1/3 md:w-1/2 w-full">
-          <select
-            id="project"
+        <div className="lg:w-2/3 md:w-1/2 w-full">
+          <Select
+            value={
+              employees.find((user) => user.id == values?.project) ||
+              null
+            }
             name="project"
-            value={values.project}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="border border-gray-300 rounded-lg p-1 h-11 w-full"
-          >
-            <option value="">Select Project</option>
-            {projects.map((project) => (
-              <option key={project.id} value={project.id}>
-                {project.name}
-              </option>
-            ))}
-          </select>
+            onChange={(selectedOption) => {
+              setFieldValue("project", selectedOption?.id);
+            }}
+            placeholder="Select project"
+            options={projects}
+            getOptionValue={(option) => option.id}
+            getOptionLabel={(option) => option.name}
+          />
+
         </div>
-        <div className="lg:w-1/3 md:w-1/2 w-full">
+        <div className="lg:w-2/3 md:w-1/2 w-full">
           <input
             type="date"
             id="fromDate"
@@ -109,17 +94,17 @@ const AdminDashboard = () => {
             className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
           />
         </div>
-        <div className="flex gap-4 w-full justify-center md:justify-end lg:justify-end">
+        <div className="flex gap-4 w-full justify-center">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 rounded-lg hover:bg-gray-600"
+            className="bg-blue-500 w-full text-white px-4 rounded-lg hover:bg-gray-600"
           >
             Submit
           </button>
           <button
             type="button"
             onClick={handleSaveExcel}
-            className="bg-sky-400 text-white px-4 rounded-lg hover:bg-sky-500"
+            className="bg-sky-400 text-white w-full px-4 rounded-lg hover:bg-sky-500"
           >
             Save Excel
           </button>

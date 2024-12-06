@@ -45,6 +45,7 @@ const AddProjectModal = ({
                   onChange={(selectedOption) => {
                     setFieldValue("userId", selectedOption?.id); // Update Formik state
                   }}
+                  isDisabled={title === "Edit Project"}
                 />
                 <ErrorMessage
                   name="userId"
@@ -60,6 +61,7 @@ const AddProjectModal = ({
                   type="text"
                   name="projectName"
                   className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
+                  disabled={title === "Edit Project"}
                 />
                 <ErrorMessage
                   name="projectName"
@@ -79,6 +81,7 @@ const AddProjectModal = ({
                   getOptionValue={(option) => option.id}
                   getOptionLabel={(option) => option.name}
                   onChange={(selectedOption) => setFieldValue("clientId", selectedOption.id)}
+                  isDisabled={title === "Edit Project"}
                 />
                 <ErrorMessage
                   name="clientId"
@@ -95,6 +98,7 @@ const AddProjectModal = ({
                   type="date"
                   name="startDate"
                   className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
+                  disabled={title === "Edit Project"}
                 />
                 <ErrorMessage
                   name="startDate"
