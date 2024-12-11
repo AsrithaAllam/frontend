@@ -34,6 +34,14 @@ export class ApiUrl {
        return BASE_URL +`user/all?page=${page}&size=${size}`;
       }
     }
+    static getAllUsersWithOUtPagination= () =>{
+      return BASE_URL + `adminrest/users`;
+    }
+
+    static getAllClientsWithOUtPagination = () =>{
+      return BASE_URL +`adminrest/clients`;
+    }
+
     static getUserById =(id)=>{
       return BASE_URL +`user/${id}`
     }
@@ -60,11 +68,28 @@ export class ApiUrl {
         return BASE_URL +`adminrest/allproject?page=${page}&size=${size}`;
       }
     }
-    static editProject =()=>{
-      return BASE_URL +""
-    }
+   
     static uploadFile =() =>{
       return BASE_URL +'file'
     }
+
+    static editProject =(id)=>{
+      return BASE_URL +`adminrest/project/${id}`
+    }
+    static editClient=(id)=>{
+      return BASE_URL +`adminrest/client/${id}`
+   }
+   static getClientById =(id)=>{
+     return BASE_URL +`adminrest/client/${id}`
+   }
+   static getProjectById=(id)=>{
+    return BASE_URL +`adminrest/project/${id}`
+   }
+   static projectUserAssociation =(id)=>{
+    return BASE_URL +`adminrest/projects/${id}`
+   }
+   static TimesheetUidPidRequest =() =>{
+    return BASE_URL +"";
+   }
 
   }

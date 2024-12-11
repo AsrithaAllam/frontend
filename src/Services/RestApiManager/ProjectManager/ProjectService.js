@@ -40,12 +40,12 @@ export default class ProjectService {
         });
     });
   }
-  editProjectRequest = () => {
+  editProjectRequest = (payload) => {
     return new Promise((resolve, reject) => {
       WebService.clientShared
         .callServiceApi(
-          ApiUrl.editProject(),
-          this.request.editProjectRequest( REQUEST_METHOD.PUT)
+          ApiUrl.editProject(payload.id),
+          this.request.editProjectRequest(payload,REQUEST_METHOD.PUT)
         )
         .then((response) => {
           resolve(response);
@@ -54,5 +54,37 @@ export default class ProjectService {
           reject(error);
         });
     });
+  }
+
+  projectByIdRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getProjectById(payload),
+          this.request.projectByIdRequest(REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  projectUserAssociationRequest = (payload) =>{
+    return new Promise ((resolve, reject) =>{
+      WebService.clientShared
+      .callServiceApi(
+        ApiUrl.projectUserAssociation(payload),
+        this.request.projectUserAssociationRequest(REQUEST_METHOD.GET)
+      )
+      .then((response)=>{
+        resolve(response);
+      })
+      .catch((error)=>{
+        reject(error);
+      })
+    })
   }
 }

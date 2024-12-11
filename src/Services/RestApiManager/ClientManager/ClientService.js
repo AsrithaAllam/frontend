@@ -40,4 +40,52 @@ export default class ClientService {
         });
     });
   }
+  editClientRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.editClient(payload.id),
+          this.request.editClientRequest(payload, REQUEST_METHOD.PUT)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+  
+  clientByIdRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getClientById(payload),
+          this.request.clientByIdRequest(REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  clientsListWithOutPaginationRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getAllClientsWithOUtPagination(),
+          this.request.clientsListRequest( REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        }) 
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
 }

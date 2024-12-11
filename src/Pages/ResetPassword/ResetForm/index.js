@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { ResetPasswordSchema } from "../../../components/Helpers";
 import { Formik, Form, Field } from "formik";
 import { FaRegEyeSlash, FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { requestResetPassword, setResetStatePassword } from "../../../Redux/LoginState/LoginActionCreator";
 
 function ResetForm() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -12,13 +14,23 @@ function ResetForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [missingCriteria, setMissingCriteria] = useState([]);
+  const dispatch = useDispatch();
+  const { token } = useParams();
+  const navigate = useNavigate();
+  const resetPasswordState = useSelector((state) => state.ResetPasswordReducer);
 
   const checkPasswordStrength = (password) => {
     const criteria = [
       { test: (pw) => /[a-z]/.test(pw), message: "Include a lowercase letter" },
-      { test: (pw) => /[A-Z]/.test(pw), message: "Include an uppercase letter" },
+      {
+        test: (pw) => /[A-Z]/.test(pw),
+        message: "Include an uppercase letter",
+      },
       { test: (pw) => /\d/.test(pw), message: "Include a number" },
-      { test: (pw) => /[^a-zA-Z\d\s:?,]/.test(pw), message: "Include a special character" }, // Exclude "?"
+      {
+        test: (pw) => /[^a-zA-Z\d\s:?,]/.test(pw),
+        message: "Include a special character",
+      }, // Exclude "?"
       { test: (pw) => pw.length >= 8, message: "At least 8 characters long" },
     ];
 
@@ -33,7 +45,12 @@ function ResetForm() {
   const renderStrengthBar = () => {
     if (missingCriteria.length === 0) return null;
 
-    const colors = ["bg-red-500", "bg-yellow-500", "bg-blue-500", "bg-green-500"];
+    const colors = [
+      "bg-red-500",
+      "bg-yellow-500",
+      "bg-blue-500",
+      "bg-green-500",
+    ];
     const width = `${(passwordStrength / 5) * 100}%`;
 
     return (
@@ -49,10 +66,17 @@ function ResetForm() {
   };
 
   const resetPassword = (values) => {
-    console.log("Password reset with:", values);
-    setIsSubmitted(true);
-    toast.success("Password updated successfully");
+    dispatch(requestResetPassword(values));
   };
+
+  useEffect(() => {
+    if (resetPasswordState?.resetResponse && !resetPasswordState?.resetLoading) {
+      setIsSubmitted(true);
+      toast.success("Password reset has been done sucessfully");
+      navigate("/login");
+      dispatch(setResetStatePassword());
+    }
+  }, [resetPasswordState]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-white">
@@ -69,6 +93,7 @@ function ResetForm() {
           initialValues={{
             newPassword: "",
             confirmPassword: "",
+            token: token,
           }}
           validationSchema={ResetPasswordSchema}
           onSubmit={(values) => {

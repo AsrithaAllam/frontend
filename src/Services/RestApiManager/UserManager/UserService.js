@@ -4,7 +4,7 @@ import {
   WebService,
 } from "../../WebServiceManager/RequestService";
 import UserRequestBody from "./UserRequestBody";
-
+ 
 export default class UserService {
   request = new UserRequestBody();
   static shared = new UserService();
@@ -41,6 +41,21 @@ export default class UserService {
     });
   }
 
+  usersListWithOutPaginationRequest = (payload) => {
+    return new Promise((resolve, reject) => {
+      WebService.clientShared
+        .callServiceApi(
+          ApiUrl.getAllUsersWithOUtPagination(),
+          this.request.usersListRequest( REQUEST_METHOD.GET)
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
   userByIdRequest = (payload) => {
     return new Promise((resolve, reject) => {
       WebService.clientShared

@@ -23,4 +23,23 @@ export default class ClientRequestBody {
     return request;
   }
  
+  editClientRequest (method) {
+    const header = new RequestHeader();
+    const request = new RequestBody(
+      method,
+      header.applicationJson(parseLocalStorageJSON(LOCAL_KEYS.ACCESS_TOKEN))
+    );
+    return request;
+  }
+
+clientByIdRequest (obj,method) {
+  const header = new RequestHeader();
+  const request = new RequestBody(
+    method,
+    header.applicationJson(parseLocalStorageJSON(LOCAL_KEYS.ACCESS_TOKEN)),
+    obj
+    
+  );
+  return request;
+}
 }

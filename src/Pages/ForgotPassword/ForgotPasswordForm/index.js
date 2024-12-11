@@ -55,14 +55,14 @@ function ForgotPasswordForm() {
           {({ errors, touched }) => (
             <Form className="bg-white p-10 rounded-lg w-96 shadow-none ">
               <h1 className="text-lg text-gray-700 font-bold m-10 flex items-center justify-center">
-                Forgot password?
+                Reset Password...
               </h1>
               <div className="mb-4">
                 <label className="block text-black-700 mb-2">Email</label>
                 <Field
                   name="email"
                   type="email"
-                  className="w-full p-1 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400"
+                  className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
                 />
                 {errors.email && touched.email ? (
                   <p className="text-red-400">{errors.email}</p>

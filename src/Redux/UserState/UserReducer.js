@@ -7,7 +7,7 @@ export function defaultUserState() {
       isResponse: null,
       isError: null,
     };
-  }
+  } 
   /**
    * User Reducer its take state and action
    * @param state
@@ -128,5 +128,36 @@ export function defaultUserState() {
       return { ...state, Error: action.data, Loading: false };
     }
 
+    return state; 
+  };
+
+  export function usersListState() {
+    return {
+      loading: false,
+      response: null,
+      error: null,
+        };
+  }
+
+  export const UsersListWithOutPagination = (state, action) => { 
+    if (
+      !state ||
+      action.type === UserActionCreator.USER_ACTION.RESET_USERS_LIST_WITHOUT_PAGINATION_STATE
+    ) {
+      return { ...state, ...usersListState() };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.REQUEST_USERS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, loading: true };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.RESPONSE_USERS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, response: action.data, loading: false };
+    }
+  
+    if (action.type === UserActionCreator.USER_ACTION.ERROR_USERS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, error: action.data, loading: false , response: null};
+    }
+  
     return state; 
   };

@@ -15,6 +15,7 @@ import Reset from "./Pages/ResetPassword";
 import UpdatePassword from "./Pages/UpdatePassword";
 import EmployeeTable from "./Pages/Employee/EmployeeTable";
 import NotFound from "./Pages/NotFound";
+import Reports from "./Pages/Reports/index";
 
 
 
@@ -32,11 +33,12 @@ const App = () => {
             <Route exact path="/addemployeestatus" element={<EmployeeStatus />} />
             <Route exact path="/updatePassword" element={<UpdatePassword/>}/>
             <Route exact path ="/addclient" element={<AddClient />}/>
+            <Route exact path="/reports" element={<Reports />} />
             {/* <Route exact path ="/manageemployee" element={<AddEmployee />}/> */}
           </Route>
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<Login />} />
-            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+            <Route path="/resetPassword" element={<ForgotPassword/>}/>
             <Route path="/resetpassword/:token" element={<Reset/>}/>
           </Route>
           <Route exact path="*" element={<NotFound/>} />

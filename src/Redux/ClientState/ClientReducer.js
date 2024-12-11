@@ -69,3 +69,97 @@ export function defaultClientState() {
   
     return state; 
   };
+
+  export function defaultEditClientState() {
+    return {
+      Loading: false,
+      Response: null,
+      Error: null,
+    };
+
+  }
+   export const EditClientReducer = (state, action) => {
+    if (
+      !state ||
+      action.type === ClientActionCreator.CLIENT_ACTION.RESET_EDIT_CLIENT
+    ) {
+      return { ...state, ...defaultEditClientState() };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.REQUEST_EDIT_CLIENT) {
+      return { ...state, Loading: true };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_EDIT_CLIENT) {
+      return { ...state, Response: action.data,Loading: false };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_EDIT_CLIENT) {
+      return { ...state, Error: action.data, Loading: false };
+    }
+  
+    return state; 
+  };
+
+  export function defaultClientById() {
+    return {
+      byIdLoading: false,
+      byIdResponse: null,
+      byIdError: null,
+    };
+  }
+
+  export const ClientByIdReducer = (state, action) => {
+    if (
+      !state ||
+      action.type === ClientActionCreator.CLIENT_ACTION.RESET_CLIENT_BY_ID_STATE
+    ) {
+      return { ...state, ...defaultClientById() };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.REQUEST_CLIENT_BY_ID) {
+      return { ...state, byIdLoading: true };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENT_BY_ID) {
+      return { ...state, byIdResponse:action.data , byIdLoading: true };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENT_BY_ID) {
+      return { ...state, byIdError: action.data, byIdLoading: false };
+    }
+  
+    return state; 
+  };
+
+  export function clientsListState() {
+    return {
+      loading: false,
+      response: null,
+      error: null,
+      };
+  }
+
+  export const ClientsListWithOutPagination = (state, action) => {
+    if (
+      !state ||
+      action.type === ClientActionCreator.CLIENT_ACTION.RESET_CLIENTS_LIST_WITHOUT_PAGINATION_STATE
+    ) {
+      return { ...state, ...clientsListState() };
+    } 
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.REQUEST_CLIENTS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, loading: true};
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.RESPONSE_CLIENTS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, response: action.data, loading: false };
+    }
+  
+    if (action.type === ClientActionCreator.CLIENT_ACTION.ERROR_CLIENTS_LIST_WITHOUT_PAGINATION) {
+      return { ...state, error: action.data, loading: false, response: null};
+    }
+  
+    return state; 
+  };
+

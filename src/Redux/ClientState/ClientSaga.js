@@ -1,6 +1,10 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import ClientService from "../../Services/RestApiManager/ClientManager/ClientService";
-import { responseClientAction, errorClientAction, CLIENT_ACTION,responseClientsListAction,errorClientsListAction} from "./ClientActionCreator"
+import { responseClientAction, errorClientAction, CLIENT_ACTION,responseClientsListAction,errorClientsListAction,
+  responseEditClient,errorEditClient,responseClientById,errorClientById,
+  errorClientsListActionWithOutPagination,
+  responseClientsListActionWithOutPagination,
+} from "./ClientActionCreator"
 
 export function* clientRequest(action) {
     try {
@@ -21,8 +25,38 @@ export function* clientRequest(action) {
     }
   }
 
+  export function* clientsListWithOutPagination(action) {
+    try {
+      const response = yield call(ClientService.shared.clientsListWithOutPaginationRequest, action.data);
+      yield put(responseClientsListActionWithOutPagination(response));
+    } catch (error) {
+      yield put(errorClientsListActionWithOutPagination(error));
+    }
+  }
+
+  export function* editClientRequest(action){
+    try{
+      const response = yield call (ClientService.shared.editClientRequest,action.data);
+      yield put(responseEditClient(response));
+    }
+    catch (error) {
+      yield put(errorEditClient(error));
+    }
+  }
+
+  export function* clientByIdRequest(action) {
+    try {
+      const response = yield call(ClientService.shared.clientByIdRequest, action.data);
+      yield put(responseClientById(response));
+    } catch (error) {
+      yield put(errorClientById(error));
+    }
+  }
 
   export function* clientWatcherSaga() {
     yield takeLatest(CLIENT_ACTION.REQUEST, clientRequest);
-    yield takeLatest(CLIENT_ACTION.REQUEST_CLIENTS_LIST, clientsListRequest)
+    yield takeLatest(CLIENT_ACTION.REQUEST_CLIENTS_LIST, clientsListRequest);
+    yield takeLatest(CLIENT_ACTION.REQUEST_EDIT_CLIENT, editClientRequest);
+    yield takeLatest(CLIENT_ACTION.REQUEST_CLIENT_BY_ID, clientByIdRequest);
+    yield takeLatest(CLIENT_ACTION.REQUEST_CLIENTS_LIST_WITHOUT_PAGINATION,clientsListWithOutPagination)
   }

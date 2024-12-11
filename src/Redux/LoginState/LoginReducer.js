@@ -45,7 +45,7 @@ export function defaultResetPasswordState() {
     resetResponse: null,
     resetError: null,
   };
-}
+} 
   export const ResetPasswordReducer = (
     state = defaultResetPasswordState(),
     action

@@ -60,7 +60,7 @@ function LoginForm() {
               </label>
               <Field
                 name="userName"
-                className="w-full px-2 py-1 border mb-6 rounded focus:outline-none hover:ring-2 hover:ring-blue-400"
+                className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
               />
               {errors.userName && touched.userName ? (
                 <p className="text-red-400">{errors.userName}</p>
@@ -73,7 +73,7 @@ function LoginForm() {
               <Field
                 type={!isOpen ? "password" : "text"}
                 name="password"
-                className="w-full px-2 py-1 border rounded focus:outline-none hover:ring-2 hover:ring-blue-400 pr-10"
+                className="w-full border border-gray-300 rounded-[0.3rem] p-1 h-[2.4rem]"
               />
               <div
                 className="absolute inset-y-0 right-0 top-8 flex items-center px-2 cursor-pointer"
@@ -96,7 +96,7 @@ function LoginForm() {
               </div>
               <Link
                 className="italic text-blue-400 p-4 mr-2"
-                to={"/forgotpassword"}
+                to={"/resetPassword"}
               >
                 Forgot Password?
               </Link>
@@ -110,7 +110,7 @@ function LoginForm() {
           </Form>
         )}
       </Formik>
-      : <p><Link className="text-blue-400" to="/forgotpassword">click hear</Link> to reset your password </p>
+      : <p><Link className="text-blue-400" to="/resetPassword">click hear</Link> to reset your password </p>
 }
     </div>
   );
